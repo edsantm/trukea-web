@@ -1,2 +1,2 @@
 # trukea-web
-En este repositorio se estaran guardando las vistas de trukea.
+En este repositorio se estarán guardando las vistas de trukea.
