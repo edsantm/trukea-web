@@ -1,0 +1,122 @@
+/* General */
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #1E1E1E;
+  color: #FAFAF5;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #1E1E1E;
+}
+
+.navbar img {
+    height: 80px;
+}
+
+.navbar nav a {
+  color: #FAFAF5;
+  margin-left: 20px;
+  padding: 20px;
+  text-decoration: none;
+  font-family: 'Monserrat'sans-serif;
+  font-size: 20px
+}
+
+.navbar nav .btn-register {
+  color: #FAFAF5;
+  font-weight: bold;
+}
+
+/* Hero Section */
+.hero {
+  background-image: url(img/fondo-landing.jpg) ;
+  opacity: 1; 
+  background-size: cover;
+  margin-top: 0px;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-content h1 {
+  font-size: 80px;
+  color: #FAFAF5;
+  margin-bottom: 10px;
+  padding-top: 0px;
+}
+
+.hero-content p {
+  font-size: 30px;
+  margin-bottom: 30px;
+}
+
+.hero-content .btn-explorar {
+  background-color: #5a1c74;
+  color: #FAFAF5;
+  padding: 12px 60px;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.hero-content small {
+  display: block;
+  margin-top: 30px;
+  font-size: 20px;
+  color: #ccc;
+}
+
+/* About Section */
+.about {
+  padding: 50px 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.about h2 {
+  color: #8E44AD;
+  font-size: 60px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.about p{
+    font-size: 20px;
+    text-align: justify;
+}
+
+/* How It Works Section */
+.how-it-works {
+  padding: 50px 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.how-it-works h2 {
+  color: #8E44AD;
+  font-size: 40px;
+  margin-bottom: 80px;
+  text-align: left;
+}
+
+.how-it-works ul {
+  list-style: none;
+  padding: 0;
+}
+
+.how-it-works ul li {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #27AE60;
+}
