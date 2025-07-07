@@ -1,13 +1,16 @@
 /* Cuadro del formulario */
 .form-box {
   background-color: #FFFFFF;
-  padding: 200px 100px;
+  padding: 20px 20px;
   border-radius: 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 500px;
   margin: 0 auto;
   text-align: center;
+  margin-top: 175px;
+  margin-bottom: 250px;
+  margin-right: 5%;
 }
 
 .form-box h2 {
@@ -69,14 +72,15 @@ body {
   flex: 1;
   background-color: #FAFAF5;
   text-align: center;
-  padding: 50px 20px;
+  padding: 200px 20px;
+  margin-top: -150px;
 }
 
 .left-panel .logo {
-  width: 400px;
-  margin-bottom: 30px;
-  margin-top: 200px;
-  height: 300px;
+  width: 250px;
+  margin-bottom: -10px;
+  margin-top: 100px;
+  height: 200px;
   padding-right: 100px;
 }
 

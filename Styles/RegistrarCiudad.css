@@ -1,17 +1,13 @@
-.vista-de-registro {
-  background-color: #f9fffee8;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 30vh;
-  height: 100vh;
+body{
+  background-color: #FAFAF5;
+  font-family: 'Monserrat', sans-serif;
 }
 
 .vista-de-registro .div {
-  background-color: #f9fffee8;
   width: 1024px;
   height: 720px;
-  position: relative;
+  position: absolute;
+  font-family: 'Monserrat', sans-serif;
 }
 
 .vista-de-registro .frame {
@@ -29,19 +25,20 @@
 
 .vista-de-registro .trukea-LOG {
   position: relative;
-  width: 332px;
-  height: 210px;
+  width: 300px;
+  height: 200px;
   margin-bottom: -2.00px;
   object-fit: cover;
-  right: 25px;
+  right: -50px;
+  margin-top: -50px;
 }
 
 .vista-de-registro .ya-casi-terminamos {
   position: absolute;
   width: 620px;
-  top: 400px;
-  left: 25px;
-  font-family: "Montserrat-Regular", Helvetica;
+  top: 350px;
+  left: 100px;
+  font-family: "Monserrat", sans-serif;
   font-weight: 400;
   color: #000000;
   font-size: 48px;
@@ -51,7 +48,7 @@
 }
 
 .vista-de-registro .text-wrapper {
-  font-family: "Montserrat-Regular", Helvetica;
+  font-family: "Montserrat", sans-serif;
   font-weight: 400;
   color: #000000;
   font-size: 48px;
@@ -66,13 +63,14 @@
   position: absolute;
   width: 512px;
   height: 480px;
-  top: 160px;
-  left: 862px;
+  top: 125px;
+  left: 900px;
+  bottom: 50px;
   background-color: #ffffff;
-  border-radius: 7px;
-  border-color: #ffffff;
+  border-radius: 8px;
   overflow: hidden;
-  border: 2px solid;
+  border-radius: 8px;
+  margin-top: 0px;
 }
 
 .vista-de-registro .div-wrapper {
@@ -92,7 +90,7 @@
   width: fit-content;
   margin-top: -2.00px;
   -webkit-text-stroke: 1px #000000;
-  font-family: "Montserrat-Regular", Helvetica;
+  font-family: "Montserrat", sans-serif;
   font-weight: 400;
   color: #000000;
   font-size: 40px;
@@ -138,7 +136,7 @@
   width: fit-content;
   margin-top: -2.50px;
   margin-bottom: -0.50px;
-  font-family: "Montserrat-Medium", Helvetica;
+  font-family: "Montserrat", sans-serif;
   font-weight: 500;
   color: #000000;
   font-size: 24px;
@@ -160,7 +158,7 @@
   background-color: #ffffff;
   border-radius: 4px;
   border: 1px solid;
-  border-color: #000000;
+  border-color: #999;
 }
 
 .vista-de-registro .text-wrapper-4 {
@@ -218,7 +216,7 @@
   background-color: #ffffff;
   border-radius: 4px;
   border: 1px solid;
-  border-color: #000000;
+  border-color: #999;
 }
 
 .vista-de-registro .frame-9 {
