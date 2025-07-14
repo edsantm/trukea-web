@@ -1,45 +1,56 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Registro - Trukea</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../Styles/login.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Styles/login.css" />
+    <title>Iniciar Sesión - Trukea</title>
 </head>
-<body class="registro-body">
+<body>
 
-  <div class="container">
+    <div class="contenedor-login">
+        
+        <!-- === PANEL IZQUIERDO (BIENVENIDA Y LOGO) === -->
+        <div class="panel-bienvenida">
 
-    <!-- Sección izquierda -->
-    <div class="left-panel">
-      <img src="/img/logo-trukea.png" alt="Trukea Logo" class="logo">
-      <h1>Plataforma de Trueque</h1>
-      <p>Intercambia productos de manera sencilla</p>
-      <p>Inicia Sesión para empezar a Truequear</p>
+            <img class="logo" src="/img/logo-trukea.png" alt="Logo de Trukea">
+            
+            <h1>¡Bienvenido de nuevo!</h1>
+            <p>Accede a tu cuenta para seguir truqueando</p>
+        </div>
+
+        <!-- === PANEL DERECHO (FORMULARIO) === -->
+        <div class="panel-formulario">
+            <form>
+                <h2>Iniciar Sesión</h2>
+                
+                <div class="campo-formulario">
+                    <label for="correo">Correo</label>
+                    <input type="email" id="correo" placeholder="Ingresa tu correo">
+                </div>
+                
+                <div class="campo-formulario">
+                    <label for="contrasena">Contraseña</label>
+                    <input type="password" id="contrasena" placeholder="Ingresa tu contraseña">
+                </div>
+                
+                <a href="/vistas/RecuperarContra.html" class="link-olvido">¿Haz olvidado la contraseña?</a>
+                
+                <button type="button" class="InSesion" onclick="window.location.href='./ExplorarTrueque.html'">Iniciar Sesión</button>
+                
+                <div class="separador-registro">
+                    <p>¿No tienes una cuenta?</p>
+                    <button type="button" class="InSesion" onclick="window.location.href='./Register.html'">Registrate</button>
+                </div>
+            </form>
+        </div>
+
     </div>
 
-    <!-- Sección derecha -->
-    <div class="form-panel">
-  <h2>Regístrate</h2>
-  <form id="registroForm">
-    <label>Correo</label>
-    <input type="email" id="email" name="email" placeholder="Ingresa tu correo" required>
-
-    <label>Contraseña</label>
-    <input type="password" id="password" name="password" placeholder="Debe contener al menos 6 caracteres" required>
-
-    <label>Vuelve a escribir la contraseña</label>
-    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Ingresa de nuevo la contraseña" required>
-
-    <button type="button" class="Continuar" onclick="localStorage.setItem('registroData', JSON.stringify({
-      email: document.getElementById('email').value,
-      password: document.getElementById('password').value
-    })); window.location.href='./RegistrarCiudad.html'">Continuar</button>
-    
-    <label>¿Ya tienes una cuenta?</label>
-    <button type="button" class="InSesion" onclick="window.location.href='./login.html'">Iniciar Sesión</button>
-  </form>
-</div>
-      <p
-
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perfil - Trukea</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../Styles/Perfil.css" />
+</head>
+<body>
+  <!-- Barra de navegación -->
+  <nav class="navbar">
+    <div class="logo-nav">
+      <img src="logo.png" alt="logo" class="nav-logo"/>
+    </div>
+    <ul class="nav-links">
+      <li><a href="/vistas/ExplorarTrueque.html">Inicio</a></li>
+      <li><a href="/vistas/ExplorarTrueque.html">Explorar Trueques</a></li>
+      <li><a href="#">Mis Trueques</a></li>
+      <li><a href="#"><img src="notificaciones.png" alt="Notificaciones" class="icono"/></a></li>
+    </ul>
+  </nav>
+
+  <main class="perfil-contenedor">
+    <section class="perfil-info">
+      <h1>Tu Perfil <span class="icono-perfil">👤</span></h1>
+      <div class="info-general">
+        <div class="foto-usuario">
+          <div class="placeholder-foto"></div>
+          <label for="foto">Foto</label>
+          <input type="file" id="foto">
+        </div>
+        <div class="datos">
+          <p><strong>HOLA!</strong> Eduardo Santillán Montesinos</p>
+          <p><strong>Edad:</strong> 19 años</p>
+          <p><strong>Calificación:</strong>
+            <span class="estrellas">⭐ ⭐ ⭐ ⭐ ⭐</span>
+          </p>
+        </div>
+        <a href="/vistas/EditarPerfil.html" class="btn-editar">Editar perfil</a>
+      </div>
+    </section>
+
+    <section class="productos-publicados">
+      <h2>Productos publicados</h2>
+      <div class="productos-grid">
+        <div class="producto">
+          <div class="img-placeholder"></div>
+          <div class="info-prod">
+            <p><strong>Sudadera</strong></p>
+            <p>Se encuentra en estado de uso</p>
+          </div>
+        </div>
+        <div class="producto">
+          <div class="img-placeholder"></div>
+          <div class="info-prod">
+            <p><strong>Sudadera</strong></p>
+            <p>Se encuentra en estado de uso</p>
+          </div>
+        </div>
+        <div class="producto">
+          <div class="img-placeholder"></div>
+          <div class="info-prod">
+            <p><strong>Sudadera</strong></p>
+            <p>Se encuentra en estado de uso</p>
+          </div>
+        </div>
+        <div class="producto">
+          <div class="img-placeholder"></div>
+          <div class="info-prod">
+            <p><strong>Sudadera</strong></p>
+            <p>Se encuentra en estado de uso</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="historial">
+      <h3>Historial de trueques</h3>
+      <ul class="lista-historial">
+        <li class="completado">21-05-2025 - Completado</li>
+        <li class="no-exitoso">30-06-2023 - No exitoso</li>
+        <li class="caducado">30-11-2022 - Caducado</li>
+        <li class="cancelado">30-02-2021 - Cancelado</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

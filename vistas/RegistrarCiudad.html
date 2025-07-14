@@ -4,7 +4,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="utf-8" />
     <link rel="stylesheet" href="globals.css" />
-    <link rel="stylesheet" href="/Styles/RegistrarCiudad.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../Styles/RegistrarCiudad.css" />
   </head>
   <body>
     <div class="vista-de-registro">
@@ -15,22 +16,33 @@
           <span class="span"><br />Empecemos a trukear</span>
         </p>
         <div class="frame-2">
-          <div class="div-wrapper"><div class="text-wrapper-2">Ingresa tus datos</div></div>
-          <div class="frame-3">
-            <div class="input">
-              <div class="frame-4"><div class="text-wrapper-3">Tu nombre</div></div>
-              <div class="frame-5"><div class="text-wrapper-4">Nombre completo</div></div>
-              <div class="frame-6"></div>
-            </div>
-            <div class="input-2">
-              <div class="frame-7"><div class="text-wrapper-3">Ciudad</div></div>
-              <div class="frame-8"></div>
-              <div class="frame-9"></div>
-              <img class="chevron-down" src="img/chevron-down.svg" />
-            </div>
-            <div class="frame-10"><a href="./ExplorarTrueque.html" class="text-wrapper-5">Registrarse</a></div>
-          </div>
-        </div>
+  <div class="div-wrapper"><div class="text-wrapper-2">Ingresa tus datos</div></div>
+  <div class="frame-3">
+    <div class="input">
+      <div class="frame-4"><div class="text-wrapper-3">Tu nombre</div></div>
+      <div class="frame-5">
+        <input type="text" class="text-wrapper-4" placeholder="Nombre completo">
+      </div>
+      <div class="frame-6"></div>
+    </div>
+    <div class="input-2">
+      <div class="frame-7"><div class="text-wrapper-3">Ciudad</div></div>
+      <div class="frame-8">
+        <select class="text-wrapper-4">
+          <option value="" disabled selected>Selecciona tu ciudad</option>
+          <option value="buenos-aires">Buenos Aires</option>
+          <option value="cordoba">Córdoba</option>
+          <option value="rosario">Rosario</option>
+          <option value="mendoza">Mendoza</option>
+          <option value="la-plata">La Plata</option>
+        </select>
+      </div>
+      <div class="frame-9"></div>
+      
+    </div>
+    <div class="frame-10"><a href="./ExplorarTrueque.html" class="text-wrapper-5">Registrarse</a></div>
+  </div>
+</div>
       </div>
     </div>
   </body>

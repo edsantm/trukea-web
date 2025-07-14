@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Perfil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../Styles/EditarPerfil.css">
+</head>
+<body>
+
+  <!-- Barra de navegación -->
+  <nav class="navbar">
+    <div class="logo-nav">
+      <img src="../img/logo-trukea.png" alt="logo" class="nav-logo">
+    </div>
+    <ul class="nav-links">
+      <li><a href="#">Inicio</a></li>
+      <li><a href="#">Explorar Trueques</a></li>
+      <li><a href="#">Mi Perfil</a></li>
+      <li><a href="#"><img src="notificaciones.png" alt="Notificaciones" class="icono"></a></li>
+    </ul>
+  </nav>
+
+
+  <main class="contenedor">
+    <h1><img src="/img/iconoEditarPerfil.svg"  class=""icono-perfil> Editar Perfil</h1>
+    
+    <div class="perfil-formulario">
+      <div class="imagen-perfil">
+        <div class="recuadro-img">
+          <icono class="fa-regular fa-image"></icono>
+        </div>
+        <button class="btn-cambiar">Cambiar Imagen</button>
+      </div>
+
+      <form class="formulario">
+        <label>Nombre de usuario:
+          <input type="text">
+        </label>
+        <label>Apellidos:
+          <input type="text">
+        </label>
+        <label>Ciudad:
+          <input type="text">
+        </label>
+        <label>Edad:
+          <input type="number">
+        </label>
+
+        <div class="botones">
+          <button type="submit" class="btn-guardar">Guardar Cambios</button>
+          <button type="button" class="btn-cancelar">Cancelar Edición</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+</body>
+</html>

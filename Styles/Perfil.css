@@ -1,0 +1,175 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  background-color: #fff;
+}
+
+/* Barra de navegación */
+.navbar {
+  background-color: #20362e;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  color: white;
+}
+
+.logo-nav .nav-logo {
+  height: 50px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.icono {
+  height: 20px;
+}
+
+/* Contenedor principal */
+.perfil-contenedor {
+  padding: 40px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+}
+
+/* Perfil */
+.perfil-info {
+  grid-column: 1 / 3;
+}
+
+.info-general {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.foto-usuario {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.placeholder-foto {
+  width: 100px;
+  height: 100px;
+  background-color: #ddd;
+  border: 2px solid #000;
+  border-radius: 50%;
+  margin-bottom: 5px;
+}
+
+.datos p {
+  margin-bottom: 8px;
+}
+
+.estrellas {
+  color: gold;
+}
+
+.btn-editar {
+  background-color: #46214a;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Productos publicados */
+.productos-publicados {
+  grid-column: 1 / 2;
+}
+
+.productos-publicados h2 {
+  background-color: #46214a;
+  color: white;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.productos-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.producto {
+  display: flex;
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 6px;
+  align-items: center;
+  gap: 10px;
+}
+
+.img-placeholder {
+  width: 80px;
+  height: 80px;
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.info-prod p {
+  margin-bottom: 4px;
+}
+
+/* Historial */
+.historial {
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.lista-historial {
+  list-style: none;
+  margin-top: 10px;
+}
+
+.lista-historial li {
+  padding: 6px 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.completado {
+  background-color: #e0f4e0;
+  color: #235b23;
+}
+
+.no-exitoso {
+  background-color: #fdd;
+  color: darkred;
+}
+
+.caducado {
+  background-color: #fef5e6;
+  color: #d08b00;
+}
+
+.cancelado {
+  background-color: #fcf5e6;
+  color: #aa7700;
+}
+
+a{
+    text-decoration: none;
+}
