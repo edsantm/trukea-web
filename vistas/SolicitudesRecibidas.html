@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="globals.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+  <title>Solicitudes de Trueques Recibidas</title>
+  <link rel="stylesheet" href="../Styles/SolicitudesRecibidas.css" />
+</head>
+<body>
+
+  <!-- Barra de navegación -->
+  <nav class="navbar">
+    <div class="logo-nav">
+      <img src="/img/logo-trukea.png" alt="logo" class="nav-logo" />
+    </div>
+    <ul class="nav-links">
+      <li><a href="/vistas/ExplorarTrueque.html">Explorar Trueques</a></li>
+      <li><a href="/vistas/MisPorductos.html">Mis Productos</a></li>
+      <li><a href="/vistas/Perfil.html">Mi Perfil</a></li>
+      <li><a href="#"><img src="/img/notificaciones.png" alt="Notificaciones" class="icono" /></a></li>
+    </ul>
+  </nav>
+
+  <!-- Mensaje de confirmación -->
+  <!--<div class="alerta-aceptado">✅ Solicitud de trueque aceptada.</div>-->
+
+<h2><img src="/img/solicitudes.png"  class=""icono-perfil> Solicitudes Recibidas</h2>
+<div class="tabs">
+  <button class="active">Solicitudes recibidas</button>
+  <a href="/vistas/SolicitudesEnviadas.html" class="tab-btn">Solicitudes enviadas</a>
+  <button>Historial</button>
+</div>
+
+<!-- Contenedor principal de solicitudes -->
+<div class="solicitudes-contenedor">
+  <!-- Primera fila de solicitudes -->
+  <div class="solicitud">
+    <div class="imagenes">
+      <img src="producto1.jpg" alt="Producto recibido">
+      <span class="flecha">→</span>
+      <img src="producto2.jpg" alt="Producto ofrecido">
+    </div>
+    <input type="text" placeholder="Nombre de usuario">
+    <div class="acciones">
+      <button class="rechazar">Rechazar</button>
+      <a href="/vistas/PropuestaTrueque.html" class="aceptar">Aceptar</a>
+    </div>
+  </div>
+
+  <div class="solicitud">
+    <div class="imagenes">
+      <img src="producto3.jpg" alt="Producto recibido">
+      <span class="flecha">→</span>
+      <img src="producto4.jpg" alt="Producto ofrecido">
+    </div>
+    <input type="text" placeholder="Nombre de usuario">
+    <div class="acciones">
+      <button class="rechazar">Rechazar</button>
+      <a href="/vistas/PropuestaTrueque.html" class="aceptar">Aceptar</a>
+    </div>
+  </div>
+
+  <!-- Segunda fila de solicitudes -->
+  <div class="solicitud">
+    <div class="imagenes">
+      <img src="producto5.jpg" alt="Producto recibido">
+      <span class="flecha">→</span>
+      <img src="producto6.jpg" alt="Producto ofrecido">
+    </div>
+    <input type="text" placeholder="Nombre de usuario">
+    <div class="acciones">
+      <button class="rechazar">Rechazar</button>
+      <a href="/vistas/PropuestaTrueque.html" class="aceptar">Aceptar</a>
+    </div>
+  </div>
+
+  <div class="solicitud">
+    <div class="imagenes">
+      <img src="producto7.jpg" alt="Producto recibido">
+      <span class="flecha">→</span>
+      <img src="producto8.jpg" alt="Producto ofrecido">
+    </div>
+    <input type="text" placeholder="Nombre de usuario">
+    <div class="acciones">
+      <button class="rechazar">Rechazar</button>
+      <a href="/vistas/PropuestaTrueque.html" class="aceptar">Aceptar</a>
+    </div>
+  </div>
+</div>
+  </main>
+
+</body>
+</html>

@@ -14,10 +14,10 @@
       <img src="../img/logo-trukea.png" alt="logo" class="nav-logo">
     </div>
     <ul class="nav-links">
-      <li><a href="#">Inicio</a></li>
-      <li><a href="#">Explorar Trueques</a></li>
+      <li><a href="/vistas/PublicarProducto.html">Publicar Producto</a></li>
+      <li><a href="SolicitudesRecibidas.html">Solicitudes</a></li>
       <li><a href="/vistas/Perfil.html">Mi Perfil</a></li>
-      <li><a href="#"><img src="notificaciones.png" alt="Notificaciones" class="icono"></a></li>
+      <li><a href="#"><img src="/img/notificaciones.png" alt="Notificaciones" class="icono"></a></li>
     </ul>
   </nav>
 
@@ -28,8 +28,12 @@
         <option>Seleccionar ciudad</option>
       </select>
 
-      <h3>Categorías</h3>
-      <ul class="categorias">
+      <div class="categoria-header" id="toggle-categorias">
+        <h3>Categorías</h3>
+        <span class="flecha">&#9662;</span> <!-- Flecha ▼ -->
+      </div>
+      
+      <ul class="categorias" id="lista-categorias">
         <li>Ropa y calzado</li>
         <li>Electrónica</li>
         <li>Accesorios</li>
@@ -66,5 +70,6 @@
       </div>
     </section>
   </main>
+  <script src="../js/explorarTrueque.js"></script>
 </body>
 </html>

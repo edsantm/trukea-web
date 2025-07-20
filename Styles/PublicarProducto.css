@@ -49,7 +49,7 @@
 
 /* Contenedor de publicación */
 .publicar-container {
-  padding: 30px;
+  padding: 10px;
 }
 
 .publicar-container h1 {
@@ -87,8 +87,8 @@
 
 .btn-seleccionar {
   background-color: transparent;
-  color: #4B1B3F;
-  border: 1px solid #4B1B3F;
+  color: #5a1c74;
+  border: 1px solid #5a1c74;
   padding: 12px;
   border-radius: 5px;
   cursor: pointer;
@@ -99,7 +99,7 @@
 .publicar-formulario {
   flex: 1.5;
   min-width: 300px;
-  margin-top: -6%;
+  
 }
 
 .publicar-formulario form label {
@@ -143,7 +143,7 @@
 
 /* Botón publicar */
 .btn-primary {
-  background-color: #4B1B3F;
+  background-color: #5a1c74;
   color: #FAFAF5;
   padding: 16px;
   border: none;
@@ -162,4 +162,49 @@
   .form-publicar {
     flex-direction: column;
   }
+}
+
+.alerta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  position: fixed;
+  top: -60px;
+  left: 0;
+  width: 100%;
+  padding: 1rem;
+  background-color: #58B88D;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  transition: top 0.4s ease, opacity 0.4s ease;
+}
+
+.alerta-icono {
+  background-color: #00A650;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: white;
+}
+
+.alerta.error {
+  background-color: #E74C3C;
+}
+
+.alerta.error .alerta-icono {
+  background-color: #C0392B;
+}
+
+.oculto {
+  opacity: 0;
+  pointer-events: none;
 }

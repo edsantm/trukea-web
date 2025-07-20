@@ -12,13 +12,13 @@
 <!-- Barra de navegación -->
   <nav class="navbar">
     <div class="logo-nav">
-      <img src="logo.png" alt="logo" class="nav-logo">
+      <img src="/img/logo-trukea.png" alt="logo" class="nav-logo">
     </div>
     <ul class="nav-links">
-      <li><a href="#">Inicio</a></li>
-      <li><a href="#">Explorar Trueques</a></li>
-      <li><a href="#">Mi Perfil</a></li>
-      <li><a href="#"><img src="notificaciones.png" alt="Notificaciones" class="icono"></a></li>
+      <li><a href="/vistas/MisPorductos.html">Mis Productos</a></li>
+      <li><a href="/vistas/ExplorarTrueque.html">Explorar Trueques</a></li>
+      <li><a href="/vistas/Perfil.html">Mi Perfil</a></li>
+      <li><a href="#"><img src="/img/notificaciones.png" alt="Notificaciones" class="icono"></a></li>
     </ul>
   </nav>
 
@@ -29,13 +29,19 @@
 
   <!-- Formulario de publicación -->
   <div class="publicar-container">
-    <h1>Publicar Producto</h1>
+
+    <div id="alerta" class="alerta oculto">
+      <div class="alerta-icono" id="alerta-icono"></div>
+        <span id="alerta-mensaje"></span>
+    </div>
+    
+    <h1><img src="/img/publicarproduct.png"  class=""icono-perfil> Publicar Producto</h1>
 
     <div class="form-publicar">
 
       <!-- Subir imagen -->
       <div class="publicar-imagen">
-        <div class="Subir-imagen" <label>Subir Imagen del producto:</label></div>
+        <div class="Subir-imagen"><label>Subir Imagen del producto:</label></div>
         <div class="imagen-placeholder"></div>
         <button class="btn-seleccionar">Seleccionar...</button>
       </div>
@@ -57,9 +63,9 @@
           <label>Ciudad de publicación del producto</label>
           <select required>
             <option value="">Selecciona una ciudad</option>
-            <option value="CDMX">CDMX</option>
-            <option value="Guadalajara">Guadalajara</option>
-            <option value="Monterrey">Monterrey</option>
+            <option value="CDMX">Suchiapa</option>
+            <option value="Guadalajara">Tuxtla Gutierrez</option>
+            <option value="Monterrey">Chiapa de Corzo</option>
           </select>
 
           <label>Descripción del producto</label>
@@ -79,6 +85,6 @@
     </div>
 
   </div>
-
+  <script src="../js/publicarProducto.js"></script>
 </body>
 </html>

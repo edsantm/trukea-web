@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
+  <title>Mis Productos</title>
+  <link rel="stylesheet" href="/Styles/MisProductos.css" />
+</head>
+<body>
+
+  <!-- Barra de navegación -->
+  <nav class="navbar">
+    <div class="logo-nav">
+      <img src="/img/logo-trukea.png" alt="logo" class="nav-logo" />
+    </div>
+    <ul class="nav-links">
+      <li><a href="/vistas/PublicarProducto.html">Publicar Producto</a></li>
+      <li><a href="/vistas/ExplorarTrueque.html">Explorar Trueques</a></li>
+      <li><a href="/vistas/Perfil.html">Mi Perfil</a></li>
+      <li><a href="#"><img src="/img/notificaciones.png" alt="Notificaciones" class="icono" /></a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <h1><img src="/img/misproducs.png"  class=""icono-perfil> Mis Productos</h1>
+
+    <section class="productos">
+      <!-- Producto 1 -->
+      <div class="producto">
+        <img src="https://i.imgur.com/WYzQ2g2.png" alt="Headphones" />
+        <div class="info">
+          <h2>Headphones</h2>
+          <p>Los intercambio por Airpods</p>
+          <p>Estado: semi-nuevo</p>
+        </div>
+        <div class="acciones">
+          <button class="ver-btn"><a href="EditarProducto.html">Editar</a></button>
+          <button class="eliminar">Eliminar</button>
+        </div>
+      </div>
+
+      <!-- Producto 2 -->
+      <div class="producto">
+        <img src="https://i.imgur.com/5X4XXuA.png" alt="Suéter" />
+        <div class="info">
+          <h2>Suéter</h2>
+          <p>Lo intercambio por un pantalón. Es talla M por un pantalón talla 38</p>
+          <p>Estado: semi-nuevo</p>
+        </div>
+        <div class="acciones">
+          <button class="ver-btn"><a href="EditarProducto.html">Editar</a></button>
+          <button class="eliminar">Eliminar</button>
+        </div>
+      </div>
+
+      <!-- Producto 3 -->
+      <div class="producto">
+        <img src="https://i.imgur.com/mWBQIWU.png" alt="Teclado" />
+        <div class="info">
+          <h2>Teclado</h2>
+          <p>Lo intercambio por un mouse</p>
+          <p>Estado: dos años de uso</p>
+        </div>
+        <div class="acciones">
+          <button class="ver-btn"><a href="EditarProducto.html">Editar</a></button>
+          <button class="eliminar">Eliminar</button>
+        </div>
+      </div>
+
+      <!-- Producto vacío para completar la fila -->
+      <div class="producto"></div>
+    </section>
+  </main>
+
+</body>
+</html>

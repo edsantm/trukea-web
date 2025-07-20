@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proponer Trueque - Trukea</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/Styles/Proponer.css">
+</head>
+<body>
+  <!-- Barra de navegación -->
+  <nav class="navbar">
+    <div class="logo-nav">
+      <img src="/img/logo-trukea.png" alt="logo" class="nav-logo" />
+    </div>
+    <ul class="nav-links">
+      <li><a href="/vistas/MisPorductos.html">Mis Productos</a></li>
+      <li><a href="/vistas/ExplorarTrueque.html">Explorar Trueques</a></li>
+      <li><a href="/vistas/Perfil.html">Mi Perfil</a></li>
+      <li><a href="#"><img src="/img/notificaciones.png" alt="Notificaciones" class="icono" /></a></li>
+    </ul>
+  </nav>
+
+  <!-- Mensaje de éxito -->
+  <!--<div class="mensaje-exito">
+    ✅ Se ha realizado con éxito.
+  </div>-->
+
+  <main class="contenedor-trueque">
+    <h1><img src="/img/proponertru.png"  class=""icono-perfil> Proponer Trueque</h1>
+    <div class="trueque-grid">
+      <!-- Producto que deseas -->
+      <div class="producto-deseado">
+        <h2>Producto que deseas</h2>
+        <div class="detalle-producto">
+          <div class="imagen-placeholder"></div>
+          <div class="info">
+            <label>Nombre del producto:</label>
+            <input type="text">
+            <label>Descripción:</label>
+            <input type="text">
+            <label>Publicado por:</label>
+            <input type="text">
+          </div>
+        </div>
+      </div>
+
+      <!-- Producto que ofreces -->
+      <div class="producto-ofrecido">
+        <h2>Selecciona tu producto para ofrecer</h2>
+        <div class="oferta">
+          <input type="checkbox">
+          <div>
+            <strong>Nombre del producto</strong><br>
+            <span>Estado del producto</span>
+          </div>
+        </div>
+        <div class="oferta">
+          <input type="checkbox">
+          <div>
+            <strong>Nombre del producto</strong><br>
+            <span>Estado del producto</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comentario -->
+    <label class="comentario-label">Agregar comentario:</label>
+    <textarea class="comentario-box" rows="3"></textarea>
+
+    <!-- Botón -->
+    <div class="btn-contenedor">
+      <button class="btn-trueque">Proponer Trueque</button>
+    </div>
+  </main>
+</body>
+</html>

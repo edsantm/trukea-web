@@ -109,7 +109,7 @@ body {
 
 /* Botón Ver Producto */
 .ver-btn {
-  background-color: #20362e;
+  background-color: #5a1c74;
   color: white;
   border: none;
   padding: 10px 16px;
@@ -125,5 +125,42 @@ body {
 }
 
 .ver-btn:hover {
-  background-color: #2e4b40;
+  background-color: #401553;
+}
+
+.categoria-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px 0;
+  font-weight: bold;
+}
+
+.flecha {
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+
+.flecha.abierta {
+  transform: rotate(180deg); /* flecha hacia arriba */
+}
+
+.desplegable {
+  list-style: none;
+  padding-left: 15px;
+  transition: max-height 0.4s ease, opacity 0.4s ease;
+  overflow: hidden;
+}
+
+.oculto {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.desplegable:not(.oculto) {
+  max-height: 500px;
+  opacity: 1;
+  pointer-events: auto;
 }

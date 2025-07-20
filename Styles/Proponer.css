@@ -1,0 +1,142 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  background-color: #fff;
+}
+
+/* Barra de navegación */
+.navbar {
+  background-color: #20362e;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  color: white;
+}
+
+.logo-nav .nav-logo {
+  height: 50px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.icono {
+  height: 20px;
+}
+
+/* Éxito */
+.mensaje-exito {
+  background-color: #d8f7e5;
+  color: #1c7c44;
+  padding: 10px 40px;
+  font-weight: bold;
+}
+
+/* Contenido */
+.contenedor-trueque {
+  padding: 40px;
+}
+
+h1 {
+  margin-bottom: 30px;
+  font-size: 28px;
+}
+
+.trueque-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  margin-bottom: 30px;
+}
+
+/* Producto que deseas */
+.producto-deseado,
+.producto-ofrecido {
+  flex: 1;
+}
+
+.detalle-producto {
+  display: flex;
+  border: 1px solid #aaa;
+  background-color: #ccc;
+  padding: 20px;
+}
+
+.imagen-placeholder {
+  width: 120px;
+  height: 120px;
+  background-color: white;
+  margin-right: 20px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.info label {
+  font-weight: bold;
+}
+
+.info input {
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #888;
+}
+
+/* Producto ofrecido */
+.oferta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+/* Comentario */
+.comentario-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.comentario-box {
+  width: 100%;
+  border: 1px solid #888;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+/* Botón */
+.btn-contenedor {
+  text-align: right;
+}
+
+.btn-trueque {
+  background-color: #5a1c74;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}

@@ -45,7 +45,7 @@ body {
 
 /* CONTENIDO PRINCIPAL */
 .contenedor {
-  padding: 200px;
+  padding: 20px;
   text-align: center;
 }
 
@@ -94,7 +94,7 @@ body {
 
 .btn-cambiar {
   padding: 8px 15px;
-  border: 1px solid #512048;
+  border: 1px solid #5a1c74;
   background-color: white;
   color: #512048;
   border-radius: 5px;
@@ -135,7 +135,7 @@ input[type="number"] {
 }
 
 .btn-guardar {
-  background-color: #512048;
+  background-color: #5a1c74;
   color: white;
   padding: 12px 24px;
   border: none;
@@ -152,4 +152,57 @@ input[type="number"] {
   border-radius: 5px;
   cursor: pointer;
   font-size:18px;
+}
+
+.alerta {
+ display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  background-color: #58B88D;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.3s ease, top 0.3s ease;
+}
+
+.alerta-icono {
+  margin-right: 12px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background-color: #00A650; /* Color del círculo de la palomita */
+  border-radius: 50%;
+  color: white;
+}
+
+.alerta.exito {
+  background-color: #58B88D;
+}
+
+.alerta.exito .alerta-icono {
+  background-color: #00A650;
+}
+
+.alerta.error {
+  background-color: #E74C3C;
+}
+
+.alerta.error .alerta-icono {
+  background-color: #C0392B;
+}
+
+.oculto {
+  opacity: 0;
+  pointer-events: none;
 }

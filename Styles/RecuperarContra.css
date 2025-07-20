@@ -41,7 +41,7 @@
 }
 
 .form-box .btn-primary {
-  background-color: #4B1B3F;
+  background-color: #5a1c74;
   color: #FAFAF5;
   padding: 14px;
   border: none;
@@ -139,7 +139,7 @@ form input {
 
 /* Botón principal */
 .btn-primary {
-  background-color: #4B1B3F;
+  background-color: #5a1c74;
   color: #FAFAF5;
   padding: 16px;
   border: none;
@@ -166,3 +166,35 @@ form input {
     padding: 40px 20px;
   }
 }
+
+.alerta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  position: fixed;
+  top: -60px;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  transition: top 0.4s ease, opacity 0.4s ease;
+}
+
+.alerta.exito {
+  background-color: #58B88D;
+  color: white;
+}
+
+.alerta.error {
+  background-color: #E74C3C;
+  color: white;
+}
+
+.oculto {
+  opacity: 0;
+  pointer-events: none;
+}
+
