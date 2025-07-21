@@ -257,3 +257,38 @@ body{
   line-height: normal;
   margin-left: 160px;
 }
+
+.alerta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: fixed;
+  top: -60px;
+  left: 0;
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  z-index: 9999;
+  transition: top 0.3s ease, opacity 0.3s ease;
+  background-color: #f8d7da;
+  color: #842029;
+  border-bottom: 1px solid #f5c2c7;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  justify-content: center;
+}
+
+.alerta-icono {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.alerta.error {
+  background-color: #f8d7da;
+  color: #842029;
+}
+
+.oculto {
+  opacity: 0;
+  pointer-events: none;
+}

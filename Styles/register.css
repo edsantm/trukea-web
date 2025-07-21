@@ -185,11 +185,13 @@ alerta {
 .alerta.exito {
   background-color: #58B88D;
   color: white;
+  text-align: center;
 }
 
 .alerta.error {
   background-color: #E74C3C;
   color: white;
+  text-align: center;
 }
 
 .oculto {

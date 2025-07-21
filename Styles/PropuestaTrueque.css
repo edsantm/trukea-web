@@ -34,6 +34,11 @@
   color: #1a7c4c;
   padding: 10px 20px;
   font-weight: bold;
+  width: 100vw;
+  text-align: center;
+  border-top: 1px solid #ccc;
+  margin: 0;
+  
 }
 
 /* Contenedor principal */
