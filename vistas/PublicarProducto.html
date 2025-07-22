@@ -8,8 +8,7 @@
   <link rel="stylesheet" href="../Styles/PublicarProducto.css">
 </head>
 <body>
-
-<!-- Barra de navegación -->
+ <!-- Barra de navegación -->
   <nav class="navbar">
     <div class="logo-nav">
       <img src="/img/logo-trukea.png" alt="logo" class="nav-logo">
@@ -21,70 +20,61 @@
       <li><a href="#"><img src="/img/notificaciones.png" alt="Notificaciones" class="icono"></a></li>
     </ul>
   </nav>
-   
+      
   <div id="alerta" class="alerta oculto">
       <div class="alerta-icono" id="alerta-icono"></div>
         <span id="alerta-mensaje"></span>
-    </div>
+  </div>
+  
   <!-- Mensaje de éxito -->
   <!--<div class="mensaje-exito">
     ✔️ Tu artículo se ha publicado correctamente.
   </div>
-
-   Formulario de publicación -->
+    Formulario de publicación -->
   <div class="publicar-container">
-
-
-    <h1><img src="/img/publicarproduct.png"  class=""icono-perfil> Publicar Producto</h1>
-
-    <div class="form-publicar">
-
-      <!-- Subir imagen -->
-      <div class="publicar-imagen">
-        <div class="Subir-imagen"><label>Subir Imagen del producto:</label></div>
-        <div class="imagen-placeholder"></div>
-        <button class="btn-seleccionar">Seleccionar...</button>
+      <h1><img src="/img/publicarproduct.png"  class="icono-perfil"> Publicar Producto</h1>
+     
+     <div class="form-publicar">
+       <!-- Subir imagen -->
+       <div class="publicar-imagen">
+         <div class="Subir-imagen"><label>Subir Imagen del producto:</label></div>
+         <div class="imagen-placeholder"></div>
+         <button class="btn-seleccionar">Seleccionar...</button>
+       </div>
+       
+       <!-- Formulario -->
+       <div class="publicar-formulario">
+         <form id="form-producto">
+           <label>Nombre del producto</label>
+           <input type="text" id="nombreProducto" name="nombreProducto" placeholder="Ingresa el nombre del producto" required>
+           
+           <label>Categoría del producto</label>
+           <select id="categoria" name="idCategoria" required>
+             <option value="">Selecciona una categoría</option>
+             <option value="1">Tecnología</option>
+             <option value="2">Hogar</option>
+             <option value="3">Ropa</option>
+           </select>
+           
+           <label>Valor estimado (en pesos)</label>
+           <input type="number" id="valorEstimado" name="valorEstimado" placeholder="Ingresa el valor estimado" min="1" required>
+             
+           <label>Descripción del producto</label>
+           <textarea id="descripcionProducto" name="descripcionProducto" placeholder="Ingresa la descripción"></textarea>
+           
+           <label>Calidad del producto:</label>
+           <div class="estado-opciones">
+             <label><input type="radio" name="idCalidad" value="1"> Excelente</label>
+             <label><input type="radio" name="idCalidad" value="2"> Bueno</label>
+             <label><input type="radio" name="idCalidad" value="3"> Regular</label>
+           </div>
+           
+           <button type="submit" class="btn-primary" id="btn-publicar">Publicar Producto</button>
+         </form>
+       </div>
+      
       </div>
-
-      <!-- Formulario -->
-      <div class="publicar-formulario">
-        <form>
-          <label>Nombre del producto</label>
-          <input type="text" placeholder="Ingresa el nombre del producto" required>
-
-          <label>Categoría del producto</label>
-          <select required>
-            <option value="">Selecciona una categoría</option>
-            <option value="Tecnología">Tecnología</option>
-            <option value="Hogar">Hogar</option>
-            <option value="Ropa">Ropa</option>
-          </select>
-
-          <label>Ciudad de publicación del producto</label>
-          <select required>
-            <option value="">Selecciona una ciudad</option>
-            <option value="CDMX">Suchiapa</option>
-            <option value="Guadalajara">Tuxtla Gutierrez</option>
-            <option value="Monterrey">Chiapa de Corzo</option>
-          </select>
-
-          <label>Descripción del producto</label>
-          <textarea placeholder="Ingresa la descripción" required></textarea>
-
-          <label>Estado:</label>
-          <div class="estado-opciones">
-            <label><input type="radio" name="estado" value="Nuevo"> Nuevo</label>
-            <label><input type="radio" name="estado" value="Usado"> Usado</label>
-            <label><input type="radio" name="estado" value="Buen estado"> Buen estado</label>
-          </div>
-
-          <button type="submit" class="btn-primary">Publicar Producto</button>
-        </form>
-      </div>
-
     </div>
-
-  </div>
   <script src="../js/publicarProducto.js"></script>
 </body>
 </html>

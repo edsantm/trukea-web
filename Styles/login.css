@@ -1,15 +1,12 @@
 * {
     margin: 0;
     padding: 0;
-    
 }
 
 body {
     font-family: 'Montserrat', sans-serif;
-    
-    background-color: #e9ebea; 
+    background-color: #e9ebea;
     color: #333;
-    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -18,29 +15,25 @@ body {
 
 .contenedor-login {
     display: grid;
-    grid-template-columns: 8fr 0.9fr; 
+    grid-template-columns: 1fr 1.5fr;
     max-width: 100%;
     border-radius: 0px;
-    overflow: hidden; 
-    flex:0.5;
+    overflow: hidden;
+    width: 100%;
 }
 
-/*  PANEL IZQUIERDO (BIENVENIDA)  */
 .panel-bienvenida {
-
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Centra verticalmente */
-    align-items: center;   /* Centra horizontalmente */
+    justify-content: center;
+    align-items: center;
     padding: 40px;
     text-align: center;
-    
 }
 
 .panel-bienvenida .logo {
-    width: 300px;
+    width: 250px;
     margin-bottom: 40px;
-    
 }
 
 .panel-bienvenida h1 {
@@ -48,65 +41,46 @@ body {
     font-weight: 500;
     color: #333;
     margin-bottom: 20px;
-    
 }
 
 .panel-bienvenida p {
-    font-size: 29px;
+    font-size: 1.5rem;
     color: #555;
-    max-width: 350px; 
+    max-width: 350px;
 }
 
-/*  PANEL DERECHO (FORMULARIO)  */
 .panel-formulario {
-   border: 2px;
-  border-radius: 8px;
-  max-width: 500px;
-  background-color: #ffffff;
-  background-position-y: center;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  box-shadow: 0 0 10px rgba(0,0,0,0.05);
-  width: 400%;
-}
-
-.panel-formulario form {
-    display: flex;
-    flex-direction: column;
-    width: 130%;
-    padding:3rem 6rem;
-     
-    
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    padding: 2rem 3rem;
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .panel-formulario h2 {
     font-size: 2.5rem;
     font-weight: 500;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     text-align: center;
     color: #333;
-    
 }
 
 .campo-formulario {
-    margin-bottom: 30px;
-    
+    margin-bottom: 20px;
 }
 
 .campo-formulario label {
-    
     font-weight: 500;
     margin-bottom: 8px;
     color: #444;
-    font-size: 20px;
-    
+    font-size: 16px;
 }
 
 .campo-formulario input {
-    width: 110%;
-    padding: 12px 0px;
+    width: 100%;
+    padding: 12px;
     border: 1px solid #d1d1d1;
     border-radius: 8px;
     font-size: 1.2rem;
@@ -115,12 +89,12 @@ body {
 
 .campo-formulario input::placeholder {
     color: #aaa;
-    padding:20px ;
 }
 
 .link-olvido {
     color: #2794be;
     text-decoration: none;
+    text-align: center;
     font-size: 1.3rem;
     margin-bottom: 30px;
     align-self: flex-start;
@@ -128,8 +102,6 @@ body {
 
 .link-olvido:hover {
     text-decoration: underline;
-    
-    
 }
 
 .btn {
@@ -143,42 +115,52 @@ body {
     transition: background-color 0.1s ease;
     text-align: center;
     text-decoration: none;
-    width: 110%;
-    
+    width: 100%;
 }
 
+/* Botón Principal (Iniciar Sesión) */
 .btn-principal {
-    background-color: #542e5b; /* Color morado del botón */
-    display: block;
+    background-color: #542e5b; /* Color morado */
     color: white;
-    
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.4rem;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 .btn-principal:hover {
-    background-color: #432448;
-    
-    
+    background-color: #432448; /* Color morado más oscuro */
 }
 
-.separador-registro {
-    margin-top: 35px;
-    
-}
-
-.separador-registro p {
-    margin-bottom: 25px;
-    font-size: 1.4rem;
-    color: #555;
-}
-
+/* Botón Secundario (Registrarse) */
 .btn-secundario {
-    background-color: #542e5b;
-    color: rgb(255, 252, 252);
-    display:center;
-    
+    background-color: #542e5b; /* Color azul */
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.4rem;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    width: 100%;
 }
 
 .btn-secundario:hover {
-    background-color: #432448;
-    
+    background-color: #432448; /* Azul más oscuro */
+}
+
+/* Espaciado y estilo del separador de botones */
+.separador-registro {
+    margin-top: 25px;
+    text-align: center;
 }
