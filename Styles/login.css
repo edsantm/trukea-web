@@ -169,7 +169,7 @@ body {
   }
 }
 
-alerta {
+.alerta {
   display: flex;
   align-items: center;
   justify-content: center;
