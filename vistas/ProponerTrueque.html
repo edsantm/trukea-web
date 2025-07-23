@@ -14,9 +14,9 @@
       <img src="/img/logo-trukea.png" alt="logo" class="nav-logo" />
     </div>
     <ul class="nav-links">
-      <li><a href="/vistas/MisPorductos.html">Mis Productos</a></li>
-      <li><a href="/vistas/ExplorarTrueque.html">Explorar Trueques</a></li>
-      <li><a href="/vistas/Perfil.html">Mi Perfil</a></li>
+      <li><a href="../vistas/MisProductos.html">Mis Productos</a></li>
+      <li><a href="../vistas/ExplorarTrueque.html">Explorar Trueques</a></li>
+      <li><a href="../vistas/Perfil.html">Mi Perfil</a></li>
       <li><a href="#"><img src="/img/notificaciones.png" alt="Notificaciones" class="icono" /></a></li>
     </ul>
   </nav>
@@ -48,23 +48,17 @@
 </div>
 
       <!-- Producto que ofreces -->
-      <div class="producto-ofrecido">
+      <section id="container-productos" class="productos">
+
         <h2>Selecciona tu producto para ofrecer</h2>
-        <div class="oferta">
-          <input type="checkbox">
-          <div>
-            <strong>Nombre del producto</strong><br>
-            <span>Estado del producto</span>
-          </div>
-        </div>
-        <div class="oferta">
-          <input type="checkbox">
-          <div>
-            <strong>Nombre del producto</strong><br>
-            <span>Estado del producto</span>
-          </div>
-        </div>
+
+        <div id="loading" class="loading">Cargando productos...</div>
+        <div id="error" class="error" style="display: none;"></div>
+
+        <div id="productos" class="producto-ofrecido"></div>
       </div>
+
+      </section>
     </div>
 
     <!-- Comentario -->
@@ -76,6 +70,7 @@
     </div>
 
   </main>
+  <script src="../js/ProponerTrueque.js"></script>
 </body>
   <script src="../js/proponerTrueque.js"></script> <!-- ajusta la ruta si lo pones en otra carpeta -->
 

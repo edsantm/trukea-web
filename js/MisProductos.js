@@ -1,6 +1,5 @@
-
 const API_CONFIG = {
-    baseUrl: 'https://tu-api.com/api', // Cambia por tu URL de API
+    baseUrl: 'http://localhost:8082/api',
     endpoints: {
         productos: '/productos'
     }
@@ -15,9 +14,21 @@ async function fetchFromAPI(endpoint) {
             throw new Error(`Error HTTP: ${response.status}`);
         }
         
-        return await response.json();
+        const data = await response.json();
+        
+        console.log(' Datos recibidos de la API:', data);
+        console.log(' Tipo de dato:', typeof data);
+        console.log(' Es array?:', Array.isArray(data));
+        console.log(' Cantidad:', data?.length || 'No es array');
+        
+        if (data && data.length > 0) {
+            console.log(' Primer producto sin adaptar:', data[0]);
+            console.log(' Propiedades disponibles:', Object.keys(data[0]));
+        }
+        
+        return data;
     } catch (error) {
-        console.error('Error en la API:', error);
+        console.error(' Error en la API:', error);
         throw error;
     }
 }
@@ -26,60 +37,98 @@ async function fetchFromAPI(endpoint) {
 function createProductHTML(producto) {
     return `
         <div class="producto" data-id="${producto.id || ''}">
-                <img src="${producto.imagen || 'https://via.placeholder.com/120'}" 
-                     alt="${producto.nombre || 'Producto'}" 
-                     onerror="this.src='https://via.placeholder.com/120?text=Sin+Imagen'" />
+            <img src="${producto.imagen || ''}" 
+                 alt="${producto.nombre || 'Producto'}" 
+                 onerror="this.src=''" />
             <div class="info">
                 <h3>${producto.nombre || 'Sin nombre'}</h3>
                 <p class="descripcion">${producto.descripcion || 'Sin descripción'}</p>
                 <p class="estado">Estado: ${producto.estado || 'No especificado'}</p>
             </div>
             <div class="acciones">
-                <button class="editar" onclick="window.location.href='EditarProducto.html?id=${producto.id || ''}'">
-                    Editar
+                <button class="editar" onclick="editarProducto('${producto.id || ''}')">
+                     Editar
                 </button>
                 <button class="eliminar" onclick="eliminarProducto('${producto.id || ''}')">
-                    Eliminar
+                     Eliminar
                 </button>
             </div>
         </div>
     `;
 }
 
-// Función para renderizar todos los productos
+// Función adaptadora con validación mejorada
+function adaptarProductoAPI(producto) {
+    console.log(' Adaptando producto:', producto);
+    
+    const adaptado = {
+        id: producto.idProducto || producto.id || '',
+        nombre: producto.nombreProducto || producto.nombre || 'Sin nombre',
+        descripcion: producto.descripcionProducto || producto.descripcion || 'Sin descripción',
+        estado: producto.valorEstimado ? 
+            `Valor estimado: $${producto.valorEstimado}` : 
+            'Sin valor estimado',
+        imagen: producto.imagen || '',
+        categoria: producto.idCategoria || producto.categoria || null,
+        calidad: producto.idCalidad || producto.calidad || null
+    };
+    
+    console.log(' Producto adaptado:', adaptado);
+    return adaptado;
+}
+
+// Función para renderizar productos - CORREGIDA
 function renderProducts(productos) {
+    console.log(' Renderizando productos:', productos);
+    console.log(' Cantidad a renderizar:', productos?.length || 0);
+    
     const productosContainer = document.getElementById('productos');
     
+    if (!productosContainer) {
+        console.error(' No se encontró el elemento con ID "productos"');
+        return;
+    }
+    
     if (!productos || productos.length === 0) {
+        console.log(' No hay productos para mostrar');
         productosContainer.innerHTML = `
             <div class="no-products">
                 <h3>No hay productos disponibles</h3>
                 <p>Agrega tu primer producto para comenzar.</p>
+                <button onclick="window.location.href='AgregarProducto.html'" class="btn-agregar">
+                     Agregar Producto
+                </button>
             </div>
         `;
     } else {
-        productosContainer.innerHTML = productos.map(createProductHTML).join('');
+        console.log(' Adaptando productos...');
+        const productosAdaptados = productos.map(adaptarProductoAPI);
+        console.log(' Productos adaptados:', productosAdaptados);
+        
+        productosContainer.innerHTML = productosAdaptados.map(createProductHTML).join('');
+        console.log(' HTML insertado en el DOM');
     }
 }
 
-// Función para mostrar estados de carga y error
+// Funciones de estado de carga - CORREGIDAS
 function showLoading() {
     const loadingDiv = document.getElementById('loading');
     const errorDiv = document.getElementById('error');
     const productosDiv = document.getElementById('productos');
-    loadingDiv.style.display = 'block';
-    errorDiv.style.display = 'none';
-    productosDiv.style.display = 'none';
+    
+    if (loadingDiv) loadingDiv.style.display = 'block';
+    if (errorDiv) errorDiv.style.display = 'none';
+    if (productosDiv) productosDiv.style.display = 'none';
 }
 
 function hideLoading() {
     const loadingDiv = document.getElementById('loading');
-    loadingDiv.style.display = 'none';
+    if (loadingDiv) loadingDiv.style.display = 'none';
 }
 
 function showProducts() {
     const productosDiv = document.getElementById('productos');
-    productosDiv.style.display = 'grid';
+    if (productosDiv) productosDiv.style.display = 'grid';
 }
 
 function showError(message) {
@@ -87,46 +136,71 @@ function showError(message) {
     const loadingDiv = document.getElementById('loading');
     const productosDiv = document.getElementById('productos');
     
-    loadingDiv.style.display = 'none';
-    productosDiv.style.display = 'none';
-    errorDiv.style.display = 'block';
-    errorDiv.textContent = message;
+    if (loadingDiv) loadingDiv.style.display = 'none';
+    if (productosDiv) productosDiv.style.display = 'none';
+    if (errorDiv) {
+        errorDiv.style.display = 'block';
+        errorDiv.textContent = message;
+    }
 }
 
-// Función para eliminar producto
+
 async function eliminarProducto(productId) {
+    if (!productId || productId === '') {
+        alert('ID de producto no válido');
+        return;
+    }
+
     if (!confirm('¿Estás seguro de que quieres eliminar este producto?')) {
         return;
     }
 
     try {
-        const response = await fetch(`${API_CONFIG.baseUrl}/productos/${productId}`, {
+        console.log(` Eliminando producto con ID: ${productId}`);
+        
+        const response = await fetch(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.productos}/${productId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 // Agregar headers de autenticación si es necesario
-                // 'Authorization': 'Bearer ' + token
+                // 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
         });
 
         if (response.ok) {
-            // Mostrar mensaje de éxito
+            console.log(' Producto eliminado exitosamente');
             alert('Producto eliminado exitosamente');
             // Recargar los productos después de eliminar
-            cargarProductos();
+            await cargarProductos();
         } else {
-            const errorData = await response.json();
-            alert(`Error al eliminar el producto: ${errorData.message || 'Error desconocido'}`);
+            const errorData = await response.json().catch(() => ({}));
+            const errorMessage = errorData.message || `Error HTTP: ${response.status}`;
+            console.error(' Error al eliminar:', errorMessage);
+            alert(`Error al eliminar el producto: ${errorMessage}`);
         }
     } catch (error) {
-        console.error('Error al eliminar:', error);
-        alert('Error de conexión al eliminar el producto');
+        console.error(' Error de conexión al eliminar:', error);
+        alert('Error de conexión al eliminar el producto. Verifica tu conexión a internet.');
     }
 }
 
-// Función principal para cargar productos desde API real
+
+function editarProducto(productId) {
+    if (!productId || productId === '') {
+        alert('ID de producto no válido');
+        return;
+    }
+    
+    console.log(` Redirigiendo a editar producto con ID: ${productId}`);
+    
+    
+    window.location.href = `EditarProducto.html?id=${productId}`;
+}
+
+
 async function cargarProductos() {
     try {
+        console.log(' Iniciando carga de productos desde API...');
         showLoading();
         
         // Cargar productos desde la API
@@ -139,133 +213,44 @@ async function cargarProductos() {
         hideLoading();
         showProducts();
         
-        console.log(`Productos cargados: ${productos.length}`);
+        console.log(` Productos cargados exitosamente: ${productos.length}`);
         
     } catch (error) {
-        console.error('Error al cargar productos:', error);
-        showError('Error al cargar los productos. Por favor, intenta de nuevo más tarde.');
-    }
-}
-
-// Función con datos de ejemplo para testing (sin API)
-function cargarProductosEjemplo() {
-    const productosEjemplo = [
-        {
-            id: 1,
-            nombre: "Headphones",
-            descripcion: "Los intercambio por Airpods",
-            estado: "semi-nuevo",
-            imagen: "https://i.imgur.com/WYzQ2g2.png",
-            categoria: "Electrónicos",
-            precio: 150
-        },
-        {
-            id: 2,
-            nombre: "Suéter",
-            descripcion: "Lo intercambio por un pantalón. Es talla M por un pantalón talla 38",
-            estado: "semi-nuevo",
-            imagen: "https://i.imgur.com/5X4XXuA.png",
-            categoria: "Ropa"
-        },
-        {
-            id: 3,
-            nombre: "Teclado",
-            descripcion: "Lo intercambio por un mouse",
-            estado: "dos años de uso",
-            imagen: "https://i.imgur.com/mWBQIWU.png",
-            categoria: "Electrónicos",
-            precio: 75
-        }
-         ,
-        {
-            id: 4,
-            nombre: "Teclado",
-            descripcion: "Lo intercambio por un mouse",
-            estado: "dos años de uso",
-            imagen: "https://i.imgur.com/mWBQIWU.png",
-            categoria: "Electrónicos",
-            precio: 75
-        }
-    ];
-
-    // Simular delay de red
-    showLoading();
-    setTimeout(() => {
+        console.error(' Error al cargar productos:', error);
         hideLoading();
-        showProducts();
-        renderProducts(productosEjemplo);
-        console.log(`Productos de ejemplo cargados: ${productosEjemplo.length}`);
-    }, 1000);
-}
-
-// Función para filtrar productos (funcionalidad extra)
-function filtrarProductos(termino) {
-    const productos = document.querySelectorAll('.producto');
-    const terminoLower = termino.toLowerCase();
-    
-    productos.forEach(producto => {
-        const nombre = producto.querySelector('h3').textContent.toLowerCase();
-        const descripcion = producto.querySelector('.descripcion').textContent.toLowerCase();
-        
-        if (nombre.includes(terminoLower) || descripcion.includes(terminoLower)) {
-            producto.style.display = 'block';
-        } else {
-            producto.style.display = 'none';
-        }
-    });
-}
-
-// Función para recargar productos (útil para botón de refresh)
-function recargarProductos() {
-    cargarProductos();
-}
-
-// Función para agregar listeners de eventos adicionales
-function setupEventListeners() {
-    // Agregar funcionalidad de búsqueda si existe un input de búsqueda
-    const searchInput = document.getElementById('search');
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            filtrarProductos(e.target.value);
-        });
-    }
-    
-    // Agregar listener para botón de recarga si existe
-    const refreshBtn = document.getElementById('refresh-btn');
-    if (refreshBtn) {
-        refreshBtn.addEventListener('click', recargarProductos);
+        showError('Error al cargar los productos. Verifica que el servidor esté funcionando y vuelve a intentar.');
     }
 }
 
-// Función de inicialización
 function initProductos() {
+    console.log(' Iniciando gestor de productos...');
+    
     // Verificar que existan los elementos necesarios en el DOM
-    if (!document.getElementById('productos')) {
-        console.error('Error: No se encontró el elemento con ID "productos"');
+    const productosContainer = document.getElementById('productos');
+    if (!productosContainer) {
+        console.error(' Error: No se encontró el elemento con ID "productos"');
+        console.log(' Verifica que tu HTML tenga: <div id="productos"></div>');
         return;
     }
     
-    // Configurar event listeners adicionales
-    setupEventListeners();
+    console.log(' Elemento "productos" encontrado');
     
-    // Cargar productos
-    // Cambia entre estas dos opciones según tu necesidad:
+    cargarProductos();
     
-    // Para API real:
-    // cargarProductos();
     
-    // Para datos de ejemplo (testing):
-    cargarProductosEjemplo();
 }
 
 // Inicializar cuando se carga la página
 document.addEventListener('DOMContentLoaded', initProductos);
 
-// Exportar funciones para uso externo si es necesario
+// Exportar funciones para uso externo y debugging
 window.ProductosManager = {
     cargarProductos,
-    cargarProductosEjemplo,
-    recargarProductos,
-    filtrarProductos,
-    eliminarProducto
+    eliminarProducto,
+    editarProducto,
+    debug: {
+        mostrarAPI: () => console.log('API Config:', API_CONFIG),
+        probarConexion: () => fetchFromAPI(API_CONFIG.endpoints.productos),
+        cambiarAAPI: cargarProductos
+    }
 };

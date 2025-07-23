@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       console.log('Intentando cargar categorías desde:', `${API_BASE_URL}/categorias`);
       
-      const response = await fetch(`${API_BASE_URL}/categorias`, {
+      const response = await fetch(`http/categorias`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
