@@ -26,10 +26,14 @@
       <h1><img src="/img/perfil.png"  class=""icono-perfil> Mi Perfil</h1>
       <div class="info-general">
         <div class="foto-usuario">
-          <div class="placeholder-foto"></div>
-          <label for="foto">Foto</label>
-          <input type="file" id="foto">
-        </div>
+  <div id="vista-previa" class="placeholder-foto">
+    <!-- Aquí se mostrará la imagen -->
+  </div>
+  <label for="foto">Foto</label>
+  <input type="file" id="foto" accept="image/*" style="display: none;">
+  <button id="btnSubirFoto">Subir Foto</button>
+</div>
+
         <div class="datos">
           <p><strong>HOLA!</strong> Eduardo Santillán Montesinos</p>
           <p><strong>Edad:</strong> 19 años</p>

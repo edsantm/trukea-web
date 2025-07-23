@@ -68,9 +68,9 @@
 .publicar-imagen {
   flex: 1;
   min-width: 220px;
-  padding-top: 3%;
   align-items: center;
-  
+  padding: 10%;
+  padding-top: 1%;
 }
 
 .Subir-imagen{
@@ -95,14 +95,13 @@
   padding: 12px;
   border-radius: 5px;
   cursor: pointer;
-   margin: 0%;
+  margin-left: 10%;
 }
 
 /* Formulario */
 .publicar-formulario {
   flex: 1.5;
   min-width: 300px;
-  
 }
 
 .publicar-formulario form label {
@@ -120,7 +119,7 @@
 
 .publicar-formulario select,
 .publicar-formulario textarea {
-  width: 90%;
+  width: 87%;
   padding: 13px;
   border: 1px solid #999;
   border-radius: 6px;
@@ -153,7 +152,7 @@
   border-radius: 6px;
   font-size: 18px;
   cursor: pointer;
-  width: 100%;
+  width: 87%;
 }
 
 .btn-primary:hover {
