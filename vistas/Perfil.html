@@ -16,8 +16,8 @@
     <ul class="nav-links">
       <li><a href="/vistas/MisPorductos.html">Mis Productos</a></li>
       <li><a href="/vistas/ExplorarTrueque.html">Explorar Trueques</a></li>
-      <li><a href="/vistas/SolicitudesRecibidas.html">Solicitudes</a></li>
-      <li><a href="#"><img src="/img/notificaciones.png" alt="Notificaciones" class="icono"/></a></li>
+      <li><a href="/vistas/PublicarProducto.html">Publicar Productos</a></li>
+      <li><a href="../vistas/SolicitudesRecibidas.html"><img src="/img/notificaciones.png" alt="Notificaciones" class="icono"/></a></li>
     </ul>
   </nav>
 
@@ -26,10 +26,14 @@
       <h1><img src="/img/perfil.png"  class=""icono-perfil> Mi Perfil</h1>
       <div class="info-general">
         <div class="foto-usuario">
-          <div class="placeholder-foto"></div>
-          <label for="foto">Foto</label>
-          <input type="file" id="foto">
-        </div>
+  <div id="vista-previa" class="placeholder-foto">
+    <!-- Aquí se mostrará la imagen -->
+  </div>
+  <label for="foto">Foto</label>
+  <input type="file" id="foto" accept="image/*" style="display: none;">
+  <button id="btnSubirFoto">Subir Foto</button>
+</div>
+
         <div class="datos">
           <p><strong>HOLA!</strong> Eduardo Santillán Montesinos</p>
           <p><strong>Edad:</strong> 19 años</p>

@@ -9,7 +9,11 @@
     <link rel="stylesheet" href="../Styles/login.css" />
     <title>Iniciar Sesión - Trukea</title>
 </head>
-<body>
+<body class="login-body">
+
+    <div id="alerta" class="alerta oculto">
+        <span id="alerta-mensaje"></span>
+    </div>
 
     <div class="contenedor-login">
         
@@ -23,30 +27,28 @@
         <!-- === PANEL DERECHO (FORMULARIO) === -->
         <div class="panel-formulario">
             <form>
-                <h2>Iniciar Sesión</h2>
+                     <h2>Iniciar Sesión</h2> 
                 
-                <div class="campo-formulario">
                     <label for="correo">Correo</label>
                     <input type="email" id="correo" placeholder="Ingresa tu correo">
-                </div>
-                
-                <div class="campo-formulario">
+             
                     <label for="contrasena">Contraseña</label>
                     <input type="password" id="contrasena" placeholder="Ingresa tu contraseña">
-                </div>
+               
                 
                 <a href="/vistas/RecuperarContra.html" class="link-olvido">¿Has olvidado la contraseña?</a>
                 
-                <button type="button" class="btn-principal" onclick="window.location.href='./ExplorarTrueque.html'">Iniciar Sesión</button>
+                <button type="button" class="InSesion" id="btnLogin">Iniciar Sesión</button>
+
                 
-                <div class="separador-registro">
                     <p>¿No tienes una cuenta?</p>
-                    <button type="button" class="btn-secundario" onclick="window.location.href='./Register.html'">Regístrate</button>
-                </div>
+                    <button type="button" class="InSesion" onclick="window.location.href='./Register.html'">Registrate</button>
+               
             </form>
         </div>
 
     </div>
+ <script src="../js/login.js"></script>
 
 </body>
 </html>
