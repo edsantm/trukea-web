@@ -17,9 +17,9 @@ document.addEventListener("DOMContentLoaded", function () {
       // Enviar imagen al servidor
       const formData = new FormData();
       formData.append("imagen", archivo);
-      formData.append("idUsuario", 1); // usa el id correcto en producción
+      formData.append("idUsuario", 1); 
 
-      fetch("http://localhost:7000/api/usuarios/subir-imagen", {
+      fetch("http://localhost:8082/api/usuarios/", {
         method: "POST",
         body: formData
       })

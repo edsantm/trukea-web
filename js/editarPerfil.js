@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     if (camposVacios) {
-      mostrarAlerta("error", "❌ Por favor, completa todos los campos.");
+      mostrarAlerta("error", " Por favor, completa todos los campos.");
       return;
     }
 

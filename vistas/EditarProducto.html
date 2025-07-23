@@ -7,8 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/Styles/EditarProducto.css" />
   <script src="../js/editarProducto.js"></script>
-</body>
-
 </head>
 <body>
   <!-- Barra de navegación -->
@@ -24,29 +22,28 @@
     </ul>
   </nav>
 
-  <!-- Mensaje de éxito -->
-  <!--<div class="mensaje-exito">
-    ✅ Se han guardado los cambios correctamente.
-  </div>
-
   <!-- Contenido -->
   <main class="contenedor-editar">
-    <h1><img src="/img/editproduct.png"  class=""icono-perfil> Editar Producto</h1>
+    <h1><img src="/img/editproduct.png" class="icono-perfil"> Editar Producto</h1>
     <form class="formulario-producto">
       <div class="izquierda">
         <div class="imagen-placeholder"></div>
         <button type="button" class="btn-imagen">Cambiar Imagen</button>
+        <input type="file" id="imagen-input" accept="image/*" style="display: none;" />
       </div>
 
       <div class="derecha">
+        <!-- Campo oculto para ID del producto -->
+        <input type="hidden" id="producto-id" />
+        
         <label for="nombre">Nombre del producto:</label>
-        <input type="text" id="nombre">
+        <input type="text" id="nombre" name="nombre" required>
 
         <label for="descripcion">Descripción:</label>
-        <textarea id="descripcion" rows="4"></textarea>
+        <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
 
         <label for="categoria">Categoría:</label>
-        <select id="categoria">
+        <select id="categoria" name="categoriaId" required>
           <option value="">Selecciona una categoría</option>
           <option>Ropa y calzado</option>
           <option>Electrónica</option>
@@ -59,9 +56,9 @@
 
         <label>Estado:</label>
         <div class="estado">
-          <label><input type="radio" name="estado"> Nuevo</label>
-          <label><input type="radio" name="estado"> Usado</label>
-          <label><input type="radio" name="estado"> Buen estado</label>
+          <label><input type="radio" name="estado" value="nuevo"> Nuevo</label>
+          <label><input type="radio" name="estado" value="usado"> Usado</label>
+          <label><input type="radio" name="estado" value="buen_estado"> Buen estado</label>
         </div>
 
         <div class="botones">
