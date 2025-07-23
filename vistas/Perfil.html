@@ -14,9 +14,9 @@
       <img src="/img/logo-trukea.png" alt="logo" class="nav-logo"/>
     </div>
     <ul class="nav-links">
-      <li><a href="/vistas/MisPorductos.html">Mis Productos</a></li>
-      <li><a href="/vistas/ExplorarTrueque.html">Explorar Trueques</a></li>
-      <li><a href="/vistas/PublicarProducto.html">Publicar Productos</a></li>
+      <li><a href="../vistas/MisProductos.html">Mis Productos</a></li>
+      <li><a href="../vistas/ExplorarTrueque.html">Explorar Trueques</a></li>
+      <li><a href="../vistas/PublicarProducto.html">Publicar Productos</a></li>
       <li><a href="../vistas/SolicitudesRecibidas.html"><img src="/img/notificaciones.png" alt="Notificaciones" class="icono"/></a></li>
     </ul>
   </nav>
@@ -41,41 +41,16 @@
       </div>
     </section>
 
-    <section class="productos-publicados">
-      <h2>Productos publicados</h2>
-      <div class="productos-grid">
-        <div class="producto">
-          <div class="img-placeholder"></div>
-          <div class="info-prod">
-            <p><strong>Sudadera</strong></p>
-            <p>Se encuentra en estado de uso</p>
-          </div>
-        </div>
-        <div class="producto">
-          <div class="img-placeholder"></div>
-          <div class="info-prod">
-            <p><strong>Sudadera</strong></p>
-            <p>Se encuentra en estado de uso</p>
-          </div>
-        </div>
-        <div class="producto">
-          <div class="img-placeholder"></div>
-          <div class="info-prod">
-            <p><strong>Sudadera</strong></p>
-            <p>Se encuentra en estado de uso</p>
-          </div>
-        </div>
-        <div class="producto">
-          <div class="img-placeholder"></div>
-          <div class="info-prod">
-            <p><strong>Sudadera</strong></p>
-            <p>Se encuentra en estado de uso</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <section id="productos" class="productos-publicados">
+       <h2>Productos publicados</h2>
 
-    <section class="historial">
+        <div id="loading" class="loading">Cargando productos...</div>
+        <div id="error" class="error" style="display: none;"></div>
+
+      <div id="container-productos" class="productos-grid"></div> 
+    </section> 
+
+     <section class="historial">
       <h3>Historial de trueques</h3>
       <ul class="lista-historial">
         <li class="completado">21-05-2025 - Completado</li>
@@ -84,6 +59,7 @@
         <li class="cancelado">30-02-2021 - Cancelado</li>
       </ul>
     </section>
+
   </main>
   <script src="../js/perfil.js"></script>
 </body>
