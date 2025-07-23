@@ -1,184 +1,202 @@
-* {
-    margin: 0;
-    padding: 0;
-    
+/* General */
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
 }
 
-body {
-    font-family: 'Montserrat', sans-serif;
-    
-    background-color: #e9ebea; 
-    color: #333;
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+/* Registro Layout */
+.login-body {
+  background-color: #FAFAF5;
 }
 
 .contenedor-login {
-    display: grid;
-    grid-template-columns: 8fr 0.9fr; 
-    max-width: 100%;
-    border-radius: 0px;
-    overflow: hidden; 
-    flex:0.5;
+  display: flex;
+  min-height: 100vh;
 }
 
-/*  PANEL IZQUIERDO (BIENVENIDA)  */
-.panel-bienvenida {
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Centra verticalmente */
-    align-items: center;   /* Centra horizontalmente */
-    padding: 40px;
-    text-align: center;
-    
+/* Panel Izquierdo */
+.panel-bienvenida {
+  flex: 1;
+  background-color: #FAFAF5;
+  text-align: center;
+  padding: 30px 20px;
 }
 
 .panel-bienvenida .logo {
-    width: 300px;
-    margin-bottom: 40px;
-    
+  margin-top: 70px;
+  height: 250px;
+  width: 300px;
+  margin-bottom: 30px;
+}
+
+
+.panel-bienvenida img {
+  height: 100px;
 }
 
 .panel-bienvenida h1 {
-    font-size: 3rem;
-    font-weight: 500;
-    color: #333;
-    margin-bottom: 20px;
-    
+  font-size: 40px;
+  margin-bottom: 40px;
+  color: #1E1E1E;
 }
 
 .panel-bienvenida p {
-    font-size: 29px;
-    color: #555;
-    max-width: 350px; 
+  font-size: 32px;
+  color: #333;
+  margin-bottom: 10px;
 }
 
-/*  PANEL DERECHO (FORMULARIO)  */
+/* Panel Derecho */
 .panel-formulario {
-   border: 2px;
+  border: 2px;
   border-radius: 8px;
   max-width: 500px;
+  margin-right: 5%;
+  margin-top: 50px;
+  margin-bottom: 50px;
   background-color: #ffffff;
   background-position-y: center;
   flex: 1;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   box-shadow: 0 0 10px rgba(0,0,0,0.05);
-  width: 400%;
-}
-
-.panel-formulario form {
-    display: flex;
-    flex-direction: column;
-    width: 130%;
-    padding:3rem 6rem;
-     
-    
 }
 
 .panel-formulario h2 {
-    font-size: 2.5rem;
-    font-weight: 500;
-    margin-bottom: 50px;
-    text-align: center;
-    color: #333;
-    
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #1E1E1E;
+  text-align: center;
 }
 
-.campo-formulario {
-    margin-bottom: 30px;
-    
-}
-
-.campo-formulario label {
-    
-    font-weight: 500;
-    margin-bottom: 8px;
-    color: #444;
-    font-size: 20px;
-    
-}
-
-.campo-formulario input {
-    width: 110%;
-    padding: 12px 0px;
-    border: 1px solid #d1d1d1;
-    border-radius: 8px;
-    font-size: 1.2rem;
-    font-family: 'Montserrat', sans-serif;
-}
-
-.campo-formulario input::placeholder {
-    color: #aaa;
-    padding:20px ;
-}
-
-.link-olvido {
-    color: #2794be;
-    text-decoration: none;
-    font-size: 1.3rem;
-    margin-bottom: 30px;
-    align-self: flex-start;
-}
-
-.link-olvido:hover {
-    text-decoration: underline;
-    
-    
-}
-
-.btn {
-    padding: 15px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.4rem;
-    font-weight: 200;
-    font-family: 'Montserrat', sans-serif;
-    cursor: pointer;
-    transition: background-color 0.1s ease;
-    text-align: center;
-    text-decoration: none;
-    width: 110%;
-    
-}
-
-.btn-principal {
-    background-color: #542e5b; /* Color morado del botón */
-    display: block;
+.panel-formulario .InSesion{
+  display: inline-block;
+    padding: 10px 20px;
+    background-color: #5a1c74;
     color: white;
-    
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 26px;
 }
 
-.btn-principal:hover {
-    background-color: #432448;
-    
-    
+.panel-formulario .Continuar{
+  display: inline-block;
+    padding: 10px 20px;
+    background-color: #5a1c74;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 26px;
 }
 
-.separador-registro {
-    margin-top: 35px;
-    
+.panel-formulario form {
+  display: flex;
+  flex-direction: column;
 }
 
-.separador-registro p {
-    margin-bottom: 25px;
-    font-size: 1.4rem;
-    color: #555;
+.panel-formulario label {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #1E1E1E;
+  margin-top: 10px;
 }
 
-.btn-secundario {
-    background-color: #542e5b;
-    color: rgb(255, 252, 252);
-    display:center;
-    
+.panel-formulario input {
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #999;
+  border-radius: 4px;
+  font-size: 16px;
 }
 
-.btn-secundario:hover {
-    background-color: #432448;
-    
+/* Botones */
+.btn-primary {
+  background-color: #4B1B3F;
+  color: #FAFAF5;
+  padding: 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 24px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn-primary:hover {
+  background-color: #3a132f;
+}
+
+.btn-secondary {
+  background-color: #4B1B3F;
+  color: #FAFAF5;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  text-align: center;
+  display: block;
+  margin-top: 20px;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.btn-secondary:hover {
+  background-color: #3a132f;
+}
+
+.login-link {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #333;
+  text-align: center;
+}
+
+/* Responsivo */
+@media(max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .panel-bienvenida, .panel-formulario {
+    flex: none;
+    width: 100%;
+    padding: 40px 20px;
+  }
+}
+
+alerta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  position: fixed;
+  top: -60px;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  transition: top 0.4s ease, opacity 0.4s ease;
+}
+.alerta.exito {
+  background-color: #58B88D;
+  color: white;
+  text-align: center;
+}
+
+.alerta.error {
+  background-color: #E74C3C;
+  color: white;
+  text-align: center;
+}
+
+.oculto {
+  opacity: 0;
+  pointer-events: none;
 }

@@ -19,7 +19,7 @@ function mostrarAlerta(tipo, mensaje) {
 document.addEventListener("DOMContentLoaded", function () {
   const btnContinuar = document.querySelector(".Continuar");
 
-  btnContinuar.addEventListener("click", function () {
+  btnContinuar.addEventListener("click", async function () {
     const email = document.getElementById('email');
     const pass = document.getElementById('password');
     const confirm = document.getElementById('confirmPassword');
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (hayError) {
       mostrarAlerta("error", "❌ Todos los campos son obligatorios.");
-      return; // 🔴 No continuar
+      return;
     }
 
     if (pass.value.length < 6) {
@@ -54,15 +54,33 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // ✅ Si todo está bien, guardar y redirigir después de un tiempo
-    localStorage.setItem('registroData', JSON.stringify({
-      email: email.value,
-      password: pass.value
-    }));
+    // 🔄 Conectar con tu API de registro
+    try {
+      const response = await fetch("http://localhost:3000/api/register", { // 👈 Cambia a tu URL real
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          correo: email.value,
+          contrasena: pass.value
+        })
+      });
 
-    mostrarAlerta("exito", "✔️ Datos validados. Redirigiendo...");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al registrar.");
+      }
 
-    window.location.href = './RegistrarCiudad.html';
-    }, 1500);
+      mostrarAlerta("exito", "✔️ Registro exitoso. Redirigiendo...");
+
+      setTimeout(() => {
+        window.location.href = './RegistrarCiudad.html';
+      }, 1500);
+
+    } catch (error) {
+      mostrarAlerta("error", "❌ " + error.message);
+      console.error("Error en registro:", error);
+    }
   });
-
+});
