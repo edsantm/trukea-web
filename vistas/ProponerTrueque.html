@@ -31,19 +31,21 @@
     <div class="trueque-grid">
       <!-- Producto que deseas -->
       <div class="producto-deseado">
-        <h2>Producto que deseas</h2>
-        <div class="detalle-producto">
-          <div class="imagen-placeholder"></div>
-          <div class="info">
-            <label>Nombre del producto:</label>
-            <input type="text">
-            <label>Descripción:</label>
-            <input type="text">
-            <label>Publicado por:</label>
-            <input type="text">
-          </div>
-        </div>
-      </div>
+  <h2>Producto que deseas</h2>
+  <div class="detalle-producto">
+    <div class="imagen-placeholder" id="imagenProducto"></div>
+    <div class="info">
+      <label>Nombre del producto:</label>
+      <p id="nombreProducto">Cargando...</p>
+
+      <label>Descripción:</label>
+      <p id="descripcionProducto">Cargando...</p>
+
+      <label>Publicado por:</label>
+      <p id="publicadoPor">Cargando...</p>
+    </div>
+  </div>
+</div>
 
       <!-- Producto que ofreces -->
       <div class="producto-ofrecido">
@@ -69,10 +71,12 @@
     <label class="comentario-label">Agregar comentario:</label>
     <textarea class="comentario-box" rows="3"></textarea>
 
-    <!-- Botón -->
     <div class="btn-contenedor">
-      <button class="btn-trueque">Proponer Trueque</button>
+      <button class="btn-trueque" onclick="enviarPropuesta()">Proponer Trueque</button>
     </div>
+
   </main>
 </body>
+  <script src="../js/proponerTrueque.js"></script> <!-- ajusta la ruta si lo pones en otra carpeta -->
+
 </html>

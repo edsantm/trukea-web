@@ -90,11 +90,12 @@ body {
 }
 
 .foto-perfil {
-  width: 40px;
-  height: 40px;
+  width: 100px;
+  height: 100px;
   background-color: #ccc;
   border-radius: 4px;
   margin-bottom: 10px;
+  margin-left: 3%;
 }
 
 .info-usuario p {
