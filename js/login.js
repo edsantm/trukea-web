@@ -1,5 +1,5 @@
 // ===== CONFIGURACIÓN =====
-const API_URL = 'http://localhost:8082/api/usuarios'; // ← CAMBIA POR TU URL DE API
+const API_URL = 'http://localhost:3000"/api/auth/login"'; 
 
 // ===== ELEMENTOS DEL DOM =====
 const btnLogin = document.getElementById('btnLogin');
@@ -17,7 +17,7 @@ function mostrarAlerta(mensaje, tipo = 'error') {
         messageDiv.style.display = 'block';
         messageDiv.classList.remove('oculto');
         
-        // Agregar clase según el tipo si quieres estilos diferentes
+        
         if (tipo === 'success' || tipo === 'exito') {
             messageDiv.classList.add('alerta-success');
         } else if (tipo === 'info' || tipo === 'cargando') {
@@ -34,19 +34,19 @@ function mostrarAlerta(mensaje, tipo = 'error') {
         }
     }
     
-    // También en consola para debugging técnico
+    
     console.log(`${tipo.toUpperCase()}: ${mensaje}`);
 }
 
 function mostrarMensajeDebug(mensaje, permanente = false) {
-    // Para mensajes de debug que se ven en el HTML
+    
     if (alertaMensaje && messageDiv) {
         alertaMensaje.textContent = mensaje;
         messageDiv.className = 'alerta alerta-debug';
         messageDiv.style.display = 'block';
         messageDiv.classList.remove('oculto');
         
-        // Si no es permanente, ocultar después de 3 segundos
+        
         if (!permanente) {
             setTimeout(() => {
                 ocultarAlerta();
@@ -69,45 +69,44 @@ function deshabilitarBoton(deshabilitar = true) {
     btnLogin.textContent = deshabilitar ? 'Verificando...' : 'Iniciar Sesión';
 }
 
-// ===== FUNCIÓN PRINCIPAL DE LOGIN =====
+// FUNCIÓN PRINCIPAL DE LOGIN 
 async function iniciarSesion(correo, contrasena) {
-    mostrarMensajeDebug('🔄 Iniciando proceso de login...');
-    mostrarMensajeDebug(`📧 Verificando correo: ${correo}`);
+    mostrarMensajeDebug(' Iniciando proceso de login...');
+    mostrarMensajeDebug(` Verificando correo: ${correo}`);
     
     try {
-        mostrarAlerta('🔄 Verificando credenciales...', 'info');
+        mostrarAlerta(' Verificando credenciales...', 'info');
         
-        // 1. Verificar que la URL de API esté configurada
+        //  Verificar que la URL de API esté configurada
         if (API_URL.includes('tu-api.com')) {
-            throw new Error('⚠️ Debes configurar la URL de tu API primero');
+            throw new Error(' Debes configurar la URL de tu API primero');
         }
         
-        // 2. Consumir la API con timeout
-        mostrarMensajeDebug('📡 Conectando con la API...');
+        //  Consumir la API con timeout
+        mostrarMensajeDebug(' Conectando con la API...');
         
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 segundos timeout
         
-        const response = await fetch(API_URL, {
-            method: 'GET',
+        const response = await fetch('http://localhost:3000"/api/auth/login"', {
+            method: 'POST',
             signal: controller.signal,
             headers: {
                 'Content-Type': 'application/json',
-                // Agrega headers adicionales si tu API los requiere
-                // 'Authorization': 'Bearer tu-token',
+                
             }
         });
         
         clearTimeout(timeoutId);
         
-        mostrarMensajeDebug(`📊 Respuesta del servidor: ${response.status}`);
+        mostrarMensajeDebug(` Respuesta del servidor: ${response.status}`);
         
         if (!response.ok) {
             throw new Error(`❌ Error del servidor: ${response.status} - ${response.statusText}`);
         }
         
         const usuarios = await response.json();
-        mostrarMensajeDebug(`👥 Usuarios encontrados: ${usuarios.length}`);
+        mostrarMensajeDebug(` Usuarios encontrados: ${usuarios.length}`);
         
         // 3. Validar que la respuesta sea un array
         if (!Array.isArray(usuarios)) {
@@ -121,11 +120,11 @@ async function iniciarSesion(correo, contrasena) {
         // Mostrar estructura del primer usuario para debugging
         if (usuarios[0]) {
             const campos = Object.keys(usuarios[0]).join(', ');
-            mostrarMensajeDebug(`📋 Campos disponibles: ${campos}`);
+            mostrarMensajeDebug(` Campos disponibles: ${campos}`);
         }
         
         // 4. Buscar usuario por correo
-        mostrarMensajeDebug('🔍 Buscando usuario en la base de datos...');
+        mostrarMensajeDebug(' Buscando usuario en la base de datos...');
         const usuario = usuarios.find(u => {
             // Adapta estos nombres según tu estructura de datos
             const emailUsuario = u.email || u.correo || u.mail || u.usuario;
@@ -155,18 +154,17 @@ async function iniciarSesion(correo, contrasena) {
             try {
                 localStorage.setItem('usuario', JSON.stringify(usuario));
                 localStorage.setItem('sesionActiva', 'true');
-                mostrarMensajeDebug('💾 Sesión guardada correctamente');
+                mostrarMensajeDebug(' Sesión guardada correctamente');
             } catch (e) {
-                mostrarMensajeDebug('⚠️ No se pudo guardar la sesión');
+                mostrarMensajeDebug(' No se pudo guardar la sesión');
             }
             
-            // 8. Redireccionar después de 2 segundos
+            //  Redireccionar después de 2 segundos
             setTimeout(() => {
-                mostrarMensajeDebug('🔄 Redirigiendo al dashboard...');
+                mostrarMensajeDebug(' Redirigiendo al dashboard...');
                 // Cambia por tu página de destino
                 window.location.href = '/dashboard.html';
-                // O también puedes usar:
-                // window.location.href = '/vistas/principal.html';
+                
             }, 2000);
             
             return true;
@@ -176,7 +174,7 @@ async function iniciarSesion(correo, contrasena) {
         }
         
     } catch (error) {
-        console.error('💥 Error técnico:', error); // Este sí va en consola
+        console.error(' Error técnico:', error); // Este sí va en consola
         
         if (error.name === 'AbortError') {
             mostrarAlerta('❌ Tiempo de espera agotado. Verifica tu conexión', 'error');
@@ -190,7 +188,7 @@ async function iniciarSesion(correo, contrasena) {
     }
 }
 
-// ===== VALIDACIONES =====
+// VALIDACIONES 
 function validarFormulario(correo, contrasena) {
     // Validar campos vacíos
     if (!correo || !contrasena) {
@@ -214,7 +212,7 @@ function validarFormulario(correo, contrasena) {
     return true;
 }
 
-// ===== EVENT LISTENERS =====
+
 
 // Evento del botón de login
 btnLogin.addEventListener('click', async (e) => {
@@ -253,7 +251,7 @@ messageDiv.addEventListener('click', () => {
 
 // ===== INICIALIZACIÓN =====
 document.addEventListener('DOMContentLoaded', () => {
-    mostrarMensajeDebug('🚀 Sistema de login cargado correctamente');
+    mostrarMensajeDebug(' Sistema de login cargado correctamente');
     
     // Verificar que los elementos existan
     if (!btnLogin) {
@@ -271,15 +269,15 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Mostrar configuración actual
     if (API_URL.includes('tu-api.com')) {
-        mostrarAlerta('⚠️ Recuerda configurar la URL de tu API', 'info');
+        mostrarAlerta(' Recuerda configurar la URL de tu API', 'info');
     } else {
-        mostrarMensajeDebug(`🔗 API configurada: ${API_URL}`);
+        mostrarMensajeDebug(` API configurada: ${API_URL}`);
         
         // Test de conectividad
-        mostrarMensajeDebug('🧪 Probando conexión con la API...');
+        mostrarMensajeDebug(' Probando conexión con la API...');
         fetch(API_URL, { method: 'HEAD' })
-            .then(() => mostrarMensajeDebug('✅ API accesible y funcionando'))
-            .catch(() => mostrarMensajeDebug('⚠️ API no accesible o con problemas'));
+            .then(() => mostrarMensajeDebug(' API accesible y funcionando'))
+            .catch(() => mostrarMensajeDebug(' API no accesible o con problemas'));
     }
     
     // Enfocar el campo de correo al cargar
@@ -310,12 +308,5 @@ function verificarSesionActiva() {
     // }
 }
 
-// Función para logout (para usar en otras páginas)
-function cerrarSesion() {
-    // localStorage.removeItem('usuario');
-    // localStorage.removeItem('sesionActiva');
-    window.location.href = '/login.html';
-}
 
-// Verificar sesión al cargar (opcional)
-// verificarSesionActiva();
+

@@ -16,12 +16,12 @@ function mostrarAlerta(tipo, mensaje) {
   }, 4000);
 }
 
-const API_BASE_URL = 'http://localhost:8082/api';
+const API_BASE_URL = 'http://localhost:3000/api/';
 
 // Función para verificar si el email ya existe
 async function verificarEmailExiste(email) {
   try {
-    const response = await fetch(`http://localhost:8082/api/usuarios/${encodeURIComponent(email)}`);
+    const response = await fetch(`http://localhost:3000/api/auth/register${encodeURIComponent(email)}`);
     if (response.ok) {
       return true; // El usuario ya existe
     }
@@ -35,7 +35,7 @@ async function verificarEmailExiste(email) {
 // Función para registrar usuario en la API
 async function registrarUsuario(datosUsuario) {
   try {
-    const response = await fetch(`http://localhost:8082/api/usuarios`, {
+    const response = await fetch(`http://localhost:3000/api/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -77,9 +77,13 @@ async function registrarUsuario(datosUsuario) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  const btnContinuar = document.querySelector(".Continuar");
+  // Cambié el selector para usar el ID correcto del botón
+  const btnContinuar = document.getElementById("btnRegistrar");
 
-  btnContinuar.addEventListener("click", function () {
+  btnContinuar.addEventListener("click", async function () {
+    // Declarar correctamente todas las variables con los IDs correctos
+    const nombre = document.getElementById('name');
+    const apellido = document.getElementById('lastname'); // Cambiar el ID en HTML también
     const email = document.getElementById('email');
     const pass = document.getElementById('password');
     const confirm = document.getElementById('confirmPassword');
@@ -89,12 +93,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Resetear estilos de campos
     campos.forEach(input => {
-      input.style.border = "1px solid gray";
+      if (input) { // Verificar que el elemento existe
+        input.style.border = "1px solid gray";
+      }
     });
 
     // Validar campos vacíos
     campos.forEach(input => {
-      if (input.value.trim() === "") {
+      if (input && input.value.trim() === "") {
         input.style.border = "2px solid red";
         hayError = true;
       }
@@ -102,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (hayError) {
       mostrarAlerta("error", "❌ Todos los campos son obligatorios.");
-      return; // 🔴 No continuar
+      return; // No continuar
     }
 
     if (pass.value.length < 6) {
@@ -118,15 +124,31 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // ✅ Si todo está bien, guardar y redirigir después de un tiempo
-    localStorage.setItem('registroData', JSON.stringify({
+    // ✅ Si todo está bien, llamar a la API
+    const datosUsuario = {
+      nombre: nombre.value,
+      apellido: apellido.value,
       email: email.value,
       password: pass.value
-    }));
+    };
 
-    mostrarAlerta("exito", "✔️ Datos validados. Redirigiendo...");
+    mostrarAlerta("exito", "✔️ Registrando usuario...");
 
-    window.location.href = './RegistrarCiudad.html';
-    }, 1500);
+    try {
+      // AQUÍ SÍ LLAMAMOS A LA API
+      const resultado = await registrarUsuario(datosUsuario);
+      
+      // Si llegamos aquí, el registro fue exitoso
+      localStorage.setItem('registroData', JSON.stringify(datosUsuario));
+      mostrarAlerta("exito", "✔️ Usuario registrado exitosamente. Redirigiendo...");
+      
+      setTimeout(() => {
+        window.location.href = './RegistrarCiudad.html';
+      }, 1500);
+      
+    } catch (error) {
+      // Si hay error en la API, mostramos el mensaje
+      mostrarAlerta("error", "❌ Error al registrar: " + error.message);
+    }
   });
-
+});
