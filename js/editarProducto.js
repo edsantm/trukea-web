@@ -218,25 +218,33 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Función para obtener el ID del usuario actual
-  function obtenerUsuarioId() {
-    // Intentar obtener desde localStorage
-    let usuarioId = localStorage.getItem('usuarioId') || 
-                   localStorage.getItem('userId') || 
-                   localStorage.getItem('user_id');
-    
-    if (usuarioId) return parseInt(usuarioId);
-    
-    // Intentar desde sessionStorage
-    usuarioId = sessionStorage.getItem('usuarioId') || 
-               sessionStorage.getItem('userId') || 
-               sessionStorage.getItem('user_id');
-    
-    if (usuarioId) return parseInt(usuarioId);
-    
-    console.warn('No se encontró usuarioId. Usando valor temporal para desarrollo');
-    return 1; // Valor temporal para desarrollo
-  }
-
+function obtenerUsuarioId() {
+  // 1. PRIMER INTENTO: Buscar en localStorage
+  // Busca en orden: 'usuarioId', 'userId', 'user_id'. Se queda con el primero que encuentra.
+  let usuarioId = localStorage.getItem('usuarioId') || 
+                 localStorage.getItem('userId') || 
+                 localStorage.getItem('user_id');
+  
+  // Si encontró algo, lo convierte a número y lo devuelve. La función termina aquí.
+  if (usuarioId) return parseInt(usuarioId);
+  
+  // 2. SEGUNDO INTENTO: Si no encontró nada arriba, busca en sessionStorage
+  usuarioId = sessionStorage.getItem('usuarioId') || 
+             sessionStorage.getItem('userId') || 
+             sessionStorage.getItem('user_id');
+  
+  // Si encontró algo aquí, lo convierte a número y lo devuelve. La función termina.
+  if (usuarioId) return parseInt(usuarioId);
+  
+  // 3. VALOR POR DEFECTO: Si la función llega hasta este punto, 
+  //    significa que no encontró NADA en localStorage ni en sessionStorage.
+  
+  // Muestra un aviso en la consola para el desarrollador.
+  console.warn('No se encontró usuarioId. Usando valor temporal para desarrollo');
+  
+  // Devuelve el valor predeterminado que tú quieres. ¡Esta es la línea clave!
+  return 1; 
+}
   // Función para mostrar/ocultar indicador de carga
   function mostrarCarga(mostrar) {
     if (mostrar) {
@@ -277,7 +285,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       // Intentar endpoint específico para imágenes
       let response = await fetch(`${API_BASE}/productos/${productoIdParam}/imagen`, {
-        method: 'POST',
+        method: 'PUT',
         body: formData
       });
       
@@ -373,7 +381,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Crear nuevo producto
         url = `${API_BASE}/productos`;
         response = await fetch(url, {
-          method: 'POST',
+          method: 'PUT',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',

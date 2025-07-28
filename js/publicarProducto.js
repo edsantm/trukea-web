@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       console.log('Intentando cargar categorías desde:', `${API_BASE_URL}/categorias`);
       
-      const response = await fetch(`http/categorias`, {
+      const response = await fetch(`http://localhost:8082/api/categorias`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -176,8 +176,9 @@ document.addEventListener("DOMContentLoaded", function () {
         valorEstimado: parseInt(valorEstimado),
         idCalidad: parseInt(idCalidad),
         idCategoria: parseInt(idCategoria),
-        // Si necesitas el ID del usuario, descomenta la siguiente línea
-         usuarioId: obtenerUsuarioActual()
+        
+         //Si necesitas el ID del usuario, descomenta la siguiente línea
+         //usuarioId: obtenerUsuarioActual()
       };
 
       console.log('Enviando datos a la API:', productData);
