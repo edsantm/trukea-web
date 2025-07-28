@@ -22,12 +22,65 @@
   </nav>
 
   <!-- Contenido principal -->
-  <main class="detalle-contenedor">
-    <div class="loading-container">
-      <div class="loading-spinner"></div>
-      <p>Cargando detalles del producto...</p>
+<div class="container">
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            Cargando producto...
+        </div>
+        
+        <div id="error" class="error" style="display: none;">
+            Error al cargar el producto. Por favor, intenta nuevamente.
+        </div>
+        
+        <div id="product" style="display: none;">
+            <div class="product-header">
+                <button class="back-button" onclick="window.history.back()">← Volver</button>
+                <h1 id="productName"></h1>
+            </div>
+            
+            <div class="product-content">
+                <div class="product-image" id="productImageContainer">
+                    <div class="no-image">
+                        <i>📷</i>
+                        <div>Sin imagen disponible</div>
+                    </div>
+                </div>
+                
+                <div class="product-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Descripción</div>
+                        <div class="detail-value" id="productDescription"></div>
+                    </div>
+                    
+                    <div class="detail-item price">
+                        <div class="detail-label">Valor Estimado</div>
+                        <div class="detail-value" id="productPrice"></div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Calidad</div>
+                        <div class="detail-value">
+                            <span class="quality-badge" id="productQuality"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-item user-info">
+                        <div class="detail-label">Vendedor</div>
+                        <div class="detail-value" id="userInfo"></div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Ubicación</div>
+                        <div class="detail-value" id="productLocation"></div>
+                    </div>
+                    <button class="trueque-button" id="proposeTradeBtn">
+                        Proponer Trueque
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-  </main>
 
+    <script src="../js/DetalleProducto.js"></script>
 </body>
 </html>

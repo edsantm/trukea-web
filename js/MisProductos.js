@@ -1,7 +1,7 @@
 const API_CONFIG = {
-    baseUrl: 'http://localhost:8082/api',
+    baseUrl: 'http://localhost:3000/api',
     endpoints: {
-        productos: '/productos'
+        productos: '/products'
     }
 };
 
@@ -16,17 +16,8 @@ async function fetchFromAPI(endpoint) {
         
         const data = await response.json();
         
-        console.log(' Datos recibidos de la API:', data);
-        console.log(' Tipo de dato:', typeof data);
-        console.log(' Es array?:', Array.isArray(data));
-        console.log(' Cantidad:', data?.length || 'No es array');
         
-        if (data && data.length > 0) {
-            console.log(' Primer producto sin adaptar:', data[0]);
-            console.log(' Propiedades disponibles:', Object.keys(data[0]));
-        }
-        
-        return data;
+        return data.data.products;
     } catch (error) {
         console.error(' Error en la API:', error);
         throw error;
@@ -59,7 +50,6 @@ function createProductHTML(producto) {
 
 // Función adaptadora con validación mejorada
 function adaptarProductoAPI(producto) {
-    console.log(' Adaptando producto:', producto);
     
     const adaptado = {
         id: producto.idProducto || producto.id || '',
@@ -69,18 +59,15 @@ function adaptarProductoAPI(producto) {
             `Valor estimado: $${producto.valorEstimado}` : 
             'Sin valor estimado',
         imagen: producto.imagen || '',
-        categoria: producto.idCategoria || producto.categoria || null,
-        calidad: producto.idCalidad || producto.calidad || null
+        categoria: producto.idCategoria || producto.categoriaNombre || null,
+        calidad: producto.idCalidad || producto.calidadNombre || null
     };
     
-    console.log(' Producto adaptado:', adaptado);
     return adaptado;
 }
 
 // Función para renderizar productos - CORREGIDA
 function renderProducts(productos) {
-    console.log(' Renderizando productos:', productos);
-    console.log(' Cantidad a renderizar:', productos?.length || 0);
     
     const productosContainer = document.getElementById('productos');
     
@@ -91,20 +78,18 @@ function renderProducts(productos) {
     
     if (!productos || productos.length === 0) {
         console.log(' No hay productos para mostrar');
+        showMessage('No hay productos para mostrar', "error")
         productosContainer.innerHTML = `
             <div class="no-products">
                 <h3>No hay productos disponibles</h3>
                 <p>Agrega tu primer producto para comenzar.</p>
                 <button onclick="window.location.href='AgregarProducto.html'" class="btn-agregar">
-                     Agregar Producto
+                    Agregar Producto
                 </button>
             </div>
         `;
     } else {
-        console.log(' Adaptando productos...');
         const productosAdaptados = productos.map(adaptarProductoAPI);
-        console.log(' Productos adaptados:', productosAdaptados);
-        
         productosContainer.innerHTML = productosAdaptados.map(createProductHTML).join('');
         console.log(' HTML insertado en el DOM');
     }
@@ -113,11 +98,11 @@ function renderProducts(productos) {
 // Funciones de estado de carga - CORREGIDAS
 function showLoading() {
     const loadingDiv = document.getElementById('loading');
-    const errorDiv = document.getElementById('error');
+    const messageDiv = document.getElementById('message');
     const productosDiv = document.getElementById('productos');
     
     if (loadingDiv) loadingDiv.style.display = 'block';
-    if (errorDiv) errorDiv.style.display = 'none';
+    if (messageDiv) messageDiv.style.display = 'none';
     if (productosDiv) productosDiv.style.display = 'none';
 }
 
@@ -131,18 +116,33 @@ function showProducts() {
     if (productosDiv) productosDiv.style.display = 'grid';
 }
 
-function showError(message) {
-    const errorDiv = document.getElementById('error');
+function showMessage(message, tipo = 'info') {
+    const messageDiv = document.getElementById('message');
     const loadingDiv = document.getElementById('loading');
-    const productosDiv = document.getElementById('productos');
+
+    messageDiv.className= 'message';
+
+    switch (tipo) {
+        case 'success':
+            messageDiv.classList.add('message-success');
+            break;
+        case 'error':
+            messageDiv.classList.add('message-error');
+            break;
+        case 'warning':
+            messageDiv.classList.add('message-warning');
+            break;
+        default:
+            messageDiv.classList.add('message-info');
+    }
     
     if (loadingDiv) loadingDiv.style.display = 'none';
-    if (productosDiv) productosDiv.style.display = 'none';
-    if (errorDiv) {
-        errorDiv.style.display = 'block';
-        errorDiv.textContent = message;
+    if (messageDiv) {
+        messageDiv.style.display = 'block';
+        messageDiv.textContent = message;
     }
 }
+
 
 
 async function eliminarProducto(productId) {
@@ -162,25 +162,25 @@ async function eliminarProducto(productId) {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                // Agregar headers de autenticación si es necesario
-                // 'Authorization': 'Bearer ' + localStorage.getItem('token')
+                
             }
         });
 
         if (response.ok) {
             console.log(' Producto eliminado exitosamente');
-            alert('Producto eliminado exitosamente');
-            // Recargar los productos después de eliminar
+            showMessage("Producto eliminado exitosamente", "success");
             await cargarProductos();
         } else {
             const errorData = await response.json().catch(() => ({}));
             const errorMessage = errorData.message || `Error HTTP: ${response.status}`;
-            console.error(' Error al eliminar:', errorMessage);
-            alert(`Error al eliminar el producto: ${errorMessage}`);
+        // mandamos mensaje a la funcion message
+            console.error('Error al eliminar:',errorMessage);
+            showMessage(errorMessage,"error");
         }
+
     } catch (error) {
         console.error(' Error de conexión al eliminar:', error);
-        alert('Error de conexión al eliminar el producto. Verifica tu conexión a internet.');
+        showMessage(error, "error");
     }
 }
 
@@ -194,13 +194,12 @@ function editarProducto(productId) {
     console.log(` Redirigiendo a editar producto con ID: ${productId}`);
     
     
-    window.location.href = `EditarProducto.html?id=${productId}`;
+    window.location.href = `../vistas/EditarProducto.html?id=${productId}`;
 }
 
 
 async function cargarProductos() {
     try {
-        console.log(' Iniciando carga de productos desde API...');
         showLoading();
         
         // Cargar productos desde la API
@@ -216,28 +215,16 @@ async function cargarProductos() {
         console.log(` Productos cargados exitosamente: ${productos.length}`);
         
     } catch (error) {
-        console.error(' Error al cargar productos:', error);
+
         hideLoading();
-        showError('Error al cargar los productos. Verifica que el servidor esté funcionando y vuelve a intentar.');
+        showMessage('Error al cargar los productos. Vuelve a intentar.',"error");
     }
 }
 
 function initProductos() {
-    console.log(' Iniciando gestor de productos...');
-    
     // Verificar que existan los elementos necesarios en el DOM
-    const productosContainer = document.getElementById('productos');
-    if (!productosContainer) {
-        console.error(' Error: No se encontró el elemento con ID "productos"');
-        console.log(' Verifica que tu HTML tenga: <div id="productos"></div>');
-        return;
-    }
-    
-    console.log(' Elemento "productos" encontrado');
-    
+    const productosContainer = document.getElementById('productos')
     cargarProductos();
-    
-    
 }
 
 // Inicializar cuando se carga la página

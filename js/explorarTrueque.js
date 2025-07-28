@@ -1,20 +1,10 @@
+
 const API_CONFIG = {
-    baseUrl: 'http://localhost:8082/api', // Cambia por tu URL de API
+    baseUrl: 'http://localhost:3000/api',
     endpoints: {
-        productos: '/productos'
+        productos: '/products'
     }
 };
-
-document.addEventListener("DOMContentLoaded", function () {
-  const toggle = document.getElementById("toggle-categorias");
-  const lista = document.getElementById("lista-categorias");
-  const flecha = toggle.querySelector(".flecha");
-
-  toggle.addEventListener("click", () => {
-    lista.classList.toggle("oculto");
-    flecha.classList.toggle("abierta");
-  });
-});
 
 // Función para hacer peticiones a la API
 async function fetchFromAPI(endpoint) {
@@ -27,121 +17,141 @@ async function fetchFromAPI(endpoint) {
         
         const data = await response.json();
         
-        // 🔍 DEBUG: Ver qué llega de la API
-        console.log(' Datos recibidos de la API:', data);
-        console.log(' Tipo de dato:', typeof data);
-        console.log(' Es array?:', Array.isArray(data));
-        console.log(' Cantidad:', data?.length || 'No es array');
         
-        if (data && data.length > 0) {
-            console.log('Primer producto sin adaptar:', data[0]);
-            console.log('Propiedades disponibles:', Object.keys(data[0]));
-        }
-        
-        return data;
+        return data.data.products;
     } catch (error) {
         console.error(' Error en la API:', error);
         throw error;
     }
 }
-
-
 // Función para crear el HTML de un producto (estilo card)
 function createProductHTML(producto) {
     return `
         <div class="producto" data-id="${producto.id || ''}">
                 <img src="${producto.imagen || ''}" 
-                     alt="${producto.nombre || 'Producto'}" 
-                     onerror="this.src=''" />
+                    alt="${producto.nombre || 'Producto'}" 
+                    onerror="this.src=''" />
             <div class="info">
                 <h3>${producto.nombre || 'Sin nombre'}</h3>
                 <p class="descripcion">${producto.descripcion || 'Sin descripción'}</p>
                 <p class="estado">Estado: ${producto.estado || 'No especificado'}</p>
             </div>
-                <button class="ver-btn" onclick="window.location.href='DetalleProducto.html?id=${producto.id || ''}'">
+                <button class="ver-btn" onclick="detalleProducto('${producto.id || ''}')">
                     Detalles del producto
                 </button>
         </div>
     `;
 }
 
+// Función adaptadora con validación mejorada
 function adaptarProductoAPI(producto) {
-    console.log(' Adaptando producto:', producto);
     
     const adaptado = {
-        id: producto.idProducto,
-        nombre: producto.nombreProducto,
-        descripcion: producto.descripcionProducto,
-        estado: producto.valorEstimado ? `Valor: $${producto.valorEstimado}` : 'Sin valor estimado',
-        imagen: '', 
-        categoria: producto.idCategoria,
-        calidad: producto.idCalidad
+        id: producto.idProducto || producto.id || '',
+        nombre: producto.nombreProducto || producto.nombre || 'Sin nombre',
+        descripcion: producto.descripcionProducto || producto.descripcion || 'Sin descripción',
+        estado: producto.valorEstimado ? 
+            `Valor estimado: $${producto.valorEstimado}` : 
+            'Sin valor estimado',
+        imagen: producto.imagen || '',
+        categoria: producto.idCategoria || producto.categoriaNombre || null,
+        calidad: producto.idCalidad || producto.calidadNombre || null
     };
     
-    console.log(' Producto adaptado:', adaptado);
     return adaptado;
 }
 
-// Función para renderizar - CON DEBUG
+// Función para renderizar productos - CORREGIDA
 function renderProducts(productos) {
-    console.log(' Renderizando productos:', productos);
-    console.log(' Cantidad a renderizar:', productos?.length || 0);
     
     const productosContainer = document.getElementById('container-productos');
     
+    if (!productosContainer) {
+        console.error(' No se encontró el elemento con ID "productos"');
+        return;
+    }
+    
     if (!productos || productos.length === 0) {
         console.log(' No hay productos para mostrar');
+        showMessage('No hay productos para mostrar', "error")
         productosContainer.innerHTML = `
             <div class="no-products">
                 <h3>No hay productos disponibles</h3>
                 <p>Agrega tu primer producto para comenzar.</p>
+                <button onclick="window.location.href='AgregarProducto.html'" class="btn-agregar">
+                    Agregar Producto
+                </button>
             </div>
         `;
     } else {
-        console.log(' Adaptando productos...');
         const productosAdaptados = productos.map(adaptarProductoAPI);
-        console.log(' Productos adaptados:', productosAdaptados);
-        
         productosContainer.innerHTML = productosAdaptados.map(createProductHTML).join('');
         console.log(' HTML insertado en el DOM');
     }
 }
 
-
-
-// Función para mostrar estados de carga y error
+// Funciones de estado de carga - CORREGIDAS
 function showLoading() {
     const loadingDiv = document.getElementById('loading');
-    const errorDiv = document.getElementById('error');
-    const productosDiv = document.getElementById('container-productos');
-    loadingDiv.style.display = 'block';
-    errorDiv.style.display = 'none';
-    productosDiv.style.display = 'none';
+    const messageDiv = document.getElementById('message');
+    const productosDiv = document.getElementById('productos');
+    
+    if (loadingDiv) loadingDiv.style.display = 'block';
+    if (messageDiv) messageDiv.style.display = 'none';
+    if (productosDiv) productosDiv.style.display = 'none';
 }
 
 function hideLoading() {
     const loadingDiv = document.getElementById('loading');
-    loadingDiv.style.display = 'none';
+    if (loadingDiv) loadingDiv.style.display = 'none';
 }
 
 function showProducts() {
-    const productosDiv = document.getElementById('container-productos');
-    productosDiv.style.display = 'grid';
-}
-
-function showError(message) {
-    const errorDiv = document.getElementById('error');
-    const loadingDiv = document.getElementById('loading');
     const productosDiv = document.getElementById('productos');
+    if (productosDiv) productosDiv.style.display = 'grid';
+}
+
+function showMessage(message, tipo = 'info') {
+    const messageDiv = document.getElementById('message');
+    const loadingDiv = document.getElementById('loading');
+
+    messageDiv.className= 'message';
+
+    switch (tipo) {
+        case 'success':
+            messageDiv.classList.add('message-success');
+            break;
+        case 'error':
+            messageDiv.classList.add('message-error');
+            break;
+        case 'warning':
+            messageDiv.classList.add('message-warning');
+            break;
+        default:
+            messageDiv.classList.add('message-info');
+    }
     
-    loadingDiv.style.display = 'none';
-    productosDiv.style.display = 'none';
-    errorDiv.style.display = 'block';
-    errorDiv.textContent = message;
+    if (loadingDiv) loadingDiv.style.display = 'none';
+    if (messageDiv) {
+        messageDiv.style.display = 'block';
+        messageDiv.textContent = message;
+    }
 }
 
 
-// Función principal para cargar productos desde API real
+function detalleProducto(productId) {
+    if (!productId || productId === '') {
+        alert('ID de producto no válido');
+        return;
+    }
+    
+    console.log(` Redirigiendo a editar producto con ID: ${productId}`);
+    
+    
+    window.location.href = `../vistas/DetalleProducto.html?id=${productId}`;
+}
+
+
 async function cargarProductos() {
     try {
         showLoading();
@@ -156,30 +166,31 @@ async function cargarProductos() {
         hideLoading();
         showProducts();
         
-        console.log(`Productos cargados: ${productos.length}`);
+        console.log(` Productos cargados exitosamente: ${productos.length}`);
         
     } catch (error) {
-        console.error('Error al cargar productos:', error);
-        showError('Error al cargar los productos. Por favor, intenta de nuevo más tarde.');
+
+        hideLoading();
+        showMessage('Error al cargar los productos. Vuelve a intentar.',"error");
     }
 }
 
-// Función de inicialización
 function initProductos() {
     // Verificar que existan los elementos necesarios en el DOM
-    if (!document.getElementById('productos')) {
-        console.error('Error: No se encontró el elemento con ID "productos"');
-        return;
-    }
-    
+    const productosContainer = document.getElementById('productos')
     cargarProductos();
 }
 
 // Inicializar cuando se carga la página
 document.addEventListener('DOMContentLoaded', initProductos);
 
-// Exportar funciones para uso externo si es necesario
+// Exportar funciones para uso externo y debugging
 window.ProductosManager = {
     cargarProductos,
+    detalleProducto,
+    debug: {
+        mostrarAPI: () => console.log('API Config:', API_CONFIG),
+        probarConexion: () => fetchFromAPI(API_CONFIG.endpoints.productos),
+        cambiarAAPI: cargarProductos
+    }
 };
-
