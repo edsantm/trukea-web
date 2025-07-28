@@ -33,89 +33,17 @@ document.getElementById('btnRegistrar').addEventListener('click', async () => {
             body: JSON.stringify(nuevoUsuario)
         });
 
-    // Primero intentamos obtener el texto de la respuesta
-    const responseText = await response.text();
-    
-    if (!response.ok) {
-      let errorMessage = `Error HTTP: ${response.status}`;
-      
-      // Intentamos parsear como JSON si es posible
-      try {
-        const errorData = JSON.parse(responseText);
-        errorMessage = errorData.message || errorData.error || errorMessage;
-      } catch (e) {
-        // Si no es JSON válido, usamos el texto tal como está
-        errorMessage = responseText || errorMessage;
-      }
-      
-      throw new Error(errorMessage);
+        const data = await response.json();
+        console.log(data);
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Error en el registro');
+        }
+
+        alert("¡Registro exitoso! Ahora puedes iniciar sesión.");
+        window.location.href = './login.html';
+    } catch (error) {
+        console.error("Error en el registro:", error);
+        alert("Hubo un error al registrar el usuario. Verifica los datos o intenta más tarde.");
     }
-
-    // Intentamos parsear la respuesta exitosa
-    try {
-      return JSON.parse(responseText);
-    } catch (e) {
-      // Si la respuesta no es JSON, retornamos un objeto básico
-      return { message: 'Usuario creado exitosamente', email: datosUsuario.email };
-    }
-    
-  } catch (error) {
-    console.error('Error al registrar usuario:', error);
-    throw error;
-  }
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-  const btnContinuar = document.querySelector(".Continuar");
-
-  btnContinuar.addEventListener("click", function () {
-    const email = document.getElementById('email');
-    const pass = document.getElementById('password');
-    const confirm = document.getElementById('confirmPassword');
-
-    const campos = [nombre, apellido, email, pass, confirm];
-    let hayError = false;
-
-    // Resetear estilos de campos
-    campos.forEach(input => {
-      input.style.border = "1px solid gray";
-    });
-
-    // Validar campos vacíos
-    campos.forEach(input => {
-      if (input.value.trim() === "") {
-        input.style.border = "2px solid red";
-        hayError = true;
-      }
-    });
-
-    if (hayError) {
-      mostrarAlerta("error", "❌ Todos los campos son obligatorios.");
-      return; // 🔴 No continuar
-    }
-
-    if (pass.value.length < 6) {
-      pass.style.border = "2px solid red";
-      mostrarAlerta("error", "❌ La contraseña debe tener al menos 6 caracteres.");
-      return;
-    }
-
-    // Validar que las contraseñas coincidan
-    if (pass.value !== confirm.value) {
-      confirm.style.border = "2px solid red";
-      mostrarAlerta("error", "❌ Las contraseñas no coinciden.");
-      return;
-    }
-
-    // ✅ Si todo está bien, guardar y redirigir después de un tiempo
-    localStorage.setItem('registroData', JSON.stringify({
-      email: email.value,
-      password: pass.value
-    }));
-
-    mostrarAlerta("exito", "✔️ Datos validados. Redirigiendo...");
-
-    window.location.href = './RegistrarCiudad.html';
-    }, 1500);
-  });
-
+});
