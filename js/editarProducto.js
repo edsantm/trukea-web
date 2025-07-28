@@ -194,9 +194,9 @@ document.addEventListener("DOMContentLoaded", () => {
 function obtenerUsuarioId() {
   // 1. PRIMER INTENTO: Buscar en localStorage
   // Busca en orden: 'usuarioId', 'userId', 'user_id'. Se queda con el primero que encuentra.
-  let usuarioId = localStorage.getItem('usuarioId') || 
-                 localStorage.getItem('userId') || 
-                 localStorage.getItem('user_id');
+  let sesion = localStorage.getItem('sesion') 
+
+  let usuarioId = sesion.id
   
   // Si encontró algo, lo convierte a número y lo devuelve. La función termina aquí.
   if (usuarioId) return parseInt(usuarioId);
@@ -257,7 +257,7 @@ function obtenerUsuarioId() {
     
     try {
       // Intentar endpoint específico para imágenes
-      let response = await fetch(`${API_BASE}/productos/${productoIdParam}/imagen`, {
+      let response = await fetch(`${API_BASE}/products/${productoIdParam}/imagen`, {
         method: 'PUT',
         body: formData
       });

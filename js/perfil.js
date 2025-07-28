@@ -6,6 +6,58 @@ const API_CONFIG = {
     }
 };
 
+// Función para obtener los datos de la sesión del localStorage
+function obtenerDatosSesion() {
+    try {
+        // Obtener los datos de la sesión del localStorage
+        const sesionData = localStorage.getItem('sesion');
+        
+        // Verificar si existen datos de sesión
+        if (!sesionData) {
+            console.log('No se encontraron datos de sesión');
+            return null;
+        }
+        
+        // Parsear los datos JSON
+        const datosUsuario = JSON.parse(sesionData);
+        
+        return datosUsuario;
+    } catch (error) {
+        console.error('Error al obtener datos de sesión:', error);
+        return null;
+    }
+}
+
+// Función para mostrar los datos en el HTML
+function mostrarDatosEnHTML() {
+    const datos = obtenerDatosSesion();
+    
+    if (!datos) {
+        console.log('No se pudieron cargar los datos del usuario');
+        return;
+    }
+    
+    // Obtener elementos del HTML por ID
+    const nombreElement = document.getElementById('nombre-usuario');
+    const edadElement = document.getElementById('edad-usuario');
+    const calificacionElement = document.getElementById('calificacion-usuario');
+    
+    // Asignar valores a los elementos HTML
+    if (nombreElement && datos.nombre) {
+        nombreElement.textContent = datos.nombre;
+    }
+    
+    if (edadElement && datos.edad) {
+        edadElement.textContent = datos.edad;
+    }
+    
+    if (calificacionElement && datos.calificacion) {
+        calificacionElement.textContent = datos.calificacion;
+    }
+    
+    console.log('Datos cargados correctamente:', datos);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
 const inputFoto = document.getElementById("foto");
 const vistaPrevia = document.getElementById("vista-previa");
@@ -184,7 +236,7 @@ async function cargarProductos() {
 
 
 // Función de inicialización
-function initProductos() {
+/*function initProductos() {
     // Verificar que existan los elementos necesarios en el DOM
     if (!document.getElementById('productos')) {
         console.error('Error: No se encontró el elemento con ID "productos"');
@@ -194,10 +246,90 @@ function initProductos() {
     cargarProductos();
     
     
+}*/
+// Función para actualizar un elemento específico
+function actualizarElemento(selector, ...valores) {
+    const elemento = document.querySelector(selector);
+    if (elemento) {
+        // Filtrar valores válidos (no undefined, null o vacíos)
+        const valoresValidos = valores.filter(valor => 
+            valor !== undefined && valor !== null && valor !== ''
+        );
+        
+        if (valoresValidos.length > 0) {
+            // Unir los valores con un espacio
+            elemento.textContent = valoresValidos.join(' ');
+        }
+    }
 }
 
-// Inicializar cuando se carga la página
-document.addEventListener('DOMContentLoaded', initProductos);
+// Función alternativa para actualizar elementos con HTML personalizado
+function actualizarElementoHTML(selector, contenidoHTML) {
+    const elemento = document.querySelector(selector);
+    if (elemento && contenidoHTML !== undefined && contenidoHTML !== null) {
+        elemento.innerHTML = contenidoHTML;
+    }
+}
+
+// Función principal para cargar datos del usuario en el HTML
+function cargarDatosUsuario() {
+    const datos = obtenerDatosSesion();
+    
+    if (!datos) {
+        console.log('No se pudieron cargar los datos del usuario');
+        // Mostrar mensaje de "sin datos" si no hay información
+        document.querySelectorAll('.user-data-field').forEach(elemento => {
+            elemento.textContent = 'Sin datos';
+        });
+        return;
+    }
+    
+    // Actualizar elementos usando diferentes métodos de selección
+    
+    // Por ID - Nombre completo (nombre + apellido)
+    actualizarElemento('#nombre-usuario, .nombre-usuario', `HOLA: ${datos.nombre}  ${datos.apellido} `);
+    
+    // Edad con formato personalizado
+    if (datos.edad) {
+        actualizarElementoHTML('#edad-usuario', `<strong>Edad:</strong> ${datos.edad} años`);
+    }
+    
+    // Calificación con estrellas
+    if (datos.calificacion) {
+        const estrellas = generarEstrellas(datos.calificacion);
+        actualizarElementoHTML('#calificacion-usuario', 
+            `<strong>Calificación:</strong> ${datos.calificacion}/10 <span class="estrellas">${estrellas}</span>`
+        );
+    }
+    
+    // Otros elementos
+    actualizarElemento('#email-usuario, .email-usuario', datos.correo || datos.email);
+    
+    // Por clase (para compatibilidad)
+    actualizarElemento('.edad-usuario', datos.edad);
+    actualizarElemento('.calificacion-usuario', datos.calificacion);
+    
+    // Elementos con data attributes
+    const elementosData = document.querySelectorAll('[data-usuario]');
+    elementosData.forEach(elemento => {
+        const campo = elemento.getAttribute('data-usuario');
+        if (datos[campo] !== undefined && datos[campo] !== null) {
+            elemento.textContent = datos[campo];
+        }
+    });
+    
+    console.log('Datos de usuario cargados:', datos);
+
+    cargarProductos();
+}
+
+
+// También ejecutar si el documento ya está cargado
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', cargarDatosUsuario);
+} else {
+    cargarDatosUsuario();
+}
 
 // Exportar funciones para uso externo si es necesario
 window.ProductosManager = {
