@@ -1,5 +1,5 @@
 // Configuración de la API
-const API_BASE = 'http://localhost:8082/api';
+const API_BASE = 'http://localhost:3000/api';
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector(".formulario-producto");
@@ -51,19 +51,20 @@ document.addEventListener("DOMContentLoaded", () => {
   // Cargar categorías desde la API
   async function cargarCategorias() {
     try {
-      const response = await fetch(`${API_BASE}/categorias`, {
+      const response = await fetch(`${API_BASE}/categories`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         }
-      });
-      
+      }
+    );
       if (!response.ok) {
         throw new Error(`Error al cargar categorías`);
       }
       
-      const categorias = await response.json();
+      const datacategorias = await response.json();
+      const categorias = datacategorias.data.categories;
       
       // Limpiar y recrear opciones
       selectCategoria.innerHTML = '<option value="">Selecciona una categoría</option>';
@@ -72,17 +73,15 @@ document.addEventListener("DOMContentLoaded", () => {
       if (Array.isArray(categorias) && categorias.length > 0) {
         categorias.forEach(categoria => {
           const option = document.createElement('option');
-          option.value = categoria.id || categoria.categoriaId;
+          option.value = categoria.nombre;
           
           // Manejar diferentes estructuras de respuesta de la API
-          const nombre = categoria.nombre || 
-                        categoria.descripcion || 
-                        categoria.tipo || 
-                        categoria.category || 
+          const nombre = categoria.nombre ||     
                         `Categoría ${categoria.id}`;
           
           option.textContent = nombre;
           selectCategoria.appendChild(option);
+          console.log('categorias cargadas');
         });
       } else {
         throw new Error('No se recibieron categorías válidas');
@@ -90,37 +89,15 @@ document.addEventListener("DOMContentLoaded", () => {
       
     } catch (error) {
       console.error('Error al cargar categorías:', error);
-      // Categorías de respaldo hardcodeadas
-      cargarCategoriasRespaldo();
     }
   }
 
-  // Función de respaldo para categorías
-  function cargarCategoriasRespaldo() {
-    const categoriasDefault = [
-      { id: 1, nombre: "Ropa y calzado" },
-      { id: 2, nombre: "Electrónica" },
-      { id: 3, nombre: "Accesorios" },
-      { id: 4, nombre: "Juguetes" },
-      { id: 5, nombre: "Útiles escolares" },
-      { id: 6, nombre: "Artículos del hogar" },
-      { id: 7, nombre: "Belleza y cuidado personal" }
-    ];
-    
-    selectCategoria.innerHTML = '<option value="">Selecciona una categoría</option>';
-    categoriasDefault.forEach(categoria => {
-      const option = document.createElement('option');
-      option.value = categoria.id;
-      option.textContent = categoria.nombre;
-      selectCategoria.appendChild(option);
-    });
-  }
 
   // Cargar datos del producto para edición
   async function cargarProducto(id) {
     try {
       mostrarCarga(true);
-      const response = await fetch(`${API_BASE}/productos/${id}`, {
+      const response = await fetch(`${API_BASE}/products/${id}`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -135,31 +112,27 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error('Error al cargar el producto');
       }
       
-      const producto = await response.json();
+      const dataproducto = await response.json();
+      const producto = dataproducto.data.product;
+      console.log(producto);
       
       // Llenar el formulario con los datos del producto
       inputNombre.value = producto.nombre || '';
       inputDescripcion.value = producto.descripcion || '';
-      
-      // Manejar diferentes nombres de campo para categoría
-      const categoriaId = producto.categoriaId || 
-                         producto.categoria_id || 
-                         producto.categoria?.id || 
-                         producto.categoryId || '';
-      selectCategoria.value = categoriaId;
+      selectCategoria.value = producto.categoriaNombre || '';
       
       // Marcar el estado correspondiente
-      const estadoValue = mapearEstadoFromAPI(producto.estado);
+      const estadoValue = mapearEstadoFromAPI(producto.calidadNombre);
       radiosEstado.forEach(radio => {
         radio.checked = (radio.value === estadoValue);
       });
 
       // Cargar imagen si existe
       const imagenUrl = producto.imagen || 
-                       producto.imagen_url || 
-                       producto.imageUrl || 
-                       producto.foto;
-                       
+                      producto.imagen_url || 
+                      producto.imageUrl || 
+                      producto.foto;
+                      
       if (imagenUrl) {
         mostrarImagenPreview(imagenUrl);
       }
@@ -171,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Redirigir si el producto no existe
       if (error.message.includes('no encontrado')) {
         setTimeout(() => {
-          window.location.href = "/vistas/MisPorductos.html";
+          window.location.href = "/vistas/MisProductos.html";
         }, 2000);
       }
     } finally {

@@ -36,13 +36,13 @@
     <div class="imagen-placeholder" id="imagenProducto"></div>
     <div class="info">
       <label>Nombre del producto:</label>
-      <p id="nombreProducto">Cargando...</p>
+      <p id="nombreProducto"></p>
 
       <label>Descripción:</label>
-      <p id="descripcionProducto">Cargando...</p>
+      <p id="descripcionProducto"></p>
 
       <label>Publicado por:</label>
-      <p id="publicadoPor">Cargando...</p>
+      <p id="publicadoPor"></p>
     </div>
   </div>
 </div>
@@ -62,16 +62,17 @@
     </div>
 
     <!-- Comentario -->
-    <label class="comentario-label">Agregar comentario:</label>
-    <textarea class="comentario-box" rows="3"></textarea>
+  <!-- Comentario -->
+  <label class="comentario-label">Agregar comentario:</label>
+  <textarea id="comentario-box" class="comentario-box" rows="3"></textarea>
 
-    <div class="btn-contenedor">
-      <button class="btn-trueque" onclick="enviarPropuesta()">Proponer Trueque</button>
-    </div>
+  <div class="btn-contenedor">
+    <button id="btnProponerTrueque" class="btn-trueque">Proponer Trueque</button>
+  </div>
+
 
   </main>
-  <script src="../js/ProponerTrueque.js"></script>
+  <script src="../js/proponerTrueque.js"></script>
 </body>
-  <script src="../js/proponerTrueque.js"></script> <!-- ajusta la ruta si lo pones en otra carpeta -->
 
 </html>

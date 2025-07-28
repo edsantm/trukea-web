@@ -1,40 +1,40 @@
 
 const API_CONFIG = {
-    baseUrl: 'http://localhost:8082/api', // Cambia por tu URL de API
+    baseUrl: 'http://localhost:3000/api', // Cambia por tu URL de API
     endpoints: {
-        productos: '/productos'
+        productos: '/products'
     }
 };
 
 document.addEventListener("DOMContentLoaded", function () {
-  const inputFoto = document.getElementById("foto");
-  const vistaPrevia = document.getElementById("vista-previa");
-  const btnSubir = document.getElementById("btnSubirFoto");
+const inputFoto = document.getElementById("foto");
+const vistaPrevia = document.getElementById("vista-previa");
+const btnSubir = document.getElementById("btnSubirFoto");
 
-  btnSubir.addEventListener("click", () => inputFoto.click());
+btnSubir.addEventListener("click", () => inputFoto.click());
 
-  inputFoto.addEventListener("change", () => {
+inputFoto.addEventListener("change", () => {
     const archivo = inputFoto.files[0];
     if (archivo) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
         vistaPrevia.innerHTML = `<img src="${e.target.result}" alt="Imagen de perfil">`;
-      };
-      reader.readAsDataURL(archivo);
+    };
+    reader.readAsDataURL(archivo);
 
       // Enviar imagen al servidor
-      const formData = new FormData();
-      formData.append("imagen", archivo);
-      formData.append("idUsuario", 1); 
+    const formData = new FormData();
+    formData.append("imagen", archivo);
+    formData.append("idUsuario", 1); 
 
-      fetch("http://localhost:8082/api/usuarios/", {
-        method: "POST",
+    fetch("http://localhost:3000/api/users/profile/${id}", {
+        method: "PUT",
         body: formData
-      })
+    })
         .then(res => res.ok ? console.log("Imagen subida") : console.error("Error al subir"))
         .catch(err => console.error("Error:", err));
     }
-  });
+});
 });
 
 // Función para hacer peticiones a la API
@@ -47,18 +47,6 @@ async function fetchFromAPI(endpoint) {
         }
         
         const data = await response.json();
-        
-        // 🔍 DEBUG: Ver qué llega de la API
-        console.log(' Datos recibidos de la API:', data);
-        console.log(' Tipo de dato:', typeof data);
-        console.log(' Es array?:', Array.isArray(data));
-        console.log(' Cantidad:', data?.length || 'No es array');
-        
-        if (data && data.length > 0) {
-            console.log('Primer producto sin adaptar:', data[0]);
-            console.log('Propiedades disponibles:', Object.keys(data[0]));
-        }
-        
         return data;
     } catch (error) {
         console.error(' Error en la API:', error);
@@ -71,8 +59,8 @@ function createProductHTML(producto) {
     return `
         <div class="producto" data-id="${producto.id || ''}">
                 <img src="${producto.imagen || ''}" 
-                     alt="${producto.nombre || 'Producto'}" 
-                     onerror="this.src=''" />
+                    alt="${producto.nombre || 'Producto'}" 
+                    onerror="this.src=''" />
             <div class="info-prod">
                 <p><strong>${producto.nombre || 'Sin nombre'}</strong></p>
                 <p class="descripcion">${producto.descripcion || 'Sin descripción'}</p>
@@ -84,7 +72,6 @@ function createProductHTML(producto) {
 }
 
 function adaptarProductoAPI(producto) {
-    console.log(' Adaptando producto:', producto);
     
     const adaptado = {
         id: producto.idProducto,
@@ -96,14 +83,11 @@ function adaptarProductoAPI(producto) {
         calidad: producto.idCalidad
     };
     
-    console.log(' Producto adaptado:', adaptado);
     return adaptado;
 }
 
 // Función para renderizar - CON DEBUG
 function renderProducts(productos) {
-    console.log(' Renderizando productos:', productos);
-    console.log(' Cantidad a renderizar:', productos?.length || 0);
     
     const productosContainer = document.getElementById('container-productos');
     
@@ -116,9 +100,7 @@ function renderProducts(productos) {
             </div>
         `;
     } else {
-        console.log(' Adaptando productos...');
         const productosAdaptados = productos.map(adaptarProductoAPI);
-        console.log(' Productos adaptados:', productosAdaptados);
         
         productosContainer.innerHTML = productosAdaptados.map(createProductHTML).join('');
         console.log(' HTML insertado en el DOM');
@@ -130,10 +112,10 @@ function renderProducts(productos) {
 // Función para mostrar estados de carga y error
 function showLoading() {
     const loadingDiv = document.getElementById('loading');
-    const errorDiv = document.getElementById('error');
+    const messageDiv = document.getElementById('message');
     const productosDiv = document.getElementById('container-productos');
     loadingDiv.style.display = 'block';
-    errorDiv.style.display = 'none';
+    messageDiv.style.display = 'none';
     productosDiv.style.display = 'none';
 }
 
@@ -147,16 +129,33 @@ function showProducts() {
     productosDiv.style.display = 'grid';
 }
 
-function showError(message) {
-    const errorDiv = document.getElementById('error');
+function showMessage(message, tipo = 'info') {
+    const messageDiv = document.getElementById('message');
     const loadingDiv = document.getElementById('loading');
-    const productosDiv = document.getElementById('productos');
+
+    messageDiv.className= 'message';
+
+    switch (tipo) {
+        case 'success':
+            messageDiv.classList.add('message-success');
+            break;
+        case 'error':
+            messageDiv.classList.add('message-error');
+            break;
+        case 'warning':
+            messageDiv.classList.add('message-warning');
+            break;
+        default:
+            messageDiv.classList.add('message-info');
+    }
     
-    loadingDiv.style.display = 'none';
-    productosDiv.style.display = 'none';
-    errorDiv.style.display = 'block';
-    errorDiv.textContent = message;
+    if (loadingDiv) loadingDiv.style.display = 'none';
+    if (messageDiv) {
+        messageDiv.style.display = 'block';
+        messageDiv.textContent = message;
+    }
 }
+
 
 
 // Función principal para cargar productos desde API real
@@ -165,8 +164,8 @@ async function cargarProductos() {
         showLoading();
         
         // Cargar productos desde la API
-        const productos = await fetchFromAPI(API_CONFIG.endpoints.productos);
-        
+        const dataproductos = await fetchFromAPI(API_CONFIG.endpoints.productos);
+        const productos = dataproductos.data.products;        
         // Renderizar productos
         renderProducts(productos);
         
@@ -178,7 +177,7 @@ async function cargarProductos() {
         
     } catch (error) {
         console.error('Error al cargar productos:', error);
-        showError('Error al cargar los productos. Por favor, intenta de nuevo más tarde.');
+        showMessage('Error al cargar los productos. Por favor, intenta de nuevo más tarde.',"error");
     }
 }
 
@@ -192,7 +191,7 @@ function initProductos() {
         return;
     }
     
-     cargarProductos();
+    cargarProductos();
     
     
 }
@@ -203,7 +202,7 @@ document.addEventListener('DOMContentLoaded', initProductos);
 // Exportar funciones para uso externo si es necesario
 window.ProductosManager = {
     cargarProductos,
-   
+
 };
 
 
