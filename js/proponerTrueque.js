@@ -159,5 +159,3 @@ document.getElementById('btnProponerTrueque').addEventListener('click', async ()
 });
 
 document.addEventListener('DOMContentLoaded', initProductos);
-
-
