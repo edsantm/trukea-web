@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Top Usuarios</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/Styles/TopUsuarios.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script defer src="../js/TopUsuarios.js"></script>
+</head>
+<body>
+
+  <!-- Barra de navegación -->
+  <nav class="navbar">
+    <div class="logo-nav">
+      <img src="/img/logo-trukea.png" alt="logo" class="nav-logo" />
+    </div>
+    <ul class="nav-links">
+      <li><a href="/vistas/SolicitudesRecibidas.html">Solicitudes</a></li>
+      <li><a href="/vistas/ExplorarTrueque.html">Explorar Trueques</a></li>
+      <li><a href="/vistas/Perfil.html">Mi Perfil</a></li>
+      <li><a href="#"><img src="/img/notificaciones.png" alt="Notificaciones" class="icono" /></a></li>
+    </ul>
+  </nav>
+
+  
+
+  <!-- Contenedor de gráfica -->
+  <main class="contenedor-top">
+    <h1><img src="/img/calificacion.png" class="icono-perfil"> Usuarios Más Activos</h1>
+    <canvas id="graficaTopUsuarios" width="600" height="400"></canvas>
+  </main>
+
+</body>
+</html>
