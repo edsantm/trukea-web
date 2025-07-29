@@ -12,13 +12,13 @@ document.getElementById('btnRegistrar').addEventListener('click', async () => {
     }
 
     if (password !== confirmPassword) {
-        showMessage("Las contraseñas no coinciden.","warning");
+        alert("Las contraseñas no coinciden.");
         return;
     }
 
     const nuevoUsuario = {
-        nombre: name,
-        apellido: lastName,
+        name: name,
+        lastName: lastName,
         email: email,
         password: password,
         confirmPassword : confirmPassword
@@ -37,17 +37,14 @@ document.getElementById('btnRegistrar').addEventListener('click', async () => {
         console.log(data);
 
         if (!response.ok) {
-            throw new showMessage(data.message || 'Error en el registro',"error");
+            throw new Error(data.message || 'Error en el registro');
         }
 
-        showMessage('¡Registro exitoso! Ahora puedes iniciar sesión.',"success");
-
-                setTimeout(() => {
-                    window.location.href = './login.html';
-                }, 2000); 
+        alert("¡Registro exitoso! Ahora puedes iniciar sesión.");
+        window.location.href = './login.html';
     } catch (error) {
         console.error("Error en el registro:", error);
-        showMessage("Hubo un error al registrar el usuario. Verifica los datos o intenta más tarde.","error");
+        alert("Hubo un error al registrar el usuario. Verifica los datos o intenta más tarde.");
     }
 });
 
