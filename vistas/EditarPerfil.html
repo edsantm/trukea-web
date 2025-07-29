@@ -16,9 +16,11 @@
 
   <!-- Barra de navegación -->
   <nav class="navbar">
+   <a href="../index.html">
     <div class="logo-nav">
-      <img src="../img/logo-trukea.png" alt="logo" class="nav-logo">
+      <img src="/img/logo-trukea.png"  alt="logo" class="nav-logo" />
     </div>
+    </a>
     <ul class="nav-links">
       <li><a href="#"></a></li>
       <li><a href="/vistas/ExplorarTrueque.html">Explorar Trueques</a></li>
@@ -44,20 +46,20 @@
       
       <form class="formulario">
         <label>Nombre de usuario:
-          <input type="text">
+          <input id="nombreUsuario" value="" type="text">
         </label>
         <label>Apellidos:
-          <input type="text">
+          <input id="apellidos" value="" type="text">
         </label>
         <label>Ciudad:
-          <input type="text">
+          <input id="ciudad" value="" type="text">
         </label>
         <label>Fecha de nacimiento:
-          <input type="date">
+          <input id="fechaNacimiento" value="" type="date">
         </label>
 
         <div class="botones">
-          <button type="submit" class="btn-guardar">Guardar Cambios</button>
+          <button type="submit" id="btn-guardar" class="btn-guardar">Guardar Cambios</button>
           <button type="button" class="btn-cancelar" onclick="window.location.href='../vistas/perfil.html'">Cancelar Edición</button>
         </div>
       </form>

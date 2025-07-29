@@ -93,4 +93,86 @@ document.addEventListener("DOMContentLoaded", function () {
     // Mostrar alerta de éxito
     mostrarAlerta("exito", "✔️ Los cambios se han guardado exitosamente.");
   });
+
+  async function obtenerDatosUsuario() {
+  const token = localStorage.getItem('sesion');
+  const usuario = JSON.parse(token);
+  const id_usuario = usuario.id // Ajusta si usas sesión u otro mecanismo
+  const res = await fetch(`http://localhost:3000/api/users/profile/${id_usuario}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  if (!res.ok) throw new Error(`Error al cargar perfil: ${res.status}`);
+  return await res.json(); // espera { nombre, apellidos, ciudad, fechaNacimiento, imagenPerfil }
+}
+
+async function cargarDatosEnFormulario() {
+  try {
+    const usuario = await obtenerDatosUsuario();
+    document.getElementById('nombreUsuario').value = usuario.nombre || '';
+    document.getElementById('apellidos').value = usuario.apellidos || '';
+    document.getElementById('ciudad').value = usuario.ciudad || '';
+    document.getElementById('fechaNacimiento').value = usuario.fechaNacimiento || '';
+    if (usuario.imagenPerfil) {
+      document.getElementById('imagenPerfilPreview').src = usuario.imagenPerfil;
+    }
+  } catch (error) {
+    console.error(error);
+    alert('❌ No se pudo cargar tu perfil.');
+  }
+}
+
+function configurarCambioImagen() {
+  const input = document.getElementById('imagenPerfilInput');
+  const preview = document.getElementById('imagenPerfilPreview');
+  const btn = document.getElementById('btnCambiarImagen');
+
+  btn.addEventListener('click', () => input.click());
+  input.addEventListener('change', () => {
+    const archivo = input.files[0];
+    if (archivo) {
+      const reader = new FileReader();
+      reader.onload = e => preview.src = e.target.result;
+      reader.readAsDataURL(archivo);
+    }
+  });
+}
+
+async function guardarCambios() {
+  const token = localStorage.getItem('token');
+  const formData = new FormData();
+
+  formData.append('nombre', document.getElementById('nombreUsuario').value);
+  formData.append('apellidos', document.getElementById('apellidos').value);
+  formData.append('ciudad', document.getElementById('ciudad').value);
+  formData.append('fechaNacimiento', document.getElementById('fechaNacimiento').value);
+
+
+  try {
+    const res = await fetch('https://tu-api.com/api/usuarios/miperfil', {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      body: formData
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(err || `Error ${res.status}`);
+    }
+    alert('✅ Perfil actualizado con éxito');
+    // si deseas, puedes recargar o redirigir:
+    // window.location.reload();
+  } catch (error) {
+    console.error(error);
+    alert('❌ No se pudo guardar los cambios.');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  cargarDatosEnFormulario();
+  document.getElementById('btnGuardar').addEventListener('click', guardarCambios);
+});
 ;
