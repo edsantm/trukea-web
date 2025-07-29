@@ -1,0 +1,147 @@
+/* Barra de navegación */
+.navbar {
+  background-color: #20362e;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  color: white;
+}
+
+.nav-logo {
+  height: 50px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.icono {
+  height: 20px;
+}
+
+/* Alerta */
+.alerta {
+  background-color: #d6f5ec;
+  padding: 10px 20px;
+  color: #1a734c;
+  font-weight: bold;
+  text-align: center;
+  font-size: 15px;
+  display: none;
+}
+
+/* Contenido principal */
+.contenedor-top {
+  text-align: center;
+  padding: 30px 20px;
+}
+
+.contenedor-top h1 {
+  font-size: 35px;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.icono-perfil {
+  height: 50px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  background-color: #fff;
+}
+
+
+.grafica-estatica {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.barra-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 18px;
+  position: relative;
+}
+
+.nombre-usuario {
+  min-width: 90px;
+  font-weight: bold;
+  color: #20362e;
+  font-size: 16px;
+  margin-right: 15px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.barra-contenedor {
+  flex: 1;
+  height: 35px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+  margin-right: 15px;
+}
+
+.barra-progreso {
+  height: 100%;
+  border-radius: 18px;
+  position: relative;
+  background: linear-gradient(90deg, #5a1c74 0%, #1a734c 100%);
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.3);
+}
+
+.valor-interacciones {
+  font-weight: bold;
+  color: #20362e;
+  font-size: 16px;
+  min-width: 45px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Efectos de hover sutiles */
+.barra-item:hover .barra-progreso {
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.3), 0 4px 12px rgba(90, 28, 116, 0.25);
+  transform: translateY(-1px);
+  transition: all 0.2s ease;
+}
+
+/* Brillo en las barras */
+.barra-progreso::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 100%);
+  border-radius: 18px 18px 0 0;
+}
+
+/* Ocultar el canvas original */
+#graficaTopUsuarios {
+  display: none;
+}

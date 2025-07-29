@@ -1,6 +1,6 @@
 
 const API_CONFIG = {
-    baseUrl: 'http://localhost:3000/api', // Cambia por tu URL de API
+    baseUrl: 'http://localhost:3000/api', 
     endpoints: {
         productos: '/products'
     }
@@ -54,7 +54,7 @@ async function fetchFromAPI(endpoint) {
     }
 }
 
-// Función para crear el HTML de un producto (estilo card)
+// Función para crear el HTML de un producto
 function createProductHTML(producto) {
     return `
         <div class="producto" data-id="${producto.id || ''}">
