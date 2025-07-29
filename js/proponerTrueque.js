@@ -1,234 +1,160 @@
-
 const API_CONFIG = {
-    baseUrl: 'https://tu-api.com/api', // Cambia por tu URL de API
-    endpoints: {
-        productos: '/productos'
-    }
+  baseUrl: 'http://localhost:3000/api',
+  endpoints: {
+    productos: '/products'
+  }
 };
 
+let productoActual = null;
 
+// ✅ Solo una definición de readTrueque
+async function readTrueque() {
+  const productId = getProductIdFromUrl(); // Obtener ID desde la URL
+
+  try {
+    const response = await fetch(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.productos}/${productId}`);
+
+    if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+
+    const data = await response.json();
+    productoActual = data.product || data.data?.product || data;
+    console.log(productoActual);
+    // Mostrar en el HTML
+    document.getElementById('nombreProducto').textContent = productoActual.nombre || 'Producto sin nombre';
+    document.getElementById('descripcionProducto').textContent = productoActual.descripcion || 'Sin descripción';
+    document.getElementById('publicadoPor').textContent = `${productoActual.usuarioNombre || ''} ${productoActual.usuarioApellido || ''}`.trim() || 'Usuario desconocido';
+
+    // Guardamos ID del dueño
+    productoActual.usuarioNombre = productoActual.usuario?.Nombre || null;
+
+  } catch (error) {
+    console.error("Error al cargar el producto:", error);
+  }
+}
+
+function getProductIdFromUrl() {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get('id') || '1';
+}
 
 async function fetchFromAPI(endpoint) {
-    try {
-        const response = await fetch(`${API_CONFIG.baseUrl}${endpoint}`);
-        
-        if (!response.ok) {
-            throw new Error(`Error HTTP: ${response.status}`);
-        }
-        
-        return await response.json();
-    } catch (error) {
-        console.error('Error en la API:', error);
-        throw error;
-    }
+  try {
+    const response = await fetch(`${API_CONFIG.baseUrl}${endpoint}`);
+    if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+    return await response.json();
+  } catch (error) {
+    console.error('Error en la API:', error);
+    throw error;
+  }
 }
 
-// Función para crear el HTML de un producto (estilo card)
 function createProductHTML(producto) {
-    return `
-        <div class="oferta" data-id="${producto.id || ''}">
-            <input type="checkbox">
-            <div >
-                <strong>${producto.nombre || 'Sin nombre'}</strong><br>
-                <span>Estado: ${producto.estado || 'No especificado'}</span>
-            </div>
-            
+  return `
+    <div class="oferta" data-id="${producto.id || ''}">
+        <input type="checkbox">
+        <div>
+            <strong>${producto.nombre || 'Sin nombre'}</strong><br>
+            <span>Estado: ${producto.estado || 'No especificado'}</span>
         </div>
-    `;
+    </div>
+  `;
 }
 
-// Función para renderizar todos los productos
 function renderProducts(productos) {
-    const productosContainer = document.getElementById('productos');
-    
-    if (!productos || productos.length === 0) {
-        productosContainer.innerHTML = `
-            <div class="no-products">
-                <h3>No hay productos disponibles</h3>
-                <p>Agrega tu primer producto para comenzar.</p>
-            </div>
-        `;
-    } else {
-        productosContainer.innerHTML = productos.map(createProductHTML).join('');
-    }
+  const productosContainer = document.getElementById('productos');
+  if (!productos || productos.length === 0) {
+    productosContainer.innerHTML = `
+      <div class="no-products">
+        <h3>No hay productos disponibles</h3>
+        <p>Agrega tu primer producto para comenzar.</p>
+      </div>
+    `;
+  } else {
+    productosContainer.innerHTML = productos.map(createProductHTML).join('');
+  }
 }
 
-// Función para mostrar estados de carga y error
 function showLoading() {
-    const loadingDiv = document.getElementById('loading');
-    const errorDiv = document.getElementById('error');
-    const productosDiv = document.getElementById('productos');
-    loadingDiv.style.display = 'block';
-    errorDiv.style.display = 'none';
-    productosDiv.style.display = 'none';
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('error').style.display = 'none';
+  document.getElementById('productos').style.display = 'none';
 }
 
 function hideLoading() {
-    const loadingDiv = document.getElementById('loading');
-    loadingDiv.style.display = 'none';
+  document.getElementById('loading').style.display = 'none';
 }
 
 function showProducts() {
-    const productosDiv = document.getElementById('productos');
-    productosDiv.style.display = 'grid';
+  document.getElementById('productos').style.display = 'grid';
 }
 
 function showError(message) {
-    const errorDiv = document.getElementById('error');
-    const loadingDiv = document.getElementById('loading');
-    const productosDiv = document.getElementById('productos');
-    
-    loadingDiv.style.display = 'none';
-    productosDiv.style.display = 'none';
-    errorDiv.style.display = 'block';
-    errorDiv.textContent = message;
+  document.getElementById('error').textContent = message;
+  document.getElementById('error').style.display = 'block';
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('productos').style.display = 'none';
 }
 
-
-// Función principal para cargar productos desde API real
 async function cargarProductos() {
-    try {
-        showLoading();
-        
-        // Cargar productos desde la API
-        const productos = await fetchFromAPI(API_CONFIG.endpoints.productos);
-        
-        // Renderizar productos
-        renderProducts(productos);
-        
-        // Mostrar contenedor de productos
-        hideLoading();
-        showProducts();
-        
-        console.log(`Productos cargados: ${productos.length}`);
-        
-    } catch (error) {
-        console.error('Error al cargar productos:', error);
-        showError('Error al cargar los productos. Por favor, intenta de nuevo más tarde.');
-    }
-}
-
-// Función con datos de ejemplo para testing (sin API)
-function cargarProductosEjemplo() {
-    const productosEjemplo = [
-        {
-            id: 1,
-            nombre: "Headphones",
-            descripcion: "Los intercambio por Airpods",
-            estado: "semi-nuevo",
-            imagen: "https://i.imgur.com/WYzQ2g2.png",
-            categoria: "Electrónicos",
-            precio: 150
-        },
-        {
-            id: 2,
-            nombre: "Suéter",
-            descripcion: "Lo intercambio por un pantalón. Es talla M por un pantalón talla 38",
-            estado: "semi-nuevo",
-            imagen: "https://i.imgur.com/5X4XXuA.png",
-            categoria: "Ropa"
-        },
-        {
-            id: 3,
-            nombre: "Teclado",
-            descripcion: "Lo intercambio por un mouse",
-            estado: "dos años de uso",
-            imagen: "https://i.imgur.com/mWBQIWU.png",
-            categoria: "Electrónicos",
-            precio: 75
-        }
-         ,
-        {
-            id: 4,
-            nombre: "Teclado",
-            descripcion: "Lo intercambio por un mouse",
-            estado: "dos años de uso",
-            imagen: "https://i.imgur.com/mWBQIWU.png",
-            categoria: "Electrónicos",
-            precio: 75
-        }
-    ];
-
-    // Simular delay de red
+  try {
     showLoading();
-    setTimeout(() => {
-        hideLoading();
-        showProducts();
-        renderProducts(productosEjemplo);
-        console.log(`Productos de ejemplo cargados: ${productosEjemplo.length}`);
-    }, 1000);
+    const response = await fetchFromAPI(API_CONFIG.endpoints.productos);
+    const productos = response.data.products || response.products || [];
+    renderProducts(productos);
+    hideLoading();
+    showProducts();
+  } catch (error) {
+    showError('Error al cargar productos.');
+  }
 }
 
-// Función para filtrar productos (funcionalidad extra)
-function filtrarProductos(termino) {
-    const productos = document.querySelectorAll('.producto');
-    const terminoLower = termino.toLowerCase();
-    
-    productos.forEach(producto => {
-        const nombre = producto.querySelector('h3').textContent.toLowerCase();
-        const descripcion = producto.querySelector('.descripcion').textContent.toLowerCase();
-        
-        if (nombre.includes(terminoLower) || descripcion.includes(terminoLower)) {
-            producto.style.display = 'block';
-        } else {
-            producto.style.display = 'none';
-        }
-    });
-}
-
-// Función para recargar productos (útil para botón de refresh)
-function recargarProductos() {
-    cargarProductos();
-}
-
-// Función para agregar listeners de eventos adicionales
-function setupEventListeners() {
-    // Agregar funcionalidad de búsqueda si existe un input de búsqueda
-    const searchInput = document.getElementById('search');
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            filtrarProductos(e.target.value);
-        });
-    }
-    
-    // Agregar listener para botón de recarga si existe
-    const refreshBtn = document.getElementById('refresh-btn');
-    if (refreshBtn) {
-        refreshBtn.addEventListener('click', recargarProductos);
-    }
-}
-
-// Función de inicialización
 function initProductos() {
-    // Verificar que existan los elementos necesarios en el DOM
-    if (!document.getElementById('productos')) {
-        console.error('Error: No se encontró el elemento con ID "productos"');
-        return;
-    }
-    
-    // Configurar event listeners adicionales
-    setupEventListeners();
-    
-    // Cargar productos
-    // Cambia entre estas dos opciones según tu necesidad:
-    
-    // Para API real:
-    // cargarProductos();
-    
-    // Para datos de ejemplo (testing):
-    cargarProductosEjemplo();
+  if (!document.getElementById('productos')) {
+    console.error('Error: No se encontró el contenedor de productos');
+    return;
+  }
+  readTrueque();
+  cargarProductos();
 }
 
-// Inicializar cuando se carga la página
+// ✅ Botón de "Proponer Trueque"
+document.getElementById('btnProponerTrueque').addEventListener('click', async () => {
+  const productoDeseadoId = getProductIdFromUrl();
+  const comentario = document.getElementById('comentario-box').value;
+  const productoOfrecido = document.querySelector('.oferta input[type="checkbox"]:checked');
+
+  if (!productoOfrecido) {
+    alert("Selecciona un producto para ofrecer.");
+    return;
+  }
+
+  const productoOfrecidoId = productoOfrecido.closest('.oferta').dataset.id;
+  const propuestoPor = 1; // Debes obtenerlo dinámicamente (session/localStorage)
+  const recibidoPor = productoActual.usuario_id;
+
+  const propuesta = {
+    producto_deseado_id: parseInt(productoDeseadoId),
+    producto_ofrecido_id: parseInt(productoOfrecidoId),
+    comentario,
+    propuesto_por: propuestoPor,
+    recibido_por: recibidoPor,
+    estado: "pendiente"
+  };
+
+  try {
+    const response = await fetch(`${API_CONFIG.baseUrl}/trueques`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(propuesta)
+    });
+
+    if (!response.ok) throw new Error("Error al enviar propuesta");
+
+    alert("Propuesta enviada exitosamente.");
+  } catch (err) {
+    console.error(err);
+    alert("Error al enviar la propuesta.");
+  }
+});
+
 document.addEventListener('DOMContentLoaded', initProductos);
-
-// Exportar funciones para uso externo si es necesario
-window.ProductosManager = {
-    cargarProductos,
-    cargarProductosEjemplo,
-    recargarProductos,
-    filtrarProductos,
-    eliminarProducto
-};
-
-
