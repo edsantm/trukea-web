@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:8082/api'; // Cambia por tu URL real
+const API_BASE_URL = 'http://localhost:3000/api'; 
 const API_ENDPOINTS = {
     solicitudesRecibidas: '/api/',
     solicitudesEnviadas: '/api/solicitudes/enviadas'
@@ -68,7 +68,7 @@ async function cargarSolicitudes(tipo = 'recibidas') {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}` // Si usas autenticación
+                
             }
         });
 
@@ -108,8 +108,8 @@ async function cargarSolicitudes(tipo = 'recibidas') {
 // Función para aceptar solicitud
 async function aceptarSolicitud(solicitudId) {
     try {
-        const response = await fetch(`${API_BASE_URL}/api/solicitudes/${solicitudId}/aceptar`, {
-            method: 'POST',
+        const response = await fetch(`${API_BASE_URL}/trades/accept/${solicitudId}`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -126,9 +126,7 @@ async function aceptarSolicitud(solicitudId) {
         // Recargar solicitudes
         await cargarSolicitudes();
         
-        // Opcional: Redirigir a PropuestaTrueque
-        // window.location.href = `/vistas/PropuestaTrueque.html?solicitud=${solicitudId}`;
-
+        
     } catch (error) {
         console.error('Error al aceptar solicitud:', error);
         mostrarAlerta('❌ Error al aceptar la solicitud', 'error');
@@ -142,8 +140,8 @@ async function rechazarSolicitud(solicitudId) {
     }
 
     try {
-        const response = await fetch(`${API_BASE_URL}/api/solicitudes/${solicitudId}/rechazar`, {
-            method: 'POST',
+        const response = await fetch(`${API_BASE_URL}/trades/reject/${solicitudId}`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -227,5 +225,3 @@ function recargarSolicitudes() {
     cargarSolicitudes(tipoActual);
 }
 
-// Exportar funciones si usas módulos
-// export { cargarSolicitudes, aceptarSolicitud, rechazarSolicitud };
