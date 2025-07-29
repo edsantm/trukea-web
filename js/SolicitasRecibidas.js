@@ -1,8 +1,5 @@
 const API_BASE_URL = 'http://localhost:3000/api'; 
-const API_ENDPOINTS = {
-    solicitudesRecibidas: '/api/',
-    solicitudesEnviadas: '/api/solicitudes/enviadas'
-};
+
 
 // Elementos del DOM
 const loadingElement = document.getElementById('loading');
