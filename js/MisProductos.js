@@ -35,6 +35,7 @@ function createProductHTML(producto) {
                 <h3>${producto.nombre || 'Sin nombre'}</h3>
                 <p class="descripcion">${producto.descripcion || 'Sin descripción'}</p>
                 <p class="estado">Estado: ${producto.estado || 'No especificado'}</p>
+                <p class="valorEstimado">Valor Estimado: ${producto.valorEstimado || 'No especificado'}</p>
             </div>
             <div class="acciones">
                 <button class="editar" onclick="editarProducto('${producto.id || ''}')">
@@ -48,22 +49,21 @@ function createProductHTML(producto) {
     `;
 }
 
-// Función adaptadora con validación mejorada
 function adaptarProductoAPI(producto) {
-    
-    const adaptado = {
+
+    const calidadId = producto.idCalidad || producto.calidad;
+    const estado = producto.calidadNombre || calidadTexto[calidadId] || 'No especificado';
+
+    return {
         id: producto.idProducto || producto.id || '',
         nombre: producto.nombreProducto || producto.nombre || 'Sin nombre',
         descripcion: producto.descripcionProducto || producto.descripcion || 'Sin descripción',
-        estado: producto.valorEstimado ? 
-            `Valor estimado: $${producto.valorEstimado}` : 
-            'Sin valor estimado',
+        estado: estado,
+        valorEstimado: producto.valorEstimado,
         imagen: producto.imagen || '',
         categoria: producto.idCategoria || producto.categoriaNombre || null,
-        calidad: producto.idCalidad || producto.calidadNombre || null
+        calidad: calidadId
     };
-    
-    return adaptado;
 }
 
 // Función para renderizar productos - CORREGIDA

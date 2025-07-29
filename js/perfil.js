@@ -124,20 +124,21 @@ function createProductHTML(producto) {
 }
 
 function adaptarProductoAPI(producto) {
-    
-    const adaptado = {
-        id: producto.idProducto,
-        nombre: producto.nombreProducto,
-        descripcion: producto.descripcionProducto,
-        estado: producto.valorEstimado ? `Valor: $${producto.valorEstimado}` : 'Sin valor estimado',
-        imagen: '', 
-        categoria: producto.idCategoria,
-        calidad: producto.idCalidad
-    };
-    
-    return adaptado;
-}
 
+    const calidadId = producto.idCalidad || producto.calidad;
+    const estado = producto.calidadNombre || calidadTexto[calidadId] || 'No especificado';
+
+    return {
+        id: producto.idProducto || producto.id || '',
+        nombre: producto.nombreProducto || producto.nombre || 'Sin nombre',
+        descripcion: producto.descripcionProducto || producto.descripcion || 'Sin descripción',
+        estado: estado,
+        valorEstimado: producto.valorEstimado,
+        imagen: producto.imagen || '',
+        categoria: producto.idCategoria || producto.categoriaNombre || null,
+        calidad: calidadId
+    };
+}
 // Función para renderizar - CON DEBUG
 function renderProducts(productos) {
     

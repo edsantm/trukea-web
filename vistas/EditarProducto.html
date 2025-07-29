@@ -21,6 +21,7 @@
       <li><a href="#"><img src="/img/notificaciones.png" alt="Notificaciones" class="icono" /></a></li>
     </ul>
   </nav>
+  <div id="message" class="message" style="display: none;"></div>
 
   <!-- Contenido -->
   <main class="contenedor-editar">
@@ -42,20 +43,24 @@
         <label for="descripcion">Descripción:</label>
         <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
 
+        <label for="valor">Valor estimado:</label>
+        <input type="number" id="valor" name="valorEstimado" />
+
         <label for="categoria">Categoría:</label>
         <select id="categoria" name="categoriaId" required>
           <option value="">Selecciona una categoría</option>
+          <option value="1">Electrónica</option>
         </select>
 
         <label>Estado:</label>
-        <div class="estado">
-          <label><input type="radio" name="estado" value="nuevo"> Nuevo</label>
-          <label><input type="radio" name="estado" value="usado"> Usado</label>
-          <label><input type="radio" name="estado" value="buen_estado"> Buen estado</label>
-        </div>
+          <div class="estado">
+            <label><input type="radio" name="estado" value="nuevo" data-id="1"> Nuevo</label>
+            <label><input type="radio" name="estado" value="usado" data-id="2"> Usado</label>
+            <label><input type="radio" name="estado" value="buen_estado" data-id="3"> Buen estado</label>
+          </div>
 
         <div class="botones">
-          <button type="submit" class="btn-guardar">Guardar Cambios</button>
+          <button type="submit" id="btnActualizar" class="btn-guardar">Guardar Cambios</button>
           <a href="perfil.html" class="btn-cancelar">Cancelar Edición</a>
         </div>
       </div>

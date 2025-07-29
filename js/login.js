@@ -11,11 +11,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const email = document.getElementById('correo').value.trim();
             const password = document.getElementById('contrasena').value.trim();
             
+            
             // Validación básica
             if (!email || !password) {
-                alert('Por favor, completa todos los campos.');
+                showMessage('Por favor, completa todos los campos.',"warning");
                 return;
+                
             }
+            
             
             // Deshabilitar botón durante la petición
             btnLogin.disabled = true;
@@ -36,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const data = await response.json();
                 
                 if (!response.ok || !data.success) {
-                    alert(data.message || 'Error al iniciar sesión');
+                    showMessage(data.message || 'Error al iniciar sesión',"error");
                     return;
                 }
                 
@@ -47,14 +50,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 
                 console.log('Usuario logueado:', user);
-                alert('Inicio de sesión exitoso');
-                
-                // Redireccionar a la página principal
-                window.location.href = '../vistas/ExplorarTrueque.html';
+                showMessage('Inicio de sesión exitoso.',"success");
+
+                setTimeout(() => {
+                    window.location.href = '../vistas/ExplorarTrueque.html';
+                }, 2000); 
+            
+        
                 
             } catch (error) {
                 console.error('Error en login:', error);
-                alert('Hubo un problema al iniciar sesión. Intenta más tarde.');
+                showMessage('Hubo un problema al iniciar sesión. Intenta más tarde.',"error");
             } finally {
                 // Restaurar botón
                 btnLogin.disabled = false;
@@ -92,6 +98,33 @@ function obtenerDatosSesion() {
 function verificarSesion() {
     const sesion = localStorage.getItem('sesion');
     return sesion !== null && sesion !== undefined && sesion !== '';
+}
+
+function showMessage(message, tipo = 'info') {
+    const messageDiv = document.getElementById('message');
+    const loadingDiv = document.getElementById('loading');
+
+    messageDiv.className= 'message';
+
+    switch (tipo) {
+        case 'success':
+            messageDiv.classList.add('message-success');
+            break;
+        case 'error':
+            messageDiv.classList.add('message-error');
+            break;
+        case 'warning':
+            messageDiv.classList.add('message-warning');
+            break;
+        default:
+            messageDiv.classList.add('message-info');
+    }
+    
+    if (loadingDiv) loadingDiv.style.display = 'none';
+    if (messageDiv) {
+        messageDiv.style.display = 'block';
+        messageDiv.textContent = message;
+    }
 }
 
 
@@ -332,4 +365,3 @@ function limpiarTodoLocalStorage() {
         window.location.reload();
     }
 }
-

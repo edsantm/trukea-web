@@ -10,13 +10,11 @@ const API_CONFIG = {
 async function fetchFromAPI(endpoint) {
     try {
         const response = await fetch(`${API_CONFIG.baseUrl}${endpoint}`);
-        
         if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status}`);
         }
         
         const data = await response.json();
-        
         
         return data.data.products;
     } catch (error) {
@@ -24,8 +22,8 @@ async function fetchFromAPI(endpoint) {
         throw error;
     }
 }
-// Función para crear el HTML de un producto (estilo card)
 function createProductHTML(producto) {
+
     return `
         <div class="producto" data-id="${producto.id || ''}">
                 <img src="${producto.imagen || ''}" 
@@ -35,6 +33,7 @@ function createProductHTML(producto) {
                 <h3>${producto.nombre || 'Sin nombre'}</h3>
                 <p class="descripcion">${producto.descripcion || 'Sin descripción'}</p>
                 <p class="estado">Estado: ${producto.estado || 'No especificado'}</p>
+                <p class="valorEstimado">Valor Estimado: ${producto.valorEstimado || 'No especificado'}</p>
             </div>
                 <button class="ver-btn" onclick="detalleProducto('${producto.id || ''}')">
                     Detalles del producto
@@ -43,23 +42,24 @@ function createProductHTML(producto) {
     `;
 }
 
-// Función adaptadora con validación mejorada
+
 function adaptarProductoAPI(producto) {
-    
-    const adaptado = {
+
+    const calidadId = producto.idCalidad || producto.calidad;
+    const estado = producto.calidadNombre || calidadTexto[calidadId] || 'No especificado';
+
+    return {
         id: producto.idProducto || producto.id || '',
         nombre: producto.nombreProducto || producto.nombre || 'Sin nombre',
         descripcion: producto.descripcionProducto || producto.descripcion || 'Sin descripción',
-        estado: producto.valorEstimado ? 
-            `Valor estimado: $${producto.valorEstimado}` : 
-            'Sin valor estimado',
+        estado: estado,
+        valorEstimado: producto.valorEstimado,
         imagen: producto.imagen || '',
         categoria: producto.idCategoria || producto.categoriaNombre || null,
-        calidad: producto.idCalidad || producto.calidadNombre || null
+        calidad: calidadId
     };
-    
-    return adaptado;
 }
+
 
 // Función para renderizar productos - CORREGIDA
 function renderProducts(productos) {
@@ -165,7 +165,6 @@ async function cargarProductos() {
         // Mostrar contenedor de productos
         hideLoading();
         showProducts();
-        
         console.log(` Productos cargados exitosamente: ${productos.length}`);
         
     } catch (error) {
