@@ -100,6 +100,61 @@ main h1 {
   flex-wrap: wrap;
 }
 
+/* Estilos para el contenedor de "no products" */
+.no-products {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Estilo para el título "No hay productos disponibles" */
+.no-products h3 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Estilo para el párrafo que indica que no hay productos */
+.no-products p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Estilos para el botón "Agregar Producto" */
+.btn-agregar {
+    background-color: #5a1c74;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Estilo para el botón al pasar el mouse (hover) */
+.btn-agregar:hover {
+    background-color: #3a0c50;
+}
+
+/* Estilo para el botón cuando está deshabilitado */
+.btn-agregar:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+
 .producto img {
   width: 150px;
   height: 150px;

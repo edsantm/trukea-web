@@ -91,7 +91,7 @@
             // Imagen
             const imageContainer = document.getElementById('productImageContainer');
             if (product.imagen) {
-                imageContainer.innerHTML = `<img src="${product.imagen}" alt="${product.nombre}" onerror="this.parentElement.innerHTML='<div class=\\"no-image\\"><i>📷</i><div>Error al cargar imagen</div></div>'">`;
+                imageContainer.innerHTML = `<img src="${product.imagen}" alt="${product.nombre}" onerror="this.parentElement.innerHTML='<div class=\\"no-image\\"></div>`;
             }
 
             // Actualizar el título de la página

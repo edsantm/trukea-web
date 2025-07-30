@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Función para proponer trueque
   async function proponerTrueque(datosTradeque) {
     try {
-      const response = await fetch('http://localhost:3000/api/trades/propose', {
+      const response = await fetch('http://54.87.124.61/api/trades/propose', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

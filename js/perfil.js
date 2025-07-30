@@ -1,4 +1,3 @@
-
 const API_CONFIG = {
     baseUrl: 'http://54.87.124.61/api', 
     endpoints: {
@@ -26,6 +25,50 @@ function obtenerDatosSesion() {
         console.error('Error al obtener datos de sesión:', error);
         return null;
     }
+}
+
+// Función para filtrar productos por nombre y apellido del usuario - MODIFICADA PARA MIS PRODUCTOS
+function filtrarProductosPorUsuario(productos, mostrarSoloMios = true) {
+    const usuarioLogueado = JSON.parse(localStorage.getItem('sesion'));
+
+    console.log("Usuario logueado:", usuarioLogueado);
+
+    if (!usuarioLogueado) {
+        console.error('No se encontró la sesión del usuario.');
+        return [];
+    }
+
+    const nombreUsuario = usuarioLogueado.nombre;
+    const apellidoUsuario = usuarioLogueado.apellido;
+
+    console.log(`Comparando con nombre: ${nombreUsuario} y apellido: ${apellidoUsuario}`);
+    console.log(`Modo: ${mostrarSoloMios ? 'Mostrar SOLO mis productos' : 'Mostrar productos de OTROS usuarios'}`);
+
+    // Filtrar los productos según el modo
+    const productosFiltrados = productos.filter(producto => {
+        // Log para verificar los datos que se están comparando
+        console.log(`Producto: ${producto.nombre || producto.nombreProducto}, Usuario: ${producto.usuarioNombre}, ${producto.usuarioApellido}`);
+
+        // Asegurarse de que el producto tiene los campos usuarioNombre y usuarioApellido
+        if (!producto.usuarioNombre || !producto.usuarioApellido) {
+            console.warn('Producto no tiene los campos usuarioNombre o usuarioApellido:', producto);
+            return false;  // Excluir productos sin estos campos
+        }
+
+        const coinciden = producto.usuarioNombre === nombreUsuario && producto.usuarioApellido === apellidoUsuario;
+        console.log(`Coincide con usuario actual: ${coinciden}`);
+
+        // Si mostrarSoloMios = true: retornar coinciden (mostrar solo los que SÍ coinciden)
+        // Si mostrarSoloMios = false: retornar !coinciden (mostrar solo los que NO coinciden - para Explorar)
+        return mostrarSoloMios ? coinciden : !coinciden;
+    });
+
+    const totalProductos = productos.length;
+    const productosEncontrados = productosFiltrados.length;
+    
+    console.log(`✅ Filtrado completado: ${totalProductos} total → ${productosEncontrados} ${mostrarSoloMios ? 'productos míos encontrados' : 'productos de otros encontrados'}`);
+
+    return productosFiltrados;
 }
 
 // Función para mostrar los datos en el HTML
@@ -63,30 +106,32 @@ const inputFoto = document.getElementById("foto");
 const vistaPrevia = document.getElementById("vista-previa");
 const btnSubir = document.getElementById("btnSubirFoto");
 
-btnSubir.addEventListener("click", () => inputFoto.click());
+if (btnSubir && inputFoto) {
+    btnSubir.addEventListener("click", () => inputFoto.click());
 
-inputFoto.addEventListener("change", () => {
-    const archivo = inputFoto.files[0];
-    if (archivo) {
-    const reader = new FileReader();
-    reader.onload = function (e) {
-        vistaPrevia.innerHTML = `<img src="${e.target.result}" alt="Imagen de perfil">`;
-    };
-    reader.readAsDataURL(archivo);
+    inputFoto.addEventListener("change", () => {
+        const archivo = inputFoto.files[0];
+        if (archivo) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            vistaPrevia.innerHTML = `<img src="${e.target.result}" alt="Imagen de perfil">`;
+        };
+        reader.readAsDataURL(archivo);
 
-      // Enviar imagen al servidor
-    const formData = new FormData();
-    formData.append("imagen", archivo);
-    formData.append("idUsuario", 1); 
+          // Enviar imagen al servidor
+        const formData = new FormData();
+        formData.append("imagen", archivo);
+        formData.append("idUsuario", 1); 
 
-    fetch("http://localhost:3000/api/users/profile/${id}", {
-        method: "PUT",
-        body: formData
-    })
-        .then(res => res.ok ? console.log("Imagen subida") : console.error("Error al subir"))
-        .catch(err => console.error("Error:", err));
-    }
-});
+        fetch("http://54.87.124.61/api/users/profile/${id}", {
+            method: "PUT",
+            body: formData
+        })
+            .then(res => res.ok ? console.log("Imagen subida") : console.error("Error al subir"))
+            .catch(err => console.error("Error:", err));
+        }
+    });
+}
 });
 
 // Función para hacer peticiones a la API
@@ -106,25 +151,30 @@ async function fetchFromAPI(endpoint) {
     }
 }
 
-// Función para crear el HTML de un producto
+// Función para crear el HTML de un producto (estilo card)
 function createProductHTML(producto) {
     return `
         <div class="producto" data-id="${producto.id || ''}">
-                <img src="${producto.imagen || ''}" 
-                    alt="${producto.nombre || 'Producto'}" 
-                    onerror="this.src=''" />
-            <div class="info-prod">
-                <p><strong>${producto.nombre || 'Sin nombre'}</strong></p>
+            <img src="${producto.imagen || ''}" 
+                 alt="${producto.nombre || 'Producto'}" 
+                 onerror="this.src=''" />
+            <div class="info">
+                <h3>${producto.nombre || 'Sin nombre'}</h3>
                 <p class="descripcion">${producto.descripcion || 'Sin descripción'}</p>
                 <p class="estado">Estado: ${producto.estado || 'No especificado'}</p>
+                <p class="valorEstimado">Valor Estimado: ${producto.valorEstimado || 'No especificado'}</p>
             </div>
-            
+            <div class="acciones">
+                <button class="btn-editar" onclick="editarProducto('${producto.id || ''}')">
+                    Editar
+                </button>
+            </div>
         </div>
     `;
 }
 
+// Función para adaptar el producto según la respuesta de la API
 function adaptarProductoAPI(producto) {
-
     const calidadId = producto.idCalidad || producto.calidad;
     const estado = producto.calidadNombre || calidadTexto[calidadId] || 'No especificado';
 
@@ -139,54 +189,65 @@ function adaptarProductoAPI(producto) {
         calidad: calidadId
     };
 }
-// Función para renderizar - CON DEBUG
+
+// Función para renderizar productos - MODIFICADA PARA MIS PRODUCTOS
 function renderProducts(productos) {
-    
     const productosContainer = document.getElementById('container-productos');
     
+    if (!productosContainer) {
+        console.error('No se encontró el elemento con ID "container-productos"');
+        return;
+    }
+    
     if (!productos || productos.length === 0) {
-        console.log(' No hay productos para mostrar');
+        console.log('No tienes productos publicados');
+        showMessage('No tienes productos publicados', "info");
         productosContainer.innerHTML = `
             <div class="no-products">
-                <h3>No hay productos disponibles</h3>
-                <p>Agrega tu primer producto para comenzar.</p>
+                <h3>No tienes productos publicados</h3>
+                <p>Agrega tu primer producto para comenzar a hacer trueques.</p>
+                <button onclick="window.location.href='../vistas/PublicarProducto.html'" class="btn-agregar">
+                    Publicar Producto
+                </button>
             </div>
         `;
     } else {
         const productosAdaptados = productos.map(adaptarProductoAPI);
-        
         productosContainer.innerHTML = productosAdaptados.map(createProductHTML).join('');
-        console.log(' HTML insertado en el DOM');
+        console.log(`${productos.length} productos tuyos renderizados en el DOM`);
+        
+        // Mostrar mensaje de éxito
+        showMessage(`Tienes ${productos.length} producto${productos.length === 1 ? '' : 's'} publicado${productos.length === 1 ? '' : 's'}`, "success", 3000);
     }
 }
-
-
 
 // Función para mostrar estados de carga y error
 function showLoading() {
     const loadingDiv = document.getElementById('loading');
     const messageDiv = document.getElementById('message');
     const productosDiv = document.getElementById('container-productos');
-    loadingDiv.style.display = 'block';
-    messageDiv.style.display = 'none';
-    productosDiv.style.display = 'none';
+    if (loadingDiv) loadingDiv.style.display = 'block';
+    if (messageDiv) messageDiv.style.display = 'none';
+    if (productosDiv) productosDiv.style.display = 'none';
 }
 
 function hideLoading() {
     const loadingDiv = document.getElementById('loading');
-    loadingDiv.style.display = 'none';
+    if (loadingDiv) loadingDiv.style.display = 'none';
 }
 
 function showProducts() {
     const productosDiv = document.getElementById('container-productos');
-    productosDiv.style.display = 'grid';
+    if (productosDiv) productosDiv.style.display = 'grid';
 }
 
-function showMessage(message, tipo = 'info') {
+function showMessage(message, tipo = 'info', duration = 4000) {
     const messageDiv = document.getElementById('message');
     const loadingDiv = document.getElementById('loading');
 
-    messageDiv.className= 'message';
+    if (!messageDiv) return;
+
+    messageDiv.className = 'message';
 
     switch (tipo) {
         case 'success':
@@ -203,51 +264,83 @@ function showMessage(message, tipo = 'info') {
     }
     
     if (loadingDiv) loadingDiv.style.display = 'none';
-    if (messageDiv) {
-        messageDiv.style.display = 'block';
-        messageDiv.textContent = message;
+    messageDiv.style.display = 'block';
+    messageDiv.textContent = message;
+
+    // Auto-ocultar mensaje después del tiempo especificado
+    if (duration > 0) {
+        setTimeout(() => {
+            messageDiv.style.display = 'none';
+        }, duration);
     }
 }
 
-
-
-// Función principal para cargar productos desde API real
-async function cargarProductos() {
+// Función principal para cargar MIS productos desde API real
+async function cargarMisProductos() {
     try {
         showLoading();
         
-        // Cargar productos desde la API
+        // Verificar que hay usuario logueado
+        const usuarioLogueado = obtenerDatosSesion();
+        if (!usuarioLogueado) {
+            hideLoading();
+            showMessage('Debes iniciar sesión para ver tus productos', 'error');
+            return;
+        }
+        
+        console.log(`🔍 Cargando productos para usuario: ${usuarioLogueado.nombre} ${usuarioLogueado.apellido}`);
+        
+        // Cargar TODOS los productos desde la API
         const dataproductos = await fetchFromAPI(API_CONFIG.endpoints.productos);
-        const productos = dataproductos.data.products;        
-        // Renderizar productos
-        renderProducts(productos);
+        const todosLosProductos = dataproductos.data.products;
+        
+        console.log(`📦 Total de productos obtenidos de la API: ${todosLosProductos.length}`);
+        
+        // Filtrar para mostrar SOLO los productos del usuario actual
+        const misProductos = filtrarProductosPorUsuario(todosLosProductos, true);
+        
+        console.log(`✅ Productos míos encontrados: ${misProductos.length}`);
+        
+        // Renderizar MIS productos
+        renderProducts(misProductos);
         
         // Mostrar contenedor de productos
         hideLoading();
         showProducts();
         
-        console.log(`Productos cargados: ${productos.length}`);
-        
     } catch (error) {
-        console.error('Error al cargar productos:', error);
-        showMessage('Error al cargar los productos. Por favor, intenta de nuevo más tarde.',"error");
+        console.error('❌ Error al cargar mis productos:', error);
+        hideLoading();
+        showMessage('Error al cargar tus productos. Por favor, intenta de nuevo más tarde.', "error");
     }
 }
 
-
-
-// Función de inicialización
-/*function initProductos() {
-    // Verificar que existan los elementos necesarios en el DOM
-    if (!document.getElementById('productos')) {
-        console.error('Error: No se encontró el elemento con ID "productos"');
+// Funciones para manejar productos (editar/eliminar)
+function editarProducto(productId) {
+    if (!productId || productId === '') {
+        showMessage('ID de producto no válido', 'error');
         return;
     }
     
-    cargarProductos();
+    console.log(`✏️ Editando producto con ID: ${productId}`);
+    window.location.href = `../vistas/EditarProducto.html?id=${productId}`;
+}
+
+function eliminarProducto(productId) {
+    if (!productId || productId === '') {
+        showMessage('ID de producto no válido', 'error');
+        return;
+    }
     
-    
-}*/
+    const confirmacion = confirm('¿Estás seguro de que deseas eliminar este producto?');
+    if (confirmacion) {
+        console.log(`🗑️ Eliminando producto con ID: ${productId}`);
+        // Aquí irías la lógica para eliminar el producto via API
+        // Por ahora solo mostramos el mensaje
+        showMessage('Funcionalidad de eliminar en desarrollo', 'warning');
+    }
+}
+
 // Función para actualizar un elemento específico
 function actualizarElemento(selector, ...valores) {
     const elemento = document.querySelector(selector);
@@ -288,7 +381,7 @@ function cargarDatosUsuario() {
     // Actualizar elementos usando diferentes métodos de selección
     
     // Por ID - Nombre completo (nombre + apellido)
-    actualizarElemento('#nombre-usuario, .nombre-usuario', `HOLA: ${datos.nombre}  ${datos.apellido} `);
+    actualizarElemento('#nombre-usuario, .nombre-usuario', `HOLA: ${datos.nombre} ${datos.apellido}`);
     
     // Edad con formato personalizado
     if (datos.edad) {
@@ -297,7 +390,7 @@ function cargarDatosUsuario() {
     
     // Calificación con estrellas
     if (datos.calificacion) {
-        const estrellas = generarEstrellas(datos.calificacion);
+        const estrellas = '⭐'.repeat(Math.floor(datos.calificacion / 2)); // Convertir a estrellas de 5
         actualizarElementoHTML('#calificacion-usuario', 
             `<strong>Calificación:</strong> ${datos.calificacion}/10 <span class="estrellas">${estrellas}</span>`
         );
@@ -321,9 +414,9 @@ function cargarDatosUsuario() {
     
     console.log('Datos de usuario cargados:', datos);
 
-    cargarProductos();
+    // Cargar MIS productos después de cargar los datos del usuario
+    cargarMisProductos();
 }
-
 
 // También ejecutar si el documento ya está cargado
 if (document.readyState === 'loading') {
@@ -332,10 +425,24 @@ if (document.readyState === 'loading') {
     cargarDatosUsuario();
 }
 
-// Exportar funciones para uso externo si es necesario
+// Exportar funciones para uso externo
 window.ProductosManager = {
-    cargarProductos,
-
+    cargarMisProductos,
+    filtrarProductosPorUsuario,
+    editarProducto,
+    eliminarProducto,
+    
+    // Funciones de debugging
+    debug: {
+        mostrarSesion: () => console.log('Datos de sesión:', obtenerDatosSesion()),
+        probarAPI: () => fetchFromAPI(API_CONFIG.endpoints.productos),
+        recargarProductos: cargarMisProductos,
+        probarFiltro: async () => {
+            const data = await fetchFromAPI(API_CONFIG.endpoints.productos);
+            const productos = data.data.products;
+            console.log('Todos los productos:', productos);
+            console.log('Mis productos:', filtrarProductosPorUsuario(productos, true));
+        }
+    }
 };
-
 

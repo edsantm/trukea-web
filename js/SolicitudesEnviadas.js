@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:8082/api';
+const API_BASE_URL = 'http://54.87.124.61/api';
 
 // Función para mostrar banner (adaptada a tu estructura)
 function mostrarBanner(mensaje, tipo) {

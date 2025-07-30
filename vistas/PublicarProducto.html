@@ -33,10 +33,9 @@
        <!-- Subir imagen -->
        <div class="publicar-imagen">
          <div class="Subir-imagen"><label>Subir Imagen del producto:</label></div>
-         <div class="imagen-placeholder"></div>
+         <div class="imagen-placeholder"><img id="preview-imagen" src="#" alt="Vista previa" style="display: none; max-width: 100%; margin-top: 10px; border-radius: 10px;" ></div>
          <label for="imagenProducto" class="btn-seleccionar" style="cursor: pointer;">Seleccionar...</label>
          <input type="file" id="imagenProducto" name="imagen" accept="image/*" style="display: none;">
-         <img id="preview-imagen" src="#" alt="Vista previa" style="display: none; max-width: 100%; margin-top: 10px;">
        </div>
        
        <!-- Formulario -->
@@ -64,7 +63,7 @@
            <textarea id="descripcionProducto" name="descripcionProducto" placeholder="Ingresa la descripción"></textarea>
            
            <label>Calidad del producto:</label>
-           <div class="estado-opciones">
+           <div class="estado-opciones" id="estado">
              <label><input type="radio" name="idCalidad" value="1"> Excelente</label>
              <label><input type="radio" name="idCalidad" value="2"> Bueno</label>
              <label><input type="radio" name="idCalidad" value="3"> Regular</label>

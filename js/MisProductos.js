@@ -17,12 +17,45 @@ async function fetchFromAPI(endpoint) {
         const data = await response.json();
         console.log(data);
         
-        
-        return data.data.products;
+        return data.data.products; // Asegúrate de que los productos se devuelvan correctamente
     } catch (error) {
-        console.error(' Error en la API:', error);
+        console.error('Error en la API:', error);
         throw error;
     }
+}
+
+// Función para filtrar productos por nombre y apellido del usuario
+function filtrarProductosPorUsuario(productos) {
+    const usuarioLogueado = JSON.parse(localStorage.getItem('sesion'));
+
+    console.log("Usuario logueado:", usuarioLogueado);
+
+    if (!usuarioLogueado) {
+        console.error('No se encontró la sesión del usuario.');
+        return [];
+    }
+
+    const nombreUsuario = usuarioLogueado.nombre;
+    const apellidoUsuario = usuarioLogueado.apellido;
+
+    console.log(`Comparando con nombre: ${nombreUsuario} y apellido: ${apellidoUsuario}`);
+
+    // Filtrar los productos para mostrar solo los del usuario actual
+    return productos.filter(producto => {
+        // Log para verificar los datos que se están comparando
+        console.log(`Producto: ${producto.nombre}, Usuario: ${producto.usuarioNombre}, ${producto.usuarioApellido}`);
+
+        // Asegurarse de que el producto tiene los campos usuarioNombre y usuarioApellido
+        if (!producto.usuarioNombre || !producto.usuarioApellido) {
+            console.warn('Producto no tiene los campos usuarioNombre o usuarioApellido:', producto);
+            return false;  // Excluir productos sin estos campos
+        }
+
+        const coinciden = producto.usuarioNombre === nombreUsuario && producto.usuarioApellido === apellidoUsuario;
+        console.log(`Coincide: ${coinciden}`);
+
+        return coinciden;
+    });
 }
 
 // Función para crear el HTML de un producto (estilo card)
@@ -50,8 +83,8 @@ function createProductHTML(producto) {
     `;
 }
 
+// Función para adaptar el producto según la respuesta de la API
 function adaptarProductoAPI(producto) {
-
     const calidadId = producto.idCalidad || producto.calidad;
     const estado = producto.calidadNombre || calidadTexto[calidadId] || 'No especificado';
 
@@ -69,22 +102,21 @@ function adaptarProductoAPI(producto) {
 
 // Función para renderizar productos - CORREGIDA
 function renderProducts(productos) {
-    
     const productosContainer = document.getElementById('productos');
     
     if (!productosContainer) {
-        console.error(' No se encontró el elemento con ID "productos"');
+        console.error('No se encontró el elemento con ID "productos"');
         return;
     }
     
     if (!productos || productos.length === 0) {
-        console.log(' No hay productos para mostrar');
-        showMessage('No hay productos para mostrar', "error")
+        console.log('No hay productos para mostrar');
+        showMessage('No hay productos para mostrar', "error");
         productosContainer.innerHTML = `
             <div class="no-products">
                 <h3>No hay productos disponibles</h3>
                 <p>Agrega tu primer producto para comenzar.</p>
-                <button onclick="window.location.href='AgregarProducto.html'" class="btn-agregar">
+                <button onclick="window.location.href='../vistas/PublicarProducto.html'" class="btn-agregar">
                     Agregar Producto
                 </button>
             </div>
@@ -92,7 +124,7 @@ function renderProducts(productos) {
     } else {
         const productosAdaptados = productos.map(adaptarProductoAPI);
         productosContainer.innerHTML = productosAdaptados.map(createProductHTML).join('');
-        console.log(' HTML insertado en el DOM');
+        console.log('HTML insertado en el DOM');
     }
 }
 
@@ -138,7 +170,6 @@ function showMessage(text, estado = 'info', duration = 4000) {
             msg.classList.add('message-info');
     }
 
-
     // Mostrar mensaje
     msg.textContent = text;
     msg.classList.add('show');
@@ -152,7 +183,6 @@ function showMessage(text, estado = 'info', duration = 4000) {
         }, 300);
     }, duration);
 }
-
 
 async function eliminarProducto(productId) {
     if (!productId || productId === '') {
@@ -208,7 +238,7 @@ function editarProducto(productId) {
     window.location.href = `../vistas/EditarProducto.html?id=${productId}`;
 }
 
-
+// Función para cargar productos
 async function cargarProductos() {
     try {
         showLoading();
@@ -216,39 +246,32 @@ async function cargarProductos() {
         // Cargar productos desde la API
         const productos = await fetchFromAPI(API_CONFIG.endpoints.productos);
         
+        console.log("Productos cargados desde la API:", productos);
+
+        // Filtrar productos por el nombre y apellido del usuario
+        const productosFiltrados = filtrarProductosPorUsuario(productos);
+        
         // Renderizar productos
-        renderProducts(productos);
+        renderProducts(productosFiltrados);
         
         // Mostrar contenedor de productos
         hideLoading();
         showProducts();
         
-        console.log(` Productos cargados exitosamente: ${productos.length}`);
+        console.log(`Productos cargados exitosamente: ${productosFiltrados.length}`);
         
     } catch (error) {
-
         hideLoading();
-        showMessage('Error al cargar los productos. Vuelve a intentar.',"error");
+        showMessage('Error al cargar los productos. Vuelve a intentar.', "error");
     }
 }
 
+
 function initProductos() {
     // Verificar que existan los elementos necesarios en el DOM
-    const productosContainer = document.getElementById('productos')
+    const productosContainer = document.getElementById('productos');
     cargarProductos();
 }
 
 // Inicializar cuando se carga la página
 document.addEventListener('DOMContentLoaded', initProductos);
-
-// Exportar funciones para uso externo y debugging
-window.ProductosManager = {
-    cargarProductos,
-    eliminarProducto,
-    editarProducto,
-    debug: {
-        mostrarAPI: () => console.log('API Config:', API_CONFIG),
-        probarConexion: () => fetchFromAPI(API_CONFIG.endpoints.productos),
-        cambiarAAPI: cargarProductos
-    }
-};
