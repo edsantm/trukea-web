@@ -1,6 +1,6 @@
 
 const API_CONFIG = {
-    baseUrl: 'http://localhost:3000/api', 
+    baseUrl: 'http://54.87.124.61/api', 
     endpoints: {
         productos: '/products'
     }

@@ -141,3 +141,68 @@ h1 {
   cursor: pointer;
 }
 
+/* Media Queries para Responsividad */
+
+/* Pantallas grandes (desktops) */
+@media screen and (min-width: 1200px) {
+  .trueque-grid {
+    gap: 40px;
+  }
+
+  .producto-deseado, .producto-ofrecido {
+    width: 100%;
+  }
+}
+
+/* Pantallas medianas (tabletas) */
+@media screen and (max-width: 1024px) {
+  .trueque-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .producto-deseado, .producto-ofrecido {
+    width: 80%;
+    margin-bottom: 20px;
+  }
+
+  .btn-contenedor {
+    text-align: center;
+  }
+}
+
+/* Pantallas pequeñas (móviles) */
+@media screen and (max-width: 480px) {
+  .navbar {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .trueque-grid {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .producto-deseado, .producto-ofrecido {
+    width: 100%;
+  }
+
+  .comentario-box {
+    width: 100%;
+    padding: 8px;
+  }
+
+  .btn-contenedor {
+    text-align: center;
+  }
+
+  .btn-trueque {
+    width: 100%;
+  }
+}

@@ -74,15 +74,6 @@ function renderProducts(productos) {
     if (!productos || productos.length === 0) {
         console.log(' No hay productos para mostrar');
         showMessage('No hay productos para mostrar', "error")
-        productosContainer.innerHTML = `
-            <div class="no-products">
-                <h3>No hay productos disponibles</h3>
-                <p>Agrega tu primer producto para comenzar.</p>
-                <button onclick="window.location.href='AgregarProducto.html'" class="btn-agregar">
-                    Agregar Producto
-                </button>
-            </div>
-        `;
     } else {
         const productosAdaptados = productos.map(adaptarProductoAPI);
         productosContainer.innerHTML = productosAdaptados.map(createProductHTML).join('');

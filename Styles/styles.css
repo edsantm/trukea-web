@@ -105,7 +105,7 @@ body {
 .hero-content small {
   display: block;
   margin-top: 20px;
-  font-size: 16px;
+  font-size: 20px;
   color: #ccc;
 }
 
@@ -119,13 +119,13 @@ body {
 
 .about h2 {
   color: #8E44AD;
-  font-size: 40px;
+  font-size: 56px;
   margin-bottom: 20px;
   text-align: left;
 }
 
 .about p {
-  font-size: 18px;
+  font-size: 22px;
   text-align: justify;
 }
 
@@ -139,7 +139,7 @@ body {
 
 .how-it-works h2 {
   color: #8E44AD;
-  font-size: 36px;
+  font-size: 56px;
   margin-bottom: 40px;
 }
 
@@ -149,7 +149,7 @@ body {
 }
 
 .how-it-works ul li {
-  font-size: 18px;
+  font-size: 22px;
   margin-bottom: 20px;
   color: #27AE60;
 }

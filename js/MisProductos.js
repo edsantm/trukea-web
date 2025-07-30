@@ -15,6 +15,7 @@ async function fetchFromAPI(endpoint) {
         }
         
         const data = await response.json();
+        console.log(data);
         
         
         return data.data.products;
