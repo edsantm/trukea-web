@@ -1,24 +1,47 @@
-function mostrarAlerta(tipo, mensaje) {
-  const alerta = document.getElementById('alerta');
-  const icono = document.getElementById('alerta-icono');
-  const texto = document.getElementById('alerta-mensaje');
+function showMessage(text, estado = 'info', duration = 4000,errores = []) {
+    const msg = document.getElementById('message');
 
-  alerta.classList.remove('exito', 'error');
-  alerta.classList.add(tipo); // "exito" o "error"
+    // Remover solo clases de estado
+    msg.classList.remove('message-success', 'message-error', 'message-warning', 'message-info');
 
-  icono.innerHTML = tipo === 'exito' ? '✔️' : '✖';
-  texto.textContent = mensaje;
+    // Agregar nueva clase de estado
+    switch (estado) {
+        case 'success':
+            msg.classList.add('message-success');
+            break;
+        case 'error':
+            msg.classList.add('message-error');
+            break;
+        case 'warning':
+            msg.classList.add('message-warning');
+            break;
+        default:
+            msg.classList.add('message-info');
+    }
 
-  alerta.classList.remove('oculto');
-  alerta.style.opacity = '1';
-  alerta.style.top = '20px';
+       // Limpiar errores previos
+    document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
 
-  setTimeout(() => {
-    alerta.classList.add('oculto');
-    alerta.style.opacity = '0';
-    alerta.style.top = '-60px';
-  }, 4000);
+    // Marcar campos con error si se pasan
+    errores.forEach(selector => {
+        const campo = document.querySelector(selector);
+        if (campo) campo.classList.add('input-error');
+    });
+
+    // Mostrar mensaje
+    msg.textContent = text;
+    msg.classList.add('show');
+    msg.style.display = 'block';
+
+    // Ocultar después del tiempo
+    setTimeout(() => {
+        msg.classList.remove('show');
+        setTimeout(() => {
+            msg.style.display = 'none';
+        }, 300);
+    }, duration);
 }
+
 
 document.addEventListener("DOMContentLoaded", function () {
  const alerta = document.getElementById('alerta');
@@ -66,33 +89,14 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     if (camposVacios) {
-      mostrarAlerta("error", " Por favor, completa todos los campos.");
+      showMessage(" Por favor, completa todos los campos.","error",4000,['#nombreUsuario', '#apellidos','#ciudad', '#fechaNacimiento']);
       return;
     }
 
-    mostrarAlerta("exito", "✔️ Los cambios se han guardado exitosamente.");
+    showMessage("✔️ Los cambios se han guardado exitosamente.","success",4000);
   });
 });
 
-    // Forzar que esté oculta al iniciar
-  const alerta = document.getElementById('alerta');
-  if (alerta) {
-    alerta.classList.add('oculto');
-    alerta.style.opacity = '0';
-    alerta.style.top = '0px';
-  }
-
-  // Escuchar envío del formulario
-  const formulario = document.querySelector(".formulario");
-
-  formulario.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    // Aquí podrías hacer fetch() a tu API para guardar los datos
-
-    // Mostrar alerta de éxito
-    mostrarAlerta("exito", "✔️ Los cambios se han guardado exitosamente.");
-  });
 
   async function obtenerDatosUsuario() {
   const token = localStorage.getItem('sesion');

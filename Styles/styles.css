@@ -1,43 +1,53 @@
 /* General */
 
-*{
-
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
   font-family: 'Montserrat', sans-serif;
   background-color: hsl(0, 0%, 12%);
   color: #FAFAF5;
+  line-height: 1.6;
 }
 
 /* Navbar */
 .navbar {
-  width:-webkit-fill-available;
-  position:absolute;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 20px 30px;
   background-color: transparent;
+  z-index: 10;
+  flex-wrap: wrap;
 }
 
 .navbar img {
-    height: 80px;
+  height: 60px;
+}
+
+.navbar nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .navbar nav a {
   color: #FAFAF5;
   margin-left: 20px;
-  padding: 20px;
+  padding: 10px;
   text-decoration: none;
-  font-family: 'Monserrat'sans-serif;
-  font-size: 20px
+  font-size: 18px;
+  white-space: nowrap;
 }
 
-.navbar nav .btn-register {
-  color: #FAFAF5;
+.navbar .btn-register {
   font-weight: bold;
 }
 
@@ -49,30 +59,32 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
+  padding: 20px;
+  position: relative;
 }
 
-.hero::before{
+.hero::before {
   content: "";
   position: absolute;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background-image: url(../img/fondo-landing.jpg);
-  opacity: 0.3; 
-  filter: blur(4px);
   background-size: cover;
   background-position: center;
+  opacity: 0.3;
+  filter: blur(4px);
   z-index: -1;
 }
 
-.hero .hero-content{
+.hero .hero-content {
   z-index: 1;
+  max-width: 900px;
+  padding: 20px;
 }
 
 .hero-content h1 {
-  font-size: 64px;
-  color: #FAFAF5;
+  font-size: 60px;
   margin-bottom: 30px;
-  padding-top: 0px;
 }
 
 .hero-content p {
@@ -83,54 +95,52 @@ body {
 .hero-content .btn-explorar {
   background-color: #5a1c74;
   color: #FAFAF5;
-  padding: 12px 60px;
+  padding: 12px 40px;
   border-radius: 8px;
   text-decoration: none;
-  display: inline-block;
+  font-size: 18px;
   margin-bottom: 10px;
 }
 
 .hero-content small {
   display: block;
-  margin-top: 30px;
-  font-size: 20px;
+  margin-top: 20px;
+  font-size: 16px;
   color: #ccc;
 }
 
 /* About Section */
 .about {
-  padding: 50px 20px;
-  max-width: 800px;
+  padding: 10% 20px;
+  max-width: 900px;
   margin: 0 auto;
   text-align: center;
-  margin-top: 40%;
 }
 
 .about h2 {
   color: #8E44AD;
-  font-size: 60px;
+  font-size: 40px;
   margin-bottom: 20px;
   text-align: left;
 }
 
-.about p{
-    font-size: 20px;
-    text-align: justify;
+.about p {
+  font-size: 18px;
+  text-align: justify;
 }
 
-/* How It Works Section */
+/* How It Works */
 .how-it-works {
-  padding: 50px 20px;
-  max-width: 800px;
+  padding: 60px 20px;
+  max-width: 900px;
   margin: 0 auto;
   text-align: center;
 }
 
 .how-it-works h2 {
   color: #8E44AD;
-  font-size: 40px;
-  margin-bottom: 80px;
-  text-align: center;
+  font-size: 36px;
+  margin-bottom: 40px;
 }
 
 .how-it-works ul {
@@ -139,8 +149,93 @@ body {
 }
 
 .how-it-works ul li {
-  font-size: 20px;
+  font-size: 18px;
   margin-bottom: 20px;
   color: #27AE60;
 }
 
+/* ---------------------------- */
+/* RESPONSIVE MEDIA QUERIES */
+/* ---------------------------- */
+
+/* Tablets */
+@media (max-width: 992px) {
+  .hero-content h1 {
+    font-size: 36px;
+  }
+
+  .hero-content p {
+    font-size: 20px;
+  }
+
+  .about h2,
+  .how-it-works h2 {
+    font-size: 32px;
+  }
+
+  .about p,
+  .how-it-works ul li {
+    font-size: 16px;
+  }
+
+  .navbar nav a {
+    font-size: 16px;
+    margin-left: 10px;
+  }
+
+  .hero-content .btn-explorar {
+    padding: 10px 30px;
+    font-size: 16px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 20px;
+  }
+
+  .navbar nav {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .navbar nav a {
+    margin: 8px 0;
+    padding: 8px 0;
+  }
+
+  .hero-content h1 {
+    font-size: 28px;
+  }
+
+  .hero-content p {
+    font-size: 18px;
+  }
+
+  .hero-content .btn-explorar {
+    width: 100%;
+    padding: 12px 0;
+  }
+
+  .about h2,
+  .how-it-works h2 {
+    font-size: 28px;
+    text-align: center;
+  }
+
+  .about p,
+  .how-it-works ul li {
+    font-size: 16px;
+    text-align: justify;
+  }
+
+  .about,
+  .how-it-works {
+    padding: 40px 15px;
+  }
+}

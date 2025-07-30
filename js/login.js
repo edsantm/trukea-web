@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Validación básica
             if (!email || !password) {
-                showMessage('Por favor, completa todos los campos.',"warning");
+                showMessage('Por favor, completa todos los campos.', 'warning', 4000, ['#correo', '#contrasena']);
                 return;
                 
             }
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const data = await response.json();
                 
                 if (!response.ok || !data.success) {
-                    showMessage(data.message || 'Error al iniciar sesión',"error");
+                    showMessage(data.message || 'Error al iniciar sesión',"error", 4000, ['#correo', '#contrasena']);
                     return;
                 }
                 
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 
                 console.log('Usuario logueado:', user);
-                showMessage('Inicio de sesión exitoso.',"success");
+                showMessage('Inicio de sesión exitoso.',"success",4000,[]);
 
                 setTimeout(() => {
                     window.location.href = '../vistas/ExplorarTrueque.html';
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
             } catch (error) {
                 console.error('Error en login:', error);
-                showMessage('Hubo un problema al iniciar sesión. Intenta más tarde.',"error");
+                showMessage('Hubo un problema al iniciar sesión. Intenta más tarde.',"error",4000,[]);
             } finally {
                 // Restaurar botón
                 btnLogin.disabled = false;
@@ -100,32 +100,51 @@ function verificarSesion() {
     return sesion !== null && sesion !== undefined && sesion !== '';
 }
 
-function showMessage(message, tipo = 'info') {
-    const messageDiv = document.getElementById('message');
-    const loadingDiv = document.getElementById('loading');
+function showMessage(text, estado = 'info', duration = 4000,errores = []) {
+    const msg = document.getElementById('message');
 
-    messageDiv.className= 'message';
+    // Remover solo clases de estado
+    msg.classList.remove('message-success', 'message-error', 'message-warning', 'message-info');
 
-    switch (tipo) {
+    // Agregar nueva clase de estado
+    switch (estado) {
         case 'success':
-            messageDiv.classList.add('message-success');
+            msg.classList.add('message-success');
             break;
         case 'error':
-            messageDiv.classList.add('message-error');
+            msg.classList.add('message-error');
             break;
         case 'warning':
-            messageDiv.classList.add('message-warning');
+            msg.classList.add('message-warning');
             break;
         default:
-            messageDiv.classList.add('message-info');
+            msg.classList.add('message-info');
     }
-    
-    if (loadingDiv) loadingDiv.style.display = 'none';
-    if (messageDiv) {
-        messageDiv.style.display = 'block';
-        messageDiv.textContent = message;
-    }
+
+       // Limpiar errores previos
+    document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+
+    // Marcar campos con error si se pasan
+    errores.forEach(selector => {
+        const campo = document.querySelector(selector);
+        if (campo) campo.classList.add('input-error');
+    });
+
+    // Mostrar mensaje
+    msg.textContent = text;
+    msg.classList.add('show');
+    msg.style.display = 'block';
+
+    // Ocultar después del tiempo
+    setTimeout(() => {
+        msg.classList.remove('show');
+        setTimeout(() => {
+            msg.style.display = 'none';
+        }, 300);
+    }, duration);
 }
+
+
 
 
 

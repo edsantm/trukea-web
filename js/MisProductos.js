@@ -116,33 +116,41 @@ function showProducts() {
     if (productosDiv) productosDiv.style.display = 'grid';
 }
 
-function showMessage(message, tipo = 'info') {
-    const messageDiv = document.getElementById('message');
-    const loadingDiv = document.getElementById('loading');
+function showMessage(text, estado = 'info', duration = 4000) {
+    const msg = document.getElementById('message');
 
-    messageDiv.className= 'message';
+    // Remover solo clases de estado
+    msg.classList.remove('message-success', 'message-error', 'message-warning', 'message-info');
 
-    switch (tipo) {
+    // Agregar nueva clase de estado
+    switch (estado) {
         case 'success':
-            messageDiv.classList.add('message-success');
+            msg.classList.add('message-success');
             break;
         case 'error':
-            messageDiv.classList.add('message-error');
+            msg.classList.add('message-error');
             break;
         case 'warning':
-            messageDiv.classList.add('message-warning');
+            msg.classList.add('message-warning');
             break;
         default:
-            messageDiv.classList.add('message-info');
+            msg.classList.add('message-info');
     }
-    
-    if (loadingDiv) loadingDiv.style.display = 'none';
-    if (messageDiv) {
-        messageDiv.style.display = 'block';
-        messageDiv.textContent = message;
-    }
-}
 
+
+    // Mostrar mensaje
+    msg.textContent = text;
+    msg.classList.add('show');
+    msg.style.display = 'block';
+
+    // Ocultar después del tiempo
+    setTimeout(() => {
+        msg.classList.remove('show');
+        setTimeout(() => {
+            msg.style.display = 'none';
+        }, 300);
+    }, duration);
+}
 
 
 async function eliminarProducto(productId) {

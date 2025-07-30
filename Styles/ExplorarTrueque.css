@@ -1,3 +1,6 @@
+/* ------------------------------
+   RESET Y CONFIGURACIÓN GLOBAL
+------------------------------ */
 * {
   margin: 0;
   padding: 0;
@@ -7,9 +10,12 @@
 
 body {
   background-color: #fff;
+  color: #1E1E1E;
 }
 
-/* Barra de navegación */
+/* ------------------------------
+   NAVBAR
+------------------------------ */
 .navbar {
   background-color: #20362e;
   color: white;
@@ -17,6 +23,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 15px 40px;
+  flex-wrap: wrap;
 }
 
 .logo-nav .nav-logo {
@@ -40,96 +47,21 @@ body {
   height: 20px;
 }
 
-/* Contenido principal */
+/* ------------------------------
+   CONTENEDOR PRINCIPAL
+------------------------------ */
 .contenedor {
   display: flex;
   padding: 40px;
+  gap: 30px;
 }
 
+/* ------------------------------
+   FILTROS LATERALES
+------------------------------ */
 .filtros {
   width: 220px;
-  margin-right: 30px;
 }
-
-.loading {
-  text-align: center;
-  padding: 20px;
-  font-size: 18px;
-  color: #666;
-}
-
-.message {
-    padding: 12px;
-    border-radius: 5px;
-    margin-top: 10px;
-    font-weight: bold;
-    text-align: center;
-}
-.message-success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-}
-
-.message-error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-}
-
-.message-warning {
-    background-color: #fff3cd;
-    color: #856404;
-    border: 1px solid #ffeeba;
-}
-
-.message-info {
-    background-color: #d1ecf1;
-    color: #0c5460;
-    border: 1px solid #bee5eb;
-}
-
-.btn-link {
-
-  margin-top: 25px;
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #5a1c74; /* púrpura intenso */
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.btn-link:hover {
-  background-color: #9c27b0; /* púrpura más claro */
-  transform: scale(1.03);
-}
-
-.btn-link:active {
-  background-color: #6a1b9a;
-  transform: scale(0.98);
-}
-
-.producto img {
-  width: 150px;
-  height: 150px;
-  object-fit: contain;
-  border-radius: 10px;
-  margin-right: 20px;
-}
-
-/* Info */
-.info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-
 
 .filtros label,
 .filtros select,
@@ -144,8 +76,35 @@ body {
   line-height: 2;
   font-weight: 500;
   cursor: pointer;
+  margin-top: 10px;
 }
 
+.btn-link {
+  margin-top: 25px;
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #5a1c74;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-link:hover {
+  background-color: #9c27b0;
+  transform: scale(1.03);
+}
+
+.btn-link:active {
+  background-color: #6a1b9a;
+  transform: scale(0.98);
+}
+
+/* ------------------------------
+   SECCIÓN DE PRODUCTOS
+------------------------------ */
 .productos {
   flex: 1;
 }
@@ -161,10 +120,12 @@ body {
 
 .icono-filtro {
   cursor: pointer;
-  font-size: 20px;
+  font-size: 22px;
 }
 
-/* Productos */
+/* ------------------------------
+   GRILLA DE PRODUCTOS
+------------------------------ */
 .grid-productos {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -178,16 +139,26 @@ body {
   background-color: #ccc;
   padding: 15px;
   border-radius: 8px;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
-.img-placeholder {
-  width: 60px;
-  height: 80px;
-  background-color: white;
-  border: 1px solid #999;
+.producto img {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  border-radius: 10px;
 }
 
-/* Botón Ver Producto */
+/* Info del producto */
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Botón Detalles */
 .ver-btn {
   background-color: #5a1c74;
   color: white;
@@ -199,15 +170,76 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.ver-btn a{
-    text-decoration: none;
-    color: #fff;
+.ver-btn a {
+  text-decoration: none;
+  color: #fff;
 }
 
 .ver-btn:hover {
   background-color: #401553;
 }
 
+/* ------------------------------
+   MENSAJES / CARGANDO
+------------------------------ */
+.loading {
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+  color: #666;
+}
+
+.message {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.3125rem;
+  margin-top: 0.625rem;
+  font-weight: 700;
+  text-align: center;
+  font-size: 1rem;
+  max-width: 90%;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.message.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+.message-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.message-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.message-warning {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+
+.message-info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+  border: 1px solid #bee5eb;
+}
+/* ------------------------------
+   CATEGORÍAS DESPLEGABLES
+------------------------------ */
 .categoria-header {
   display: flex;
   justify-content: space-between;
@@ -223,7 +255,7 @@ body {
 }
 
 .flecha.abierta {
-  transform: rotate(180deg); /* flecha hacia arriba */
+  transform: rotate(180deg);
 }
 
 .desplegable {
@@ -243,4 +275,94 @@ body {
   max-height: 500px;
   opacity: 1;
   pointer-events: auto;
+}
+
+/* ------------------------------
+   RESPONSIVE DESIGN
+------------------------------ */
+@media (max-width: 1024px) {
+  .contenedor {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .filtros {
+    width: 100%;
+    margin-bottom: 20px;
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .grid-productos {
+    grid-template-columns: 1fr;
+  }
+
+  .producto {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .producto img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+
+  .ver-btn {
+    align-self: stretch;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 20px;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .top-bar {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  /* Drawer de filtros */
+  .filtros {
+    display: none;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    height: calc(100vh - 70px);
+    width: 80%;
+    max-width: 300px;
+    background-color: #fff;
+    z-index: 1000;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .filtros.abierto {
+    display: block;
+    transform: translateX(0);
+  }
+
+  .productos {
+    flex: 1;
+  }
+
+  .icono-filtro {
+    display: inline-block;
+    font-size: 24px;
+  }
 }

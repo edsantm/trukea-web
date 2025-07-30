@@ -1,152 +1,8 @@
-/* Barra de navegación */
-.navbar {
-  background-color: #20362e;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 40px;
-  color: white;
-}
+/* ===============================
+   ESTILOS RESPONSIVOS MIS PRODUCTOS
+   =============================== */
 
-.nav-logo {
-  height: 50px;
-}
-
-.nav-links {
-  display: flex;
-  gap: 30px;
-  list-style: none;
-}
-
-.nav-links a {
-  color: white;
-  text-decoration: none;
-  font-size: 16px;
-}
-
-.icono {
-  height: 20px;
-}
-
-/* Título */
-main h1 {
-  text-align: center;
-  margin: 40px 0 20px;
-  font-size: 28px;
-  color: #20362e;
-}
-
-/* Productos en grid */
-.productos {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 30px;
-  padding: 0 40px 60px;
-}
-
-/* Cada producto */
-.producto {
-  display: flex;
-  flex-direction: row;
-  background-color: #f2f2f2;
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  position: relative;
-  height: 200px;
-}
-
-.loading {
-  text-align: center;
-  padding: 20px;
-  font-size: 18px;
-  color: #666;
-}
-
-.message {
-    padding: 12px;
-    border-radius: 5px;
-    margin-top: 10px;
-    font-weight: bold;
-    text-align: center;
-}
-.message-success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-}
-
-.message-error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-}
-
-.message-warning {
-    background-color: #fff3cd;
-    color: #856404;
-    border: 1px solid #ffeeba;
-}
-
-.message-info {
-    background-color: #d1ecf1;
-    color: #0c5460;
-    border: 1px solid #bee5eb;
-}
-
-.producto img {
-  width: 150px;
-  height: 150px;
-  object-fit: contain;
-  border-radius: 10px;
-  margin-right: 20px;
-}
-
-/* Info */
-.info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-/* Acciones */
-.acciones {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  display: flex;
-  gap: 10px;
-}
-
-.editar, .eliminar {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.editar {
-  background-color: #46214a;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 5px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.eliminar {
-  background-color: white;
-  color: #46214a;
-  border: 1px solid #46214a;
-  padding: 8px 16px;
-  border-radius: 5px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
+/* Estilo base flexible */
 * {
   margin: 0;
   padding: 0;
@@ -156,26 +12,268 @@ main h1 {
 
 body {
   background-color: #fff;
+  font-size: 16px;
 }
 
+main {
+  padding: 2rem 1rem;
+}
 
-/* Botón Ver Producto */
-.ver-btn {
-  background-color: #5a1c74;
+/* Navbar */
+.navbar {
+  background-color: #20362e;
+  color: white;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  gap: 1rem;
+}
+
+.logo-nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo {
+  height: 3rem;
+  max-width: 100%;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+  padding-left: 0;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.icono {
+  height: 1.25rem;
+  width: auto;
+}
+
+/* Título */
+main h1 {
+  text-align: center;
+  margin: 2rem 0 1.5rem;
+  font-size: 2rem;
+  color: #20362e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.icono-perfil {
+  height: 2rem;
+}
+
+/* Sección de productos */
+.productos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  padding: 0 1.5rem 3rem;
+}
+
+/* Producto */
+.producto {
+  display: flex;
+  flex-direction: row;
+  background-color: #f2f2f2;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  position: relative;
+  min-height: 200px;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.producto img {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  border-radius: 0.625rem;
+}
+
+/* Info del producto */
+.info {
+  flex: 1 1 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Acciones */
+.acciones {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.editar, .eliminar {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.editar {
+  background-color: #46214a;
   color: white;
   border: none;
-  padding: 10px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
 }
 
-.ver-btn a{
-    text-decoration: none;
-    color: #fff;
+.eliminar {
+  background-color: white;
+  color: #46214a;
+  border: 1px solid #46214a;
 }
 
-.ver-btn:hover {
-  background-color: #401553;
+/* Mensajes */
+.loading {
+  text-align: center;
+  padding: 1.25rem;
+  font-size: 1.125rem;
+  color: #666;
+}
+
+.message {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.3125rem;
+  margin-top: 0.625rem;
+  font-weight: 700;
+  text-align: center;
+  font-size: 1rem;
+  max-width: 90%;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.message.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+.message-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.message-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.message-warning {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+
+.message-info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+  border: 1px solid #bee5eb;
+}
+
+
+
+
+/* ===============================
+   MEDIA QUERIES RESPONSIVAS
+   =============================== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .producto {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-bottom: 3.5rem;
+  }
+
+  .acciones {
+    position: static;
+    justify-content: center;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .producto img {
+    margin-bottom: 1rem;
+  }
+
+  .info {
+    text-align: center;
+    align-items: center;
+  }
+}
+
+/* Móviles */
+@media (max-width: 600px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .nav-links a {
+    font-size: 1rem;
+  }
+
+  .productos {
+    padding: 0 1rem 2rem;
+  }
+
+  .producto {
+    padding: 1rem;
+  }
+
+  main h1 {
+    font-size: 1.5rem;
+    margin: 1.5rem 0 1rem;
+  }
+
+  .editar,
+  .eliminar {
+    width: 100%;
+    text-align: center;
+  }
+
+  .acciones {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }

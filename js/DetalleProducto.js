@@ -1,5 +1,5 @@
 // Configuración de la API
-        const API_BASE_URL = 'http://54.87.124.61/api/'; // Cambia esto por tu URL base
+        const API_BASE_URL = 'http://54.87.124.61/api'; // Cambia esto por tu URL base
         
         // Función para obtener el ID del producto desde la URL
         function getProductIdFromUrl() {

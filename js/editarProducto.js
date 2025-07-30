@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);
   const productId = params.get("id");
-  if (!productId) return alert("No se encontró producto a editar");
+  if (!productId) return showMessage("No se encontró producto a editar","error");
 
   await cargarCategorias();
   await cargarProducto(productId);
@@ -36,7 +36,7 @@ async function cargarProducto(productId) {
   try {
     const res = await fetch(`http://localhost:3000/api/products/${productId}`);
     const data = await res.json();
-    if (!res.ok) return alert("Producto no encontrado");
+    if (!res.ok) return showMessage("Producto no encontrado","error");
 
     const p = data.data.product;
     console.log(p);
@@ -123,29 +123,37 @@ async function actualizarProducto(productId) {
   }
 }
 
-function showMessage(message, tipo = 'info') {
-    const messageDiv = document.getElementById('message');
-    const loadingDiv = document.getElementById('loading');
+function showMessage(text, estado = 'info', duration = 4000) {
+    const msg = document.getElementById('message');
 
-    messageDiv.className= 'message';
+    // Remover solo clases de estado
+    msg.classList.remove('message-success', 'message-error', 'message-warning', 'message-info');
 
-    switch (tipo) {
+    // Agregar nueva clase de estado
+    switch (estado) {
         case 'success':
-            messageDiv.classList.add('message-success');
+            msg.classList.add('message-success');
             break;
         case 'error':
-            messageDiv.classList.add('message-error');
+            msg.classList.add('message-error');
             break;
         case 'warning':
-            messageDiv.classList.add('message-warning');
+            msg.classList.add('message-warning');
             break;
         default:
-            messageDiv.classList.add('message-info');
+            msg.classList.add('message-info');
     }
-    
-    if (loadingDiv) loadingDiv.style.display = 'none';
-    if (messageDiv) {
-        messageDiv.style.display = 'block';
-        messageDiv.textContent = message;
-    }
+
+    // Mostrar mensaje
+    msg.textContent = text;
+    msg.classList.add('show');
+    msg.style.display = 'block';
+
+    // Ocultar después del tiempo
+    setTimeout(() => {
+        msg.classList.remove('show');
+        setTimeout(() => {
+            msg.style.display = 'none';
+        }, 300);
+    }, duration);
 }
