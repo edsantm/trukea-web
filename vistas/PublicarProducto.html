@@ -25,11 +25,7 @@
       
   <div id="message" class="message" style="display: none;"></div>
   
-  <!-- Mensaje de éxito -->
-  <!--<div class="mensaje-exito">
-    ✔️ Tu artículo se ha publicado correctamente.
-  </div>
-    Formulario de publicación -->
+  <!-- Formulario de publicación -->
   <div class="publicar-container">
       <h1><img src="/img/publicarproduct.png"  class="icono-perfil"> Publicar Producto</h1>
      
@@ -38,7 +34,9 @@
        <div class="publicar-imagen">
          <div class="Subir-imagen"><label>Subir Imagen del producto:</label></div>
          <div class="imagen-placeholder"></div>
-         <button id="btnSubirFoto" class="btn-seleccionar">Seleccionar...</button>
+         <label for="imagenProducto" class="btn-seleccionar" style="cursor: pointer;">Seleccionar...</label>
+         <input type="file" id="imagenProducto" name="imagen" accept="image/*" style="display: none;">
+         <img id="preview-imagen" src="#" alt="Vista previa" style="display: none; max-width: 100%; margin-top: 10px;">
        </div>
        
        <!-- Formulario -->

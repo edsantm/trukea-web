@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
-
+    
     let usuarioLogueado;
     try {
       const sesionData = localStorage.getItem('sesion');
@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
       usuarioLogueado = JSON.parse(sesionData);
     } catch (error) {
       showMessage('Error en los datos de sesión. Inicia sesión nuevamente.',"error");
-
       setTimeout(() => {
         window.location.href = '../vistas/login.html';
       }, 3000); 
@@ -22,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!usuarioLogueado?.id || isNaN(parseInt(usuarioLogueado.id))) {
       showMessage('ID de usuario inválido. Inicia sesión nuevamente.',"error");
-
       setTimeout(() => {
         window.location.href = '../vistas/login.html';
       }, 3000); 
@@ -74,16 +72,20 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    // Crear FormData con los nombres exactos que espera el servidor
     const formData = new FormData();
     formData.append('nombreProducto', nombre);
     formData.append('descripcionProducto', descripcion);
     formData.append('valorEstimado', String(valor));
+    // Usar exactamente los nombres que muestra Postman
     formData.append('idCategoria', String(categoria));
     formData.append('idCalidad', String(calidad));
     formData.append('usuario_id', String(usuario_id));
 
     const imagenInput = document.getElementById('imagenProducto');
     if (imagenInput?.files?.[0]) {
+      console.log('Imagen seleccionada:', imagenInput.files[0]);
+      // Usar 'imagen' como nombre del campo para el archivo
       formData.append('imagen', imagenInput.files[0]);
     }
 
@@ -93,39 +95,48 @@ document.addEventListener('DOMContentLoaded', () => {
     submitBtn.textContent = 'Publicando...';
 
     try {
-      const response = await fetch('http://localhost:3000/api/products', {
+      // No usar proxy CORS a menos que sea necesario para desarrollo
+      const response = await fetch('http://54.87.124.61/api/products', {
         method: 'POST',
         body: formData
+        // No incluyas Content-Type en los headers cuando usas FormData, 
+        // el navegador lo configurará automáticamente con el boundary correcto
       });
 
-      const responseData = await response.json();
+      let responseData;
+      try {
+        responseData = await response.json();
+      } catch (e) {
+        responseData = { message: 'No se pudo obtener respuesta del servidor' };
+      }
 
       if (!response.ok) {
-        showMessage(responseData.message,"error");
+        showMessage(responseData.message || 'Error en el servidor', "error");
         throw new Error(responseData.message || 'Error al publicar');
       }
 
       showMessage('Producto publicado exitosamente.',"success");
       form.reset();
+      document.getElementById('preview-imagen').style.display = 'none';
       setTimeout(() => {
         window.location.href = '../vistas/MisProductos.html';
       }, 3000); 
 
     } catch (error) {
+      console.error('Error completo:', error);
       const msg = error.message;
       if (msg.includes('campos') || msg.includes('NumberFormatException')) {
         showMessage("Error en los campos enviados.","error");
       } else if (msg.includes('usuario')) {
         showMessage("Error con el usuario. Inicia sesión nuevamente.","error");
-
-        setTimeout(() =>{
+        setTimeout(() => {
           window.location.href = '../vistas/login.html';
-        }, 3000)
-      } else if (msg.includes('Failed to fetch')) {
-        showMessage("No se pudo conectar con el servidor.","error");
-
+        }, 3000);
+      } else if (msg.includes('Failed to fetch') || msg.includes('NetworkError')) {
+        showMessage("No se pudo conectar con el servidor. Puede ser un problema de CORS.","error");
+        console.log('Para desarrollo, considera usar una extensión CORS o configurar un proxy.');
       } else {
-        showMessage(` Error al publicar el producto: ${msg}`,"error");
+        showMessage(`Error al publicar el producto: ${msg}`,"error");
       }
     } finally {
       submitBtn.disabled = false;
@@ -136,15 +147,71 @@ document.addEventListener('DOMContentLoaded', () => {
   function previsualizarImagen() {
     const input = document.getElementById('imagenProducto');
     const preview = document.getElementById('preview-imagen');
+    
     if (input?.files?.[0]) {
+      const file = input.files[0];
+      
+      // Verificar el tamaño del archivo (en bytes)
+      if (file.size > 2000000) { // 2MB (ajustado del límite anterior)
+        showMessage('La imagen es demasiado grande. El tamaño máximo es 2MB.', 'warning');
+        input.value = ''; // Limpiar el input
+        return;
+      }
+      
       const reader = new FileReader();
       reader.onload = e => {
-        if (preview) {
-          preview.src = e.target.result;
+        // Crear una imagen para redimensionar
+        const img = new Image();
+        img.onload = function() {
+          // Redimensionar imagen si es necesario
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          
+          // Mantener relación de aspecto pero limitar tamaño máximo
+          const MAX_WIDTH = 800;
+          const MAX_HEIGHT = 800;
+          
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+          
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          // Mostrar la imagen redimensionada en el preview
+          preview.src = canvas.toDataURL('image/jpeg', 0.8); // Aumentar calidad a 80%
           preview.style.display = 'block';
-        }
+          
+          // Reemplazar el archivo en el input con la versión redimensionada
+          canvas.toBlob(blob => {
+            const newFile = new File([blob], file.name, {
+              type: 'image/jpeg',
+              lastModified: new Date().getTime()
+            });
+            
+            // Crear un nuevo FileList (no se puede modificar el original directamente)
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(newFile);
+            input.files = dataTransfer.files;
+            
+            console.log('Imagen redimensionada:', newFile.size, 'bytes');
+          }, 'image/jpeg', 0.8);
+        };
+        
+        img.src = e.target.result;
       };
-      reader.readAsDataURL(input.files[0]);
+      reader.readAsDataURL(file);
     }
   }
 
@@ -171,16 +238,23 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function validarAccesoFormulario() {
-    const usuario = JSON.parse(localStorage.getItem('sesion'));
-    if (!usuario?.id) {
-    showMessage('Debes inciar sesion para publicar productos.',"warning");
-
+    try {
+      const usuario = JSON.parse(localStorage.getItem('sesion'));
+      if (!usuario?.id) {
+        showMessage('Debes iniciar sesión para publicar productos.',"warning");
+        setTimeout(() => {
+          window.location.href = '../vistas/login.html';
+        }, 3000); 
+        return false;
+      }
+      return true;
+    } catch (e) {
+      showMessage('Error al verificar la sesión.',"error");
       setTimeout(() => {
         window.location.href = '../vistas/login.html';
-      }, 3000); 
-      return fale;
+      }, 3000);
+      return false;
     }
-    return true;
   }
 });
 
@@ -188,7 +262,7 @@ function showMessage(message, tipo = 'info') {
     const messageDiv = document.getElementById('message');
     const loadingDiv = document.getElementById('loading');
 
-    messageDiv.className= 'message';
+    messageDiv.className = 'message';
 
     switch (tipo) {
         case 'success':
