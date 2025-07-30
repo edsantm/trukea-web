@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function cargarCategorias() {
   const select = document.querySelector("#categoria");
   try {
-    const res = await fetch("http://localhost:3000/api/categories");
+    const res = await fetch("http://54.87.124.61/api/categories");
     const data = await res.json();
     const categorias = data.data.categories;
 
@@ -34,7 +34,7 @@ async function cargarCategorias() {
 
 async function cargarProducto(productId) {
   try {
-    const res = await fetch(`http://localhost:3000/api/products/${productId}`);
+    const res = await fetch(`http://54.87.124.61/api/products/${productId}`);
     const data = await res.json();
     if (!res.ok) return showMessage("Producto no encontrado","error");
 
@@ -105,7 +105,7 @@ async function actualizarProducto(productId) {
   // }
 
   try {
-    const res = await fetch(`http://localhost:3000/api/products/${productId}`, {
+    const res = await fetch(`http://54.87.124.61/api/products/${productId}`, {
       method: "PUT",
       body: formData
     });

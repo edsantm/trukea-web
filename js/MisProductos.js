@@ -42,7 +42,7 @@ function createProductHTML(producto) {
                 <button class="editar" onclick="editarProducto('${producto.id || ''}')">
                      Editar
                 </button>
-                <button class="eliminar" onclick="eliminarProducto('${producto.id || ''}')">
+                <button class="eliminar" onclick="eliminarProducto('${producto.id}')">
                      Eliminar
                 </button>
             </div>
@@ -163,10 +163,12 @@ async function eliminarProducto(productId) {
     if (!confirm('¿Estás seguro de que quieres eliminar este producto?')) {
         return;
     }
+    console.log(` Eliminando producto con ID: ${productId}`);
 
     try {
-        console.log(` Eliminando producto con ID: ${productId}`);
+      
         
+        console.log(` Realizando petición DELETE a: ${API_CONFIG.baseUrl}${API_CONFIG.endpoints.productos}/${productId}`);
         const response = await fetch(`${API_CONFIG.baseUrl}${API_CONFIG.endpoints.productos}/${productId}`, {
             method: 'DELETE',
             headers: {
