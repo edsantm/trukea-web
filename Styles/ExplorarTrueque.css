@@ -179,6 +179,53 @@ body {
   background-color: #401553;
 }
 
+ /* Estilos para el botón de cerrar sesión */
+    .btn-cerrar-sesion {
+      background-color: #5a1c74;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-cerrar-sesion:hover {
+      background-color: #6d2a8a;
+    }
+
+    .btn-cerrar-sesion:active {
+      background-color: #9f40c7;
+    }
+
+    /* Estilos para el botón de iniciar sesión */
+    .btn-iniciar-sesion {
+      background-color: #5a1c74;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-iniciar-sesion:hover {
+      background-color: #6d2a8a;
+    }
+
+    .btn-iniciar-sesion:active {
+      background-color: #9f40c7;
+    }
+
+    /* Asegurar que el botón se vea bien en la navegación */
+    .nav-links li:last-child {
+      margin-left: auto; /* Empuja el botón hacia la derecha si es necesario */
+    }
+
 /* ------------------------------
    MENSAJES / CARGANDO
 ------------------------------ */
@@ -258,6 +305,16 @@ body {
   transform: rotate(180deg);
 }
 
+.categorias {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.categorias.abierto {
+  max-height: 500px; /* o lo que necesites */
+}
+
 .desplegable {
   list-style: none;
   padding-left: 15px;
@@ -335,26 +392,25 @@ body {
     justify-content: space-between;
   }
 
-  /* Drawer de filtros */
-  .filtros {
-    display: none;
-    position: fixed;
-    top: 70px;
-    left: 0;
-    height: calc(100vh - 70px);
-    width: 80%;
-    max-width: 300px;
-    background-color: #fff;
-    z-index: 1000;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
-    overflow-y: auto;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
+.filtros {
+  position: absolute;
+  transform: translateX(-100%);
   }
 
-  .filtros.abierto {
-    display: block;
+  .filtros.visible {
+    position: relative;
+    top: 0;
+    width: 280px;
+    height: 100%;
+    background: #fff;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+    z-index: 1000;
     transform: translateX(0);
+  }
+  
+  #referencia{
+    opacity: 0;
+    position: absolute;
   }
 
   .productos {

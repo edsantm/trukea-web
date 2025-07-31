@@ -51,6 +51,108 @@ function obtenerDatosSesion() {
     }
 }
 
+
+// Función de verificación de sesión independiente (sin depender de SessionManager)
+    function checkUserSession() {
+      try {
+        // Buscar en diferentes posibles keys del localStorage
+        const userData = localStorage.getItem('userData') || 
+                       localStorage.getItem('sesion') || 
+                       localStorage.getItem('user');
+        
+        const isLoggedIn = userData && userData !== 'null' && userData !== '';
+        console.log('🔐 Verificando sesión:', {
+          userData: userData,
+          isLoggedIn: isLoggedIn,
+          parsedData: userData ? JSON.parse(userData) : null
+        });
+        
+        return isLoggedIn;
+      } catch (error) {
+        console.error('Error al verificar sesión:', error);
+        return false;
+      }
+    }
+
+    // Funciones de navegación condicional
+    function renderNavigation() {
+      const navLinks = document.getElementById('nav-links');
+      if (!navLinks) {
+        console.error('No se encontró el elemento nav-links');
+        return;
+      }
+
+      const isLoggedIn = checkUserSession();
+      
+      console.log('🔐 Estado de autenticación:', isLoggedIn ? 'Logueado' : 'No logueado');
+      
+      if (isLoggedIn) {
+        // Usuario logueado - mostrar navegación completa
+        navLinks.innerHTML = `
+          <li><a href="/vistas/PublicarProducto.html">Publicar Producto</a></li>
+          <li><a href="/vistas/MisProductos.html">Mis Productos</a></li>
+          <li><a href="/vistas/Perfil.html">Mi Perfil</a></li>
+          <li><a href="../vistas/SolicitudesRecibidas.html">
+            <img src="/img/notificaciones.png" alt="Notificaciones" class="icono">
+          </a></li>
+        `;
+      } else {
+        // Usuario no logueado - solo mostrar botón de iniciar sesión
+        navLinks.innerHTML = `
+          <li><button onclick="iniciarSesion()" class="btn-iniciar-sesion">
+            Iniciar Sesión
+          </button></li>
+        `;
+      }
+    }
+
+    // Función para redirigir a iniciar sesión
+    function iniciarSesion() {
+      window.location.href = '../vistas/login.html';
+    }
+
+    // Función para actualizar la navegación cuando cambia el estado de autenticación
+    function updateNavigationState() {
+      renderNavigation();
+    }
+
+    // Inicializar navegación cuando se carga la página
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('🚀 Inicializando navegación...');
+      
+      // Pequeño delay para asegurar que todo se cargue
+      setTimeout(() => {
+        renderNavigation();
+      }, 100);
+      
+      // Inicializar productos después si está disponible
+      setTimeout(() => {
+        if (typeof initProductos === 'function') {
+          initProductos();
+        }
+      }, 200);
+    });
+
+    // Listener para cambios en localStorage (útil si el usuario cierra sesión en otra pestaña)
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'sesion' || e.key === 'userData') {
+        console.log('📱 Cambio detectado en almacenamiento de sesión');
+        updateNavigationState();
+      }
+    });
+
+    // Función de debugging para verificar estado manualmente
+    window.debugAuth = function() {
+      console.log('=== DEBUG AUTENTICACIÓN ===');
+      console.log('localStorage.sesion:', localStorage.getItem('sesion'));
+      console.log('localStorage.userData:', localStorage.getItem('userData'));
+      console.log('Resultado checkUserSession():', checkUserSession());
+      console.log('========================');
+      renderNavigation();
+    };
+
+
+
 function getProductIdFromUrl() {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get('id') || '1';
@@ -188,42 +290,40 @@ function showError(message) {
   if (productosEl) productosEl.style.display = 'none';
 }
 
-function showMessage(message, type = 'info') {
-  // Crear o mostrar mensaje temporal
-  let messageEl = document.getElementById('temp-message');
-  if (!messageEl) {
-    messageEl = document.createElement('div');
-    messageEl.id = 'temp-message';
-    messageEl.style.cssText = `
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      padding: 15px 20px;
-      border-radius: 5px;
-      color: white;
-      font-weight: bold;
-      z-index: 1000;
-      max-width: 300px;
-    `;
-    document.body.appendChild(messageEl);
-  }
+function showMessage(text, estado = 'info', duration = 4000) {
+    const msg = document.getElementById('message');
 
-  // Colores según tipo
-  const colors = {
-    success: '#28a745',
-    error: '#dc3545',
-    warning: '#ffc107',
-    info: '#17a2b8'
-  };
+    // Remover solo clases de estado
+    msg.classList.remove('message-success', 'message-error', 'message-warning', 'message-info');
 
-  messageEl.style.backgroundColor = colors[type] || colors.info;
-  messageEl.textContent = message;
-  messageEl.style.display = 'block';
+    // Agregar nueva clase de estado
+    switch (estado) {
+        case 'success':
+            msg.classList.add('message-success');
+            break;
+        case 'error':
+            msg.classList.add('message-error');
+            break;
+        case 'warning':
+            msg.classList.add('message-warning');
+            break;
+        default:
+            msg.classList.add('message-info');
+    }
 
-  // Auto-ocultar después de 4 segundos
-  setTimeout(() => {
-    messageEl.style.display = 'none';
-  }, 4000);
+
+    // Mostrar mensaje
+    msg.textContent = text;
+    msg.classList.add('show');
+    msg.style.display = 'block';
+
+    // Ocultar después del tiempo
+    setTimeout(() => {
+        msg.classList.remove('show');
+        setTimeout(() => {
+            msg.style.display = 'none';
+        }, 300);
+    }, duration);
 }
 
 async function cargarProductos() {

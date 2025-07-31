@@ -11,8 +11,8 @@ const SessionManager = {
         try {
             // Buscar en diferentes posibles keys del localStorage
             const userData = localStorage.getItem('userData') || 
-                           localStorage.getItem('sesion') || 
-                           localStorage.getItem('user');
+                        localStorage.getItem('sesion') || 
+                        localStorage.getItem('user');
             return userData ? JSON.parse(userData) : null;
         } catch (error) {
             console.error('Error al leer datos de sesión:', error);
@@ -48,6 +48,106 @@ const SessionManager = {
     }
 };
 
+
+// Función de verificación de sesión independiente (sin depender de SessionManager)
+    function checkUserSession() {
+      try {
+        // Buscar en diferentes posibles keys del localStorage
+        const userData = localStorage.getItem('userData') || 
+                       localStorage.getItem('sesion') || 
+                       localStorage.getItem('user');
+        
+        const isLoggedIn = userData && userData !== 'null' && userData !== '';
+        console.log('🔐 Verificando sesión:', {
+          userData: userData,
+          isLoggedIn: isLoggedIn,
+          parsedData: userData ? JSON.parse(userData) : null
+        });
+        
+        return isLoggedIn;
+      } catch (error) {
+        console.error('Error al verificar sesión:', error);
+        return false;
+      }
+    }
+
+    // Funciones de navegación condicional
+    function renderNavigation() {
+      const navLinks = document.getElementById('nav-links');
+      if (!navLinks) {
+        console.error('No se encontró el elemento nav-links');
+        return;
+      }
+
+      const isLoggedIn = checkUserSession();
+      
+      console.log('🔐 Estado de autenticación:', isLoggedIn ? 'Logueado' : 'No logueado');
+      
+      if (isLoggedIn) {
+        // Usuario logueado - mostrar navegación completa
+        navLinks.innerHTML = `
+          <li><a href="/vistas/PublicarProducto.html">Publicar Producto</a></li>
+          <li><a href="/vistas/MisProductos.html">Mis Productos</a></li>
+          <li><a href="/vistas/Perfil.html">Mi Perfil</a></li>
+          <li><a href="../vistas/SolicitudesRecibidas.html">
+            <img src="/img/notificaciones.png" alt="Notificaciones" class="icono">
+          </a></li>
+        `;
+      } else {
+        // Usuario no logueado - solo mostrar botón de iniciar sesión
+        navLinks.innerHTML = `
+          <li><button onclick="iniciarSesion()" class="btn-iniciar-sesion">
+            Iniciar Sesión
+          </button></li>
+        `;
+      }
+    }
+
+    // Función para redirigir a iniciar sesión
+    function iniciarSesion() {
+      window.location.href = '../vistas/login.html';
+    }
+
+    // Función para actualizar la navegación cuando cambia el estado de autenticación
+    function updateNavigationState() {
+      renderNavigation();
+    }
+
+    // Inicializar navegación cuando se carga la página
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('🚀 Inicializando navegación...');
+      
+      // Pequeño delay para asegurar que todo se cargue
+      setTimeout(() => {
+        renderNavigation();
+      }, 100);
+      
+      // Inicializar productos después si está disponible
+      setTimeout(() => {
+        if (typeof initProductos === 'function') {
+          initProductos();
+        }
+      }, 200);
+    });
+
+    // Listener para cambios en localStorage (útil si el usuario cierra sesión en otra pestaña)
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'sesion' || e.key === 'userData') {
+        console.log('📱 Cambio detectado en almacenamiento de sesión');
+        updateNavigationState();
+      }
+    });
+
+    // Función de debugging para verificar estado manualmente
+    window.debugAuth = function() {
+      console.log('=== DEBUG AUTENTICACIÓN ===');
+      console.log('localStorage.sesion:', localStorage.getItem('sesion'));
+      console.log('localStorage.userData:', localStorage.getItem('userData'));
+      console.log('Resultado checkUserSession():', checkUserSession());
+      console.log('========================');
+      renderNavigation();
+    };
+    
 // Función para hacer peticiones a la API
 async function fetchFromAPI(endpoint) {
     try {
@@ -342,3 +442,71 @@ window.ProductosManager = {
         }
     }
 };
+
+function cerrarSesion() {
+    try {
+        // Limpiar localStorage
+        localStorage.removeItem('sesion');
+        localStorage.removeItem('userData');
+        localStorage.removeItem('userPreferences');
+        
+        // Limpiar sessionStorage también
+        sessionStorage.clear();
+        
+        console.log('Sesión cerrada correctamente');
+        
+        // Mostrar mensaje de confirmación
+        alert('Has cerrado sesión exitosamente');
+        
+        // Redireccionar a la página de login
+        window.location.href = '../vistas/login.html';
+        
+    } catch (error) {
+        console.error('Error al cerrar sesión:', error);
+        alert('Hubo un problema al cerrar la sesión');
+    }
+}
+
+// Función de cerrar sesión con confirmación
+function cerrarSesionConConfirmacion() {
+    const confirmacion = confirm('¿Estás seguro de que quieres cerrar sesión?');
+    
+    if (confirmacion) {
+        cerrarSesion();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Toggle categorías desplegables
+  const toggleCategorias = document.getElementById('toggle-categorias');
+  const listaCategorias = document.getElementById('lista-categorias');
+  const flecha = toggleCategorias.querySelector('.flecha');
+
+  toggleCategorias.addEventListener('click', () => {
+    listaCategorias.classList.toggle('abierto');
+    // Cambiar dirección de la flecha
+    if (listaCategorias.classList.contains('abierto')) {
+      flecha.innerHTML = '&#9652;'; // Flecha hacia arriba ▲
+    } else {
+      flecha.innerHTML = '&#9662;'; // Flecha hacia abajo ▼
+    }
+  });
+
+
+  // Opcional: Toggle filtro lateral (por ejemplo, en móvil)
+  const filtros = document.querySelector('.filtros');
+  const iconoFiltro = document.querySelector('.icono-filtro');
+  iconoFiltro.classList.add('btn-toggle-filtros');
+  iconoFiltro.style.cursor = 'pointer';
+
+  // Insertar el botón antes del main o donde prefieras
+  const contenedor = document.querySelector('.referencia');
+  if (contenedor) {
+    contenedor.parentNode.insertBefore(iconoFiltro, contenedor);
+  }
+
+  iconoFiltro.addEventListener('click', () => {
+    filtros.classList.toggle('visible');
+  });
+});
+

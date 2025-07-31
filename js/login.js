@@ -197,7 +197,7 @@ function cerrarSesionConConfirmacion() {
 function protegerPagina() {
     if (!verificarSesion()) {
         alert('Debes iniciar sesión para acceder a esta página');
-        window.location.href = '../index.html';
+        window.location.href = '../vistas/login.html';
         return false;
     }
     return true;
@@ -308,13 +308,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Actualizar interfaz según estado de sesión
     actualizarInterfazSesion();
     
-    // Verificar sesión cada 30 segundos (opcional)
-    setInterval(() => {
-        if (!verificarSesion() && window.location.pathname.includes('vistas/')) {
-            alert('Tu sesión ha expirado. Serás redirigido al login.');
-            window.location.href = '../index.html';
-        }
-    }, 30000);
 });
 
 // ================================

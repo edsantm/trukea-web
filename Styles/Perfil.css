@@ -211,6 +211,27 @@ body {
   margin-bottom: 4px;
 }
 
+/* Estilos para el botón de cerrar sesión */
+    .btn-cerrar-sesion {
+      background-color: #5a1c74;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-cerrar-sesion:hover {
+      background-color: #6d2a8a;
+    }
+
+    .btn-cerrar-sesion:active {
+      background-color: #9f40c7;
+    }
+
 /* Historial */
 .historial {
   background-color: white;

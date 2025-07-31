@@ -27,6 +27,43 @@ function obtenerDatosSesion() {
     }
 }
 
+
+ // Funciones de cerrar sesión
+    function cerrarSesion() {
+        try {
+            // Limpiar localStorage
+            localStorage.removeItem('sesion');
+            localStorage.removeItem('userData');
+            localStorage.removeItem('userPreferences');
+                     
+            // Limpiar sessionStorage también
+            sessionStorage.clear();
+                     
+            console.log('Sesión cerrada correctamente');
+                     
+            // Mostrar mensaje de confirmación
+            alert('Has cerrado sesión exitosamente');
+                     
+            // Redireccionar a la página de login
+            window.location.href = '../index.html';
+                 
+        } catch (error) {
+            console.error('Error al cerrar sesión:', error);
+            alert('Hubo un problema al cerrar la sesión');
+            // Aún así, intentar redireccionar
+            window.location.href = '../index.html';
+        }
+    }
+
+    // Función de cerrar sesión con confirmación
+    function cerrarSesionConConfirmacion() {
+        const confirmacion = confirm('¿Estás seguro de que quieres cerrar sesión?');
+             
+        if (confirmacion) {
+            cerrarSesion();
+        }
+    }
+
 // Función para filtrar productos por nombre y apellido del usuario - MODIFICADA PARA MIS PRODUCTOS
 function filtrarProductosPorUsuario(productos, mostrarSoloMios = true) {
     const usuarioLogueado = JSON.parse(localStorage.getItem('sesion'));

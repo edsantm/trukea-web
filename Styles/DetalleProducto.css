@@ -46,6 +46,33 @@ body {
   vertical-align: middle;
 }
 
+ /* Estilos para el botón de iniciar sesión */
+    .btn-iniciar-sesion {
+      background-color: #5a1c74;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-iniciar-sesion:hover {
+      background-color: #6d2a8a;
+    }
+
+    .btn-iniciar-sesion:active {
+      background-color: #9f40c7;
+    }
+
+    /* Asegurar que el botón se vea bien en la navegación */
+    .nav-links li:last-child {
+      margin-left: auto; /* Empuja el botón hacia la derecha si es necesario */
+    }
+
+
 /* --- CONTAINER GENERAL --- */
 .container {
   padding: 2rem;
@@ -105,6 +132,12 @@ body {
   gap: 2rem;
 }
 
+#productImageContainer img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
 
 .product-image {
   flex: 1 1 45%;
